@@ -11,4 +11,13 @@ public class SettingsViewModel : ObservableObject
     private bool textToSpeech;
     private string colorSetting;
     private string language;
+
+    /// <summary>
+    /// Saves the value for the text to speech option as a boolean in the preferences.
+    /// </summary>
+    /// <param name="isChecked"></param>
+    public void TextToSpeechChecked(bool isChecked)
+    {
+        preferences.Set("TextToSpeech", isChecked);
+    }
 }

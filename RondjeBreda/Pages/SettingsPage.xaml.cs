@@ -18,4 +18,14 @@ public partial class SettingsPage : ContentPage
         InitializeComponent();
         this.settingsViewModel = settingsViewModel;
     }
+
+    /// <summary>
+    /// Event handler for the text to speech checkbox
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void CheckBox_OnCheckedChanged(object? sender, CheckedChangedEventArgs e)
+    {
+        settingsViewModel.TextToSpeechChecked(e.Value);
+    }
 }
