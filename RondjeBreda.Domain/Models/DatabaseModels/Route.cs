@@ -1,10 +1,19 @@
-﻿namespace RondjeBreda.Domain.Models.DatabaseModels;
+﻿using RondjeBreda.Domain.Interfaces;
+using SQLite;
+
+namespace RondjeBreda.Domain.Models.DatabaseModels;
 
 /// <summary>
 /// A dataclass for a route object
 /// </summary>
-public class Route
+
+[Table("Route")]
+public class Route : IDatabaseTable
 {
-    private string name;
-    private bool active;
+    [Column("Name")]
+    [PrimaryKey]
+    public string Name { get; set; }
+
+    [Column("Active")]
+    public bool Active { get; set; }
 }
