@@ -98,4 +98,8 @@
 	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.21" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Resources\Languages\" />
+	</ItemGroup>
+
 </Project>

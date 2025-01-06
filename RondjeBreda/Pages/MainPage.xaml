@@ -3,9 +3,20 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
-             x:Class="RondjeBreda.MainPage">
+             xmlns:lang="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="RondjeBreda.Pages.MainPage">
+    <!-- Styles for Light & Dark modes-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--<Style TargetType="Label" x:Key="LabelStyleHeader">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>-->
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-
+    <!-- Page Content -->
     <VerticalStackLayout Margin="20" Spacing="20">
         <!-- Route selector -->
         <Picker Title="Select a route"

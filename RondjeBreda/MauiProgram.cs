@@ -3,6 +3,7 @@ using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Pages;
 using RondjeBreda.ViewModels;
 using RondjeBreda.Infrastructure.DatabaseImplementation;
+using CommunityToolkit.Maui;
 
 namespace RondjeBreda
 {
@@ -18,7 +19,8 @@ namespace RondjeBreda
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .UseMauiCommunityToolkit();
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<HomePageViewModel>();
