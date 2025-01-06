@@ -13,20 +13,25 @@
     Shell.BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryColorLight}, Dark={StaticResource PrimaryColorDark}}"
     Shell.TitleColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}">
 
-    <!-- TODO: Add icons for each ShellContent -->
     <TabBar Title="Tabs">
+        <!-- Map icon created by DinosoftLabs - Flaticon: https://www.flaticon.com/free-icons/map -->
         <ShellContent
         Title="{lang:Translate Map}"
+        Icon="icon_map.png"
         ContentTemplate="{DataTemplate pages:MainPage}"
         Route="MainPage" />
 
+        <!-- Pin icon created by Freepik - Flaticon: https://www.flaticon.com/free-icons/pin-->
         <ShellContent
         Title="{lang:Translate Settings}"
+        Icon="icon_setting.png"
         ContentTemplate="{DataTemplate pages:SettingsPage}"
         Route="SettingsPage" />
 
+        <!-- Setting icon created by shin_icons - Flaticon: https://www.flaticon.com/free-icons/setting -->
         <ShellContent
         Title="{lang:Translate VisitedLocations}"
+        Icon="icon_location.png"
         ContentTemplate="{DataTemplate pages:VisitedLocationsPage}"
         Route="VisitedLocationsPage" />
     </TabBar>
