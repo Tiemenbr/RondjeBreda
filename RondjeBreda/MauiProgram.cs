@@ -25,6 +25,7 @@ namespace RondjeBreda
             
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<SettingsViewModel>();
+            builder.Services.AddSingleton<IPreferences>(o => Preferences.Default);
 
             builder.Services.AddTransient<VisitedLocationsPage>();
             builder.Services.AddTransient<VisitedLocationsViewModel>();
