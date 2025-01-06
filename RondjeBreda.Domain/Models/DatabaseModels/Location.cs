@@ -5,8 +5,8 @@
 /// </summary>
 public class Location
 {
-    private double longitude;
-    private double latitude;
-    private string imagePath;
-    private string name;
+    public double longitude {  get; set; }
+    public double latitude {  get; set; }
+    public string imagePath {  get; set; }
+    public string name { get; set; }
 }

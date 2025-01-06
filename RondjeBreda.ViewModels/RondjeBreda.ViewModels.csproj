@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
@@ -19,7 +19,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="LocalizationResourceManager.Maui" Version="1.2.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.72" />
@@ -27,6 +29,13 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\RondjeBreda.Domain\RondjeBreda.Domain.csproj" />
+	  <ProjectReference Include="..\RondjeBreda.Infrastructure\RondjeBreda.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	  <PackageReference Include="GoogleGson">
+	    <Version>2.11.0.4</Version>
+	  </PackageReference>
 	</ItemGroup>
 
 </Project>
