@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.12.6" />
     <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.4.0" />
     <PackageReference Include="MSTest" Version="3.6.1" />
+    <PackageReference Include="System.Reflection.Metadata" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
