@@ -21,7 +21,7 @@
         </HorizontalStackLayout>
 
         <!-- Map -->
-        <!-- <maps:Map x:Name="Map" IsShowingUser="True"/> -->
+        <maps:Map x:Name="Map" IsShowingUser="True"/>
     </VerticalStackLayout>
 
 
