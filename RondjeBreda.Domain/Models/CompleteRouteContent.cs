@@ -14,16 +14,19 @@ namespace RondjeBreda.Domain.Models
         public string PhotoNr { get; set; }
 
         [JsonProperty("noorderBreedte")]
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
 
         [JsonProperty("oosterLengte")]
-        public string Longitude { get; set; }
+        public double Longitude { get; set; }
 
         [JsonProperty("naam")]
         public string LocationName { get; set; }
 
-        [JsonProperty("opmerking")]
-        public string Comment { get; set; }
+        [JsonProperty("opmerkingNL")]
+        public string CommentDutch { get; set; }
+        
+        [JsonProperty("opmerkingEN")]
+        public string CommentEnglish { get; set; }
 
         public int routeNr { get; set; }
     }

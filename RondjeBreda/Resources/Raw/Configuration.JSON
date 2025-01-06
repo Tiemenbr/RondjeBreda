@@ -3,186 +3,177 @@
     {
       "fotoNr": 2,
       "routeNr": 1,
-      "noorderBreedte": "51°35.6467’",
-      "oosterLengte": "4°46.7650’",
+      "latitude": 51.594445,
+      "longitude": 4.779417,
       "naam": "Oude VVV-pand",
-      "opmerking": "Vertrekpunt station"
+      "opmerkingNL": "Vertrekpunt station",
+      "opmerkingEN": "Starting point station"
     },
     {
       "fotoNr": 3,
       "routeNr": 1,
-      "noorderBreedte": "51°35.5967’",
-      "oosterLengte": "4°46.7633’",
+      "latitude": 51.593278,
+      "longitude": 4.779388,
       "naam": "Liefdeszuster",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 4,
       "routeNr": 1,
-      "noorderBreedte": "51°35.5500’",
-      "oosterLengte": "4°46.7817’",
+      "latitude": 51.592500,
+      "longitude": 4.779695,
       "naam": "Nassau Baronie Monument",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 5,
       "routeNr": 1,
-      "noorderBreedte": "51°35.5700’",
-      "oosterLengte": "4°46.7083’",
+      "latitude": 51.592833,
+      "longitude": 4.778472,
       "naam": "The Light House",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 13,
       "routeNr": 5,
-      "noorderBreedte": "51°35.4367’",
-      "oosterLengte": "4°46.6200’",
+      "latitude": 51.590611,
+      "longitude": 4.777000,
       "naam": "Kasteel van Breda",
-      "opmerking": "Kasteelplein"
+      "opmerkingNL": "Kasteelplein",
+      "opmerkingEN": "Castle square"
     },
     {
       "fotoNr": 9,
       "routeNr": 5,
-      "noorderBreedte": "51°35.3817’",
-      "oosterLengte": "4°46.5683’",
+      "latitude": 51.589695,
+      "longitude": 4.776138,
       "naam": "Stadhouderspoort",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 12,
       "routeNr": 5,
-      "noorderBreedte": "51°35.4200’",
-      "oosterLengte": "4°46.5600’",
+      "latitude": 51.590333,
+      "longitude": 4.776000,
       "naam": "Kruising Kasteelplein/Cingelstraat",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 11,
       "routeNr": 5,
-      "noorderBreedte": "51°35.4233’",
-      "oosterLengte": "4°46.5000’",
+      "latitude": 51.590388,
+      "longitude": 4.775000,
       "naam": "Bocht Cingelstraat",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": "6,14,22,21",
       "routeNr": 5,
-      "noorderBreedte": "51°35.4117’",
-      "oosterLengte": "4°46.4067’",
+      "latitude": 51.590195,
+      "longitude": 4.773445,
       "naam": "Huis van Brecht (rechter zijde)",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 20,
       "routeNr": 5,
-      "noorderBreedte": "51°35.3900’",
-      "oosterLengte": "4°46.4000’",
+      "latitude": 51.589833,
+      "longitude": 4.773333,
       "naam": "Spanjaardsgat (rechter zijde)",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 19,
       "routeNr": 5,
-      "noorderBreedte": "51°35.3617’",
-      "oosterLengte": "4°46.4667’",
+      "latitude": 51.589361,
+      "longitude": 4.774445,
       "naam": "Begin Vismarkt",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 16,
       "routeNr": 5,
-      "noorderBreedte": "51°35.3267’",
-      "oosterLengte": "4°46.4933’",
+      "latitude": 51.588778,
+      "longitude": 4.774889,
       "naam": "Begin Havermarkt",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": "10,16",
       "routeNr": 5,
-      "noorderBreedte": "51°35.3300’",
-      "oosterLengte": "4°46.5167’",
+      "latitude": 51.588833,
+      "longitude": 4.775278,
       "naam": "Grote Kerk",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 15,
       "routeNr": 5,
-      "noorderBreedte": "51°35.2917’",
-      "oosterLengte": "4°46.5083’",
+      "latitude": 51.588195,
+      "longitude": 4.775139,
       "naam": "Het Poortje",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 20,
       "routeNr": 5,
-      "noorderBreedte": "51°35.2250’",
-      "oosterLengte": "4°46.5450’",
+      "latitude": 51.587083,
+      "longitude": 4.775750,
       "naam": "Ridderstraat",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 17,
       "routeNr": 5,
-      "noorderBreedte": "51°35.2450’",
-      "oosterLengte": "4°46.5933’",
+      "latitude": 51.587417,
+      "longitude": 4.776555,
       "naam": "Grote Markt",
-      "opmerking": "Zuidpunt Grote Markt"
+      "opmerkingNL": "Zuidpunt Grote Markt",
+      "opmerkingEN": "Southern point Grote Markt"
     },
     {
       "fotoNr": "24,25",
       "routeNr": 5,
-      "noorderBreedte": "51°35.2817’",
-      "oosterLengte": "4°46.5800’",
+      "latitude": 51.588028,
+      "longitude": 4.776333,
       "naam": "Bevrijdingsmonument",
-      "opmerking": "Advies vertrekpunt VVV"
+      "opmerkingNL": "Advies vertrekpunt VVV",
+      "opmerkingEN": "Recommended starting point VVV"
     },
     {
       "fotoNr": 26,
       "routeNr": 5,
-      "noorderBreedte": "51°35.2583’",
-      "oosterLengte": "4°46.6350’",
+      "latitude": 51.587639,
+      "longitude": 4.777250,
       "naam": "Antonius van Paduakerk",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 27,
       "routeNr": 5,
-      "noorderBreedte": "51°35.2967’",
-      "oosterLengte": "4°46.7100’",
+      "latitude": 51.588278,
+      "longitude": 4.778500,
       "naam": "Kruising St.Janstraat/Molenstraat",
-      "opmerking": null
+      "opmerkingNL": null,
+      "opmerkingEN": null
     },
     {
       "fotoNr": 29,
       "routeNr": 5,
-      "noorderBreedte": "51°35.2417’",
-      "oosterLengte": "4°46.8133’",
-      "naam": "Bibliotheek",
-      "opmerking": null
-    },
-    {
-      "fotoNr": 31,
-      "routeNr": 5,
-      "noorderBreedte": "51°35.2650’",
-      "oosterLengte": "4°46.9200’",
-      "naam": "Chasse theater",
-      "opmerking": null
-    },
-    {
-      "fotoNr": 41,
-      "routeNr": 5,
-      "noorderBreedte": "51°35.3467’",
-      "oosterLengte": "4°46.6767’",
-      "naam": "Willem Merkxtuin",
-      "opmerking": "Ingang Willem Merkxtuin"
-    },
-    {
-      "fotoNr": 45,
-      "routeNr": 5,
-      "noorderBreedte": "51°35.3700’",
-      "oosterLengte": "4°46.5750’",
-      "naam": "Einde stadswandeling",
-      "opmerking": "Eindpunt t/m maart 2019"
+      "latitude": 51.587028,
+      "longitude": 4.7802
     }
-  ]
-}

@@ -99,4 +99,8 @@
 	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.21" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.21" />
+	</ItemGroup>
+
 </Project>

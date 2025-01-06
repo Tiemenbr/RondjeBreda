@@ -17,7 +17,7 @@ public class Location : IDatabaseTable
 
     [Column("Latitude")]
     [PrimaryKey]
-    public double Latitud { get; set; }
+    public double Latitude { get; set; }
 
     [Column("Description")]
     [ForeignKey(typeof(Description))]
