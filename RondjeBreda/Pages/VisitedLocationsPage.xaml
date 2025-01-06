@@ -2,8 +2,36 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:RondjeBreda.Domain.Models.DatabaseModels;assembly=RondjeBreda.Domain"
+             xmlns:viewModels="clr-namespace:RondjeBreda.ViewModels;assembly=RondjeBreda.ViewModels"
              x:Class="RondjeBreda.Pages.VisitedLocationsPage">
-    <ContentPage.Content>
-        
-    </ContentPage.Content>
+    
+    <ScrollView>
+        <VerticalStackLayout>
+			<CollectionView x:Name="Trains" ItemsSource="{Binding Trains}" Margin="25">
+				<CollectionView.ItemsLayout>
+					<LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+				</CollectionView.ItemsLayout>
+
+				<CollectionView.ItemTemplate>
+					<DataTemplate x:DataType="models:Route">
+						<Frame HorizontalOptions="Fill">
+							<Frame.GestureRecognizers>
+								<TapGestureRecognizer
+									Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:VisitedLocationsViewModel}}, Path=RouteTappedCommand}"
+									CommandParameter="{Binding}" />
+
+							</Frame.GestureRecognizers>
+
+							<Grid ColumnDefinitions="Auto,*">
+								<Image Grid.Column="0" Source="dotnet_bot.png" Width="50" Height="50"/>
+								<!-- <Label Text="{Binding name}"/> -->
+							</Grid>
+
+						</Frame>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
