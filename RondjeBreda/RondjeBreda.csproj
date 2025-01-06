@@ -83,6 +83,18 @@
 	  <Compile Update="Pages\VisitedLocationsPage.xaml.cs">
 	    <DependentUpon>VisitedLocationsPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Resources\Languages\AppResource.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>AppResource.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Languages\AppResource.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -96,10 +108,6 @@
 
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.21" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Resources\Languages\" />
 	</ItemGroup>
 
 </Project>

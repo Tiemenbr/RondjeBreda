@@ -28,7 +28,7 @@
             </HorizontalStackLayout>
 
             <!-- Color settings-->
-            <Picker Title="Colorsettings" FontSize="24" SelectedIndex="0" SelectedIndexChanged="PickerColorSetting_OnSelectedIndexChanged">
+            <Picker Title="Colorsettings" SelectedIndex="0" SelectedIndexChanged="PickerColorSetting_OnSelectedIndexChanged" Style="{StaticResource PickerStyle}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Standaard</x:String>
@@ -38,7 +38,7 @@
             </Picker>
             
             <!-- Language settings-->
-            <Picker Title="Language" FontSize="24" SelectedIndex="0" SelectedIndexChanged="PickerLanguage_OnSelectedIndexChanged">
+            <Picker Title="{lang:Translate LanguageSelection}" SelectedIndex="0" SelectedIndexChanged="PickerLanguage_OnSelectedIndexChanged" Style="{StaticResource PickerStyle}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>English</x:String>
