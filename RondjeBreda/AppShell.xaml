@@ -5,22 +5,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RondjeBreda"
     xmlns:pages="clr-namespace:RondjeBreda.Pages"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     Title="RondjeBreda">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Kaart">
+        <ShellContent Title="Kaart" ContentTemplate="{DataTemplate local:MainPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Instellingen">
+        <ShellContent Title="Instellingen" ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem>
     
-    <ShellContent
-        Title="Settings"
-        ContentTemplate="{DataTemplate local:SettingsPage}"
-        Route="MainPage" />
-    
-    <ShellContent
-        Title="Visited Locations"
-        ContentTemplate="{DataTemplate pages:VisitedLocationsPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Bezochte locaties">
+        <ShellContent Title="Bezochte locaties" ContentTemplate="{DataTemplate pages:VisitedLocationsPage}" />
+    </FlyoutItem>
 
 </Shell>
