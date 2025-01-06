@@ -12,6 +12,11 @@ public partial class SettingsViewModel : ObservableObject
     private string colorSetting;
     private string language;
 
+    public SettingsViewModel(IPreferences preferences)
+    {
+        this.preferences = preferences;
+    }
+
     /// <summary>
     /// Saves the value for the text to speech option as a boolean in the preferences.
     /// </summary>
