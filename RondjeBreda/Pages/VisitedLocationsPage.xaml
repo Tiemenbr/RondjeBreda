@@ -4,8 +4,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RondjeBreda.Domain.Models.DatabaseModels;assembly=RondjeBreda.Domain"
              xmlns:viewModels="clr-namespace:RondjeBreda.ViewModels;assembly=RondjeBreda.ViewModels"
+             xmlns:lang="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="RondjeBreda.Pages.VisitedLocationsPage">
-    
+    <!-- Styles for Light & Dark modes-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--<Style TargetType="Label" x:Key="LabelStyleHeader">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>-->
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Page Contents -->
     <ScrollView>
         <VerticalStackLayout>
             <CollectionView x:Name="Locations" ItemsSource="{Binding VisitedLocations}" Margin="25">
