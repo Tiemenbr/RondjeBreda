@@ -21,7 +21,13 @@
         </HorizontalStackLayout>
 
         <!-- Map -->
-        <maps:Map x:Name="Map" IsShowingUser="True"/>
+        <maps:Map x:Name="Map" HeightRequest="380" IsShowingUser="True"/>
+        
+        <!-- Pause Button -->
+        <ImageButton Source="play_pause.png"
+                    Command="{Binding PauseButtonCommand}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
     </VerticalStackLayout>
 
 
