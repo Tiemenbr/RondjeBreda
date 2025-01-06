@@ -4,12 +4,23 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:RondjeBreda"
+    xmlns:pages="clr-namespace:RondjeBreda.Pages"
     Shell.FlyoutBehavior="Disabled"
     Title="RondjeBreda">
 
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    
+    <ShellContent
+        Title="Settings"
+        ContentTemplate="{DataTemplate local:SettingsPage}"
+        Route="MainPage" />
+    
+    <ShellContent
+        Title="Visited Locations"
+        ContentTemplate="{DataTemplate pages:VisitedLocationsPage}"
         Route="MainPage" />
 
 </Shell>

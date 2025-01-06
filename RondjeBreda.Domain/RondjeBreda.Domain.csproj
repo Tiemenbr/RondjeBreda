@@ -10,4 +10,8 @@
     <Folder Include="Models\DatabaseModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.72" />
+  </ItemGroup>
+
 </Project>

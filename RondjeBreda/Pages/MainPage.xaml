@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             x:Class="RondjeBreda.MainPage">
+
+
+    <VerticalStackLayout Margin="20" Spacing="20">
+        <!-- Route selector -->
+        <Picker Title="Select a route"
+                ItemsSource="{Binding Routes}"/> 
+
+        <!-- Directions -->
+        <HorizontalStackLayout Spacing="20">
+            <Image Source="arrow_up.png" Width="50" Height="50"/>
+            <Label Text="Direction" 
+                   TextColor="White" 
+                   VerticalTextAlignment="Center"
+                   FontSize="20"/>
+        </HorizontalStackLayout>
+
+        <!-- Map -->
+        <!-- <maps:Map x:Name="Map" IsShowingUser="True"/> -->
+    </VerticalStackLayout>
+
+
+</ContentPage>

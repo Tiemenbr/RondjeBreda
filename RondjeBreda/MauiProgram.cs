@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RondjeBreda.ViewModels;
 
 namespace RondjeBreda
 {
@@ -14,6 +15,9 @@ namespace RondjeBreda
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<HomePageViewModel>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

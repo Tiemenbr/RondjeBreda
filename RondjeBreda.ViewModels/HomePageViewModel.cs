@@ -1,12 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using RondjeBreda.Domain.Interfaces;
+using RondjeBreda.Domain.Models.DatabaseModels;
 
 namespace RondjeBreda.ViewModels;
 
 /// <summary>
 /// The Viewmodel for the homepage
 /// </summary>
-public class HomePageViewModel : ObservableObject
+public partial class HomePageViewModel : ObservableObject
 {
     private IDatabase database;
     private IPreferences preferences;
@@ -14,4 +16,6 @@ public class HomePageViewModel : ObservableObject
     private string route;
     // private Map map; TODO
     private bool routePaused;
+
+    [ObservableProperty] private ObservableCollection<Route> routes;
 }

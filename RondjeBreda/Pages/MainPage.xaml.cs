@@ -14,7 +14,6 @@ namespace RondjeBreda
             InitializeComponent();
             this.homePageViewModel = homePageViewModel;
         }
-
     }
 
 }
