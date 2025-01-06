@@ -8,25 +8,30 @@
     
     <ScrollView>
         <VerticalStackLayout>
-			<CollectionView x:Name="Trains" ItemsSource="{Binding Trains}" Margin="25">
+            <CollectionView x:Name="Locations" ItemsSource="{Binding VisitedLocations}" Margin="25">
 				<CollectionView.ItemsLayout>
 					<LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
 				</CollectionView.ItemsLayout>
 
 				<CollectionView.ItemTemplate>
-					<DataTemplate x:DataType="models:Route">
+                    <DataTemplate x:DataType="models:Location">
 						<Frame HorizontalOptions="Fill">
 							<Frame.GestureRecognizers>
-								<TapGestureRecognizer
-									Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:VisitedLocationsViewModel}}, Path=RouteTappedCommand}"
+                                <TapGestureRecognizer
+									Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:VisitedLocationsViewModel}}, Path=LocationTappedCommand}"
 									CommandParameter="{Binding}" />
+                            </Frame.GestureRecognizers>
 
-							</Frame.GestureRecognizers>
-
-							<Grid ColumnDefinitions="Auto,*">
-								<Image Grid.Column="0" Source="dotnet_bot.png" Width="50" Height="50"/>
-								<!-- <Label Text="{Binding name}"/> -->
-							</Grid>
+							<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" HeightRequest="55" Margin="0,0,0,5">
+                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding imagePath}" 
+                                       MaximumWidthRequest="100" MaximumHeightRequest="100" Margin="0,0,5,0"/>
+                                <Label Text="{Binding name}" FontSize="Header" FontAttributes="Bold" 
+                                       Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Start"/>
+                                <Label Text="{Binding longitude, StringFormat='longitude: {0}'}" 
+                                       Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="End"/>
+                                <Label Text="{Binding latitude, StringFormat='latitude: {0}'}"  
+                                       Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="End"/>
+                            </Grid>
 
 						</Frame>
 					</DataTemplate>

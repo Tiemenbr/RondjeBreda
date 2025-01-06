@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\RondjeBreda.Domain\RondjeBreda.Domain.csproj" />
+	  <ProjectReference Include="..\RondjeBreda.Infrastructure\RondjeBreda.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

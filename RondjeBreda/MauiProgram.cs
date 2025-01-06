@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Pages;
 using RondjeBreda.ViewModels;
+using RondjeBreda.Infrastructure.DatabaseImplementation;
 
 namespace RondjeBreda
 {
@@ -26,6 +28,12 @@ namespace RondjeBreda
 
             builder.Services.AddTransient<VisitedLocationsPage>();
             builder.Services.AddTransient<VisitedLocationsViewModel>();
+
+            builder.Services.AddSingleton<IPreferences>(o => Preferences.Default);
+            builder.Services.AddSingleton<IDatabase, SQLiteDatabase>(o =>
+            {
+                return new SQLiteDatabase();
+            });
 
 #if DEBUG
     		builder.Logging.AddDebug();
