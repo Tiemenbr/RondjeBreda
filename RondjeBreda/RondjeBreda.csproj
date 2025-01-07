@@ -61,6 +61,7 @@
 	  <None Remove="Resources\Images\arrow_left.png" />
 	  <None Remove="Resources\Images\arrow_right.png" />
 	  <None Remove="Resources\Images\arrow_up.png" />
+	  <None Remove="Resources\Images\play_pause.png" />
 	</ItemGroup>
 
 	<ItemGroup>
