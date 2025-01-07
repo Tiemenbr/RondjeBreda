@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,17 @@ public partial class VisitedLocationsPage : ContentPage
     {
         InitializeComponent();
         this.visitedLocationsViewModel = visitedLocationsViewModel;
+        BindingContext = visitedLocationsViewModel;
+    }
+
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (visitedLocationsViewModel != null)
+        {
+            await visitedLocationsViewModel.LoadTestData();
+            Debug.WriteLine("Generated test data");
+        }
     }
 }

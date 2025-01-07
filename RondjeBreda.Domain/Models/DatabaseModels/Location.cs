@@ -1,4 +1,4 @@
-﻿using RondjeBreda.Domain.Interfaces;
+using RondjeBreda.Domain.Interfaces;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 

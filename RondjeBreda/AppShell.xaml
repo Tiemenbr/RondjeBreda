@@ -3,21 +3,37 @@
     x:Class="RondjeBreda.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:RondjeBreda"
     xmlns:pages="clr-namespace:RondjeBreda.Pages"
-    Shell.FlyoutBehavior="Flyout"
-    Title="RondjeBreda">
+    xmlns:lang="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+    Title="Rondje Breda" 
+    Shell.TabBarBackgroundColor="{AppThemeBinding Light={StaticResource AccentColorLight}, Dark={StaticResource PrimaryColorDark}}"
+    Shell.TabBarForegroundColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}"
+    Shell.TabBarUnselectedColor="{AppThemeBinding Light=Gray, Dark=LightGray}"
+    Shell.TabBarTitleColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}"
+    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryColorLight}, Dark={StaticResource PrimaryColorDark}}"
+    Shell.TitleColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}">
 
-    <FlyoutItem Title="Kaart">
-        <ShellContent Title="Kaart" ContentTemplate="{DataTemplate local:MainPage}" />
-    </FlyoutItem>
+    <TabBar Title="Tabs">
+        <!-- Map icon created by DinosoftLabs - Flaticon: https://www.flaticon.com/free-icons/map -->
+        <ShellContent
+        Title="{lang:Translate Map}"
+        Icon="icon_map.png"
+        ContentTemplate="{DataTemplate pages:MainPage}"
+        Route="MainPage" />
 
-    <FlyoutItem Title="Instellingen">
-        <ShellContent Title="Instellingen" ContentTemplate="{DataTemplate local:SettingsPage}" />
-    </FlyoutItem>
-    
-    <FlyoutItem Title="Bezochte locaties">
-        <ShellContent Title="Bezochte locaties" ContentTemplate="{DataTemplate pages:VisitedLocationsPage}" />
-    </FlyoutItem>
+        <!-- Pin icon created by Freepik - Flaticon: https://www.flaticon.com/free-icons/pin-->
+        <ShellContent
+        Title="{lang:Translate Settings}"
+        Icon="icon_setting.png"
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="SettingsPage" />
+
+        <!-- Setting icon created by shin_icons - Flaticon: https://www.flaticon.com/free-icons/setting -->
+        <ShellContent
+        Title="{lang:Translate VisitedLocations}"
+        Icon="icon_location.png"
+        ContentTemplate="{DataTemplate pages:VisitedLocationsPage}"
+        Route="VisitedLocationsPage" />
+    </TabBar>
 
 </Shell>

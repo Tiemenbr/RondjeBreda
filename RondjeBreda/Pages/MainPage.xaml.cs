@@ -1,6 +1,6 @@
 ﻿using RondjeBreda.ViewModels;
 
-namespace RondjeBreda
+namespace RondjeBreda.Pages
 {
     /// <summary>
     /// The class for the mainpage with the viewmodel for it.
@@ -13,6 +13,7 @@ namespace RondjeBreda
         {
             InitializeComponent();
             this.homePageViewModel = homePageViewModel;
+            //BindingContext = homePageViewModel;
         }
     }
 
