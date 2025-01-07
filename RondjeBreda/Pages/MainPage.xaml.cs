@@ -45,9 +45,25 @@ namespace RondjeBreda.Pages
                     continue;
                 }
 
-            }
+                var locationCount = routePoints.IndexOf(location);
+                var route = await homePageViewModel.mapsAPI.CreateRoute(location.latitude.ToString(), location.latitude.ToString(),
+                    routePoints[locationCount+1].latitude.ToString(), routePoints[locationCount + 1].longitude.ToString());
+                
+                Polyline polyline = new Polyline
+                {
+                    StrokeColor = Colors.Blue,
+                    StrokeWidth = 12,
+                };
 
-            // Lijn toevoegen aan de map
+                var locations = homePageViewModel.mapsAPI.Decode(route.routes[0].overview_polyline.points);
+                foreach (var tempLocation in locations)
+                {
+                    polyline.Geopath.Add(new Location(tempLocation.latitude, tempLocation.longitude));
+                }
+
+                // Lijn toevoegen aan de map
+                Map.MapElements.Add(polyline);
+            }
         }
 
         private void ImageButton_OnPressed(object? sender, EventArgs e)

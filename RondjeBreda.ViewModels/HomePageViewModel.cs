@@ -14,7 +14,7 @@ public partial class HomePageViewModel : ObservableObject
     private IDatabase database;
     private IPreferences preferences;
     private IGeolocation geolocation;
-    private IMapsAPI mapsAPI;
+    public IMapsAPI mapsAPI;
     private string route;
     // private Map map; TODO
     private bool routePaused;
