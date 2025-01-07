@@ -37,7 +37,7 @@
         <!-- Pause Button -->
         <ImageButton Source="play_pause.png"
                      BackgroundColor="Gray"
-                     Command="{Binding PauseButtonCommand}"
+                     Pressed="ImageButton_OnPressed"
                      HorizontalOptions="Center"
                      VerticalOptions="Center" />
     </VerticalStackLayout>
