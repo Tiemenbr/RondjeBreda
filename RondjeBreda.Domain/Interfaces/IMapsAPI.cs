@@ -1,8 +1,6 @@
 ﻿using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
 
-using Location = Microsoft.Maui.Devices.Sensors.Location;
-
 namespace RondjeBreda.Domain.Interfaces;
 
 public interface IMapsAPI

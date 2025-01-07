@@ -14,17 +14,18 @@ public partial class HomePageViewModel : ObservableObject
     private IDatabase database;
     private IPreferences preferences;
     private IGeolocation geolocation;
+    private IMapsAPI mapsAPI;
     private string route;
     // private Map map; TODO
     private bool routePaused;
 
     [ObservableProperty] private ObservableCollection<Route> routes;
 
-    public HomePageViewModel(IDatabase database, IPreferences preferences, IGeolocation geolocation)
+    public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI)
     {
         this.database = database;
         this.preferences = preferences;
-        this.geolocation = geolocation;
+        this.mapsAPI = mapsAPI;
     }
 
     public async Task<List<Location>> LoadPoints()

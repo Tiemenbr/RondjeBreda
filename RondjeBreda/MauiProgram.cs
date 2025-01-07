@@ -7,6 +7,7 @@ using CommunityToolkit.Maui;
 using LocalizationResourceManager.Maui;
 using RondjeBreda.Resources.Languages;
 using System.Globalization;
+using RondjeBreda.Infrastructure;
 
 namespace RondjeBreda
 {
@@ -46,6 +47,8 @@ namespace RondjeBreda
             {
                 return new SQLiteDatabase();
             });
+
+            builder.Services.AddTransient<IMapsAPI, MapsAPI>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

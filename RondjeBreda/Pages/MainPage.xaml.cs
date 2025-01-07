@@ -1,4 +1,6 @@
-﻿using Microsoft.Maui.Controls.Maps;
+﻿using System.Diagnostics;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls.Maps;
 using RondjeBreda.Domain.Models.DatabaseModels;
 using RondjeBreda.ViewModels;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
@@ -36,8 +38,22 @@ namespace RondjeBreda.Pages
             }
 
             // Route genereren tussen de punten
+            foreach (var location in routePoints)
+            {
+                if (routePoints.IndexOf(location) == 0 || routePoints.IndexOf(location) == routePoints.Count - 1)
+                {
+                    continue;
+                }
+
+            }
 
             // Lijn toevoegen aan de map
+        }
+
+        private void ImageButton_OnPressed(object? sender, EventArgs e)
+        {
+            Debug.WriteLine("PauseButton!!!");
+            LoadRoute(new Route());
         }
     }
 }
