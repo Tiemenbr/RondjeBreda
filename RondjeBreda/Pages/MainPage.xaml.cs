@@ -37,17 +37,22 @@ namespace RondjeBreda.Pages
                 });
             }
 
+            Debug.WriteLine($"Punten: {routePoints.Count}");
+
             // Route genereren tussen de punten
             foreach (var location in routePoints)
             {
-                if (routePoints.IndexOf(location) == 0 || routePoints.IndexOf(location) == routePoints.Count - 1)
+                if (routePoints.IndexOf(location) == routePoints.Count - 1)
                 {
                     continue;
                 }
 
                 var locationCount = routePoints.IndexOf(location);
-                var route = await homePageViewModel.mapsAPI.CreateRoute(location.latitude.ToString(), location.latitude.ToString(),
+                Debug.WriteLine($"Lat: {location.latitude}, Long: {location.longitude}");
+                var route = await homePageViewModel.mapsAPI.CreateRoute($"{location.latitude}", $"{location.longitude}",
                     routePoints[locationCount+1].latitude.ToString(), routePoints[locationCount + 1].longitude.ToString());
+
+                Debug.WriteLine($"Aantal routes: {route.routes.Length}");
                 
                 Polyline polyline = new Polyline
                 {
