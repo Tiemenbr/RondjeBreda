@@ -13,7 +13,7 @@ public partial class HomePageViewModel : ObservableObject
 {
     private IDatabase database;
     private IPreferences preferences;
-    private IGeolocation geolocation;
+    public IGeolocation geolocation;
     public IMapsAPI mapsAPI;
     private string route;
     // private Map map; TODO
@@ -43,6 +43,7 @@ public partial class HomePageViewModel : ObservableObject
         this.userLat = e.Location.Latitude;
         this.userLon = e.Location.Longitude;
     }
+
 
     public async Task<List<Location>> LoadPoints()
     {   // TODO: Route component tabel goed ophalen

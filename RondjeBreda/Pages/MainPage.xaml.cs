@@ -26,6 +26,23 @@ namespace RondjeBreda.Pages
             InitializeComponent();
             this.homePageViewModel = homePageViewModel;
             //BindingContext = homePageViewModel;
+            homePageViewModel.geolocation.LocationChanged += (sender, e) =>
+            {
+                if (nextLocation == null)
+                {
+                    return;
+                }
+                if (Location.CalculateDistance(homePageViewModel.userLat, homePageViewModel.userLon,
+                        nextLocation.latitude, nextLocation.longitude, DistanceUnits.Kilometers) <= 0.02)
+                {
+                    LocationReached();
+                }
+            };
+        }
+
+        private void LocationReached()
+        {
+            Debug.WriteLine("Location Reached!!!!");
         }
 
         private async void LoadRoute(Route selectedRoute)
