@@ -20,6 +20,7 @@ namespace RondjeBreda.Pages
         private HomePageViewModel homePageViewModel;
         private List<Domain.Models.DatabaseModels.Location> routePoints;
         private Domain.Models.DatabaseModels.Location nextLocation;
+        private int indexRoute = 0;
 
         public MainPage(HomePageViewModel homePageViewModel)
         {
@@ -42,13 +43,32 @@ namespace RondjeBreda.Pages
 
         private void LocationReached()
         {
-            Debug.WriteLine("Location Reached!!!!");
+            if (routePoints.Count == 0)
+            {
+                return;
+            }
+
+            this.indexRoute++;
+            if (indexRoute >= routePoints.Count)
+            {
+                indexRoute = 0;
+            }
+            Debug.WriteLine($"Index: {indexRoute}");
+            this.nextLocation = routePoints[this.indexRoute];
+            Map.MapElements.Clear();
+            LoadRoute(new Route());
+            DrawCircleNextLocation();
+            SetMapSpan();
         }
 
         private async void LoadRoute(Route selectedRoute)
         {
             // Punten van de geselecteerde route laden
             this.routePoints = await homePageViewModel.LoadPoints();
+            if (nextLocation == null)
+            {
+                this.nextLocation = routePoints[0];
+            }
 
             // Punten toevoegen aan de map
             Map.Pins.Clear();
@@ -62,21 +82,6 @@ namespace RondjeBreda.Pages
             }
 
             Debug.WriteLine($"Punten: {routePoints.Count}");
-
-            // Route to the start point of the route
-            var routeToFirstPoint = await homePageViewModel.mapsAPI.CreateRoute($"{homePageViewModel.userLat}", $"{homePageViewModel.userLon}",
-                $"{routePoints[0].latitude}", $"{routePoints[0].longitude}");
-            Polyline firstpolyline = new Polyline
-            {
-                StrokeColor = Colors.Chartreuse,
-                StrokeWidth = 12,
-            };
-            var firstlocations = homePageViewModel.mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
-            foreach (var tempLocation in firstlocations)
-            {
-                firstpolyline.Geopath.Add(new Location(tempLocation.latitude, tempLocation.longitude));
-            }
-            Map.MapElements.Add(firstpolyline);
 
             // Route genereren tussen de punten
             foreach (var location in routePoints)
@@ -110,6 +115,21 @@ namespace RondjeBreda.Pages
                 // Lijn toevoegen aan de map
                 Map.MapElements.Add(polyline);
             }
+
+            // Route to the next point of the route
+            var routeToFirstPoint = await homePageViewModel.mapsAPI.CreateRoute($"{homePageViewModel.userLat}", $"{homePageViewModel.userLon}",
+                $"{nextLocation.latitude}", $"{nextLocation.longitude}");
+            Polyline firstpolyline = new Polyline
+            {
+                StrokeColor = Colors.Chartreuse,
+                StrokeWidth = 12,
+            };
+            var firstlocations = homePageViewModel.mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
+            foreach (var tempLocation in firstlocations)
+            {
+                firstpolyline.Geopath.Add(new Location(tempLocation.latitude, tempLocation.longitude));
+            }
+            Map.MapElements.Add(firstpolyline);
         }
 
         private void ImageButton_OnPressed(object? sender, EventArgs e)
@@ -129,7 +149,6 @@ namespace RondjeBreda.Pages
                 return;
             }
 
-            this.nextLocation = routePoints[0];
 
             foreach (var location in routePoints)
             {
