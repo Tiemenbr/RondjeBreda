@@ -2,9 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
+using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
 using RondjeBreda.ViewModels;
+using Distance = Microsoft.Maui.Maps.Distance;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
+using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
+using Route = RondjeBreda.Domain.Models.DatabaseModels.Route;
 
 namespace RondjeBreda.Pages
 {
@@ -41,6 +45,21 @@ namespace RondjeBreda.Pages
             }
 
             Debug.WriteLine($"Punten: {routePoints.Count}");
+
+            // Route to the start point of the route
+            var routeToFirstPoint = await homePageViewModel.mapsAPI.CreateRoute($"{homePageViewModel.userLat}", $"{homePageViewModel.userLon}",
+                $"{routePoints[0].latitude}", $"{routePoints[0].longitude}");
+            Polyline firstpolyline = new Polyline
+            {
+                StrokeColor = Colors.Blue,
+                StrokeWidth = 12,
+            };
+            var firstlocations = homePageViewModel.mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
+            foreach (var tempLocation in firstlocations)
+            {
+                firstpolyline.Geopath.Add(new Location(tempLocation.latitude, tempLocation.longitude));
+            }
+            Map.MapElements.Add(firstpolyline);
 
             // Route genereren tussen de punten
             foreach (var location in routePoints)
