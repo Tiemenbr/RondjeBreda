@@ -15,6 +15,7 @@ namespace RondjeBreda.Pages
     {
         private HomePageViewModel homePageViewModel;
         private List<Domain.Models.DatabaseModels.Location> routePoints;
+        private Domain.Models.DatabaseModels.Location nextLocation;
 
         public MainPage(HomePageViewModel homePageViewModel)
         {
@@ -55,6 +56,7 @@ namespace RondjeBreda.Pages
                     routePoints[locationCount + 1].latitude.ToString(),
                     routePoints[locationCount + 1].longitude.ToString());
 
+
                 Debug.WriteLine($"Aantal routes: {route.routes.Length}");
 
                 Polyline polyline = new Polyline
@@ -79,6 +81,7 @@ namespace RondjeBreda.Pages
             Debug.WriteLine("PauseButton!!!");
             LoadRoute(new Route());
             DrawCircleNextLocation();
+            SetMapSpan();
         }
 
         private void DrawCircleNextLocation()
@@ -88,7 +91,7 @@ namespace RondjeBreda.Pages
                 return;
             }
 
-            var nextLocation = routePoints[0];
+            this.nextLocation = routePoints[0];
 
             foreach (var location in routePoints)
             {
@@ -105,6 +108,20 @@ namespace RondjeBreda.Pages
             };
 
             Map.MapElements.Add(circle);
+        }
+
+        private void SetMapSpan()
+        {
+            var centerLat = (this.nextLocation.latitude + homePageViewModel.userLat) / 2;
+            var centerLon = (this.nextLocation.longitude + homePageViewModel.userLon) / 2;
+
+            var center = new Location(centerLat, centerLon);
+
+            var distance = Location.CalculateDistance(new Location(this.nextLocation.latitude, this.nextLocation.longitude), center, DistanceUnits.Kilometers);
+
+            MapSpan mapSpan = MapSpan.FromCenterAndRadius(center, Distance.FromKilometers(distance * 1.5));
+
+            Map.MoveToRegion(mapSpan);
         }
     }
 }

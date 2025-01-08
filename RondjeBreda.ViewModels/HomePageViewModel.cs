@@ -18,6 +18,7 @@ public partial class HomePageViewModel : ObservableObject
     private string route;
     // private Map map; TODO
     private bool routePaused;
+    public double userLat, userLon;
 
     [ObservableProperty] private ObservableCollection<Route> routes;
 
@@ -26,6 +27,9 @@ public partial class HomePageViewModel : ObservableObject
         this.database = database;
         this.preferences = preferences;
         this.mapsAPI = mapsAPI;
+        // TODO locatie uitlezen
+        this.userLat = 51.5951;
+        this.userLon = 4.7792;
     }
 
     public async Task<List<Location>> LoadPoints()
