@@ -22,14 +22,26 @@ public partial class HomePageViewModel : ObservableObject
 
     [ObservableProperty] private ObservableCollection<Route> routes;
 
-    public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI)
+    public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation)
     {
         this.database = database;
         this.preferences = preferences;
         this.mapsAPI = mapsAPI;
-        // TODO locatie uitlezen
-        this.userLat = 51.5951;
-        this.userLon = 4.7792;
+        this.geolocation = geolocation;
+
+        this.geolocation.StartListeningForegroundAsync(new GeolocationListeningRequest
+        {
+            MinimumTime = TimeSpan.FromSeconds(10),
+            DesiredAccuracy = GeolocationAccuracy.Best
+        });
+
+        this.geolocation.LocationChanged += LocationChanged;
+    }
+
+    private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
+    {
+        this.userLat = e.Location.Latitude;
+        this.userLon = e.Location.Longitude;
     }
 
     public async Task<List<Location>> LoadPoints()

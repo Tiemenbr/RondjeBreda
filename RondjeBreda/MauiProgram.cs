@@ -51,8 +51,10 @@ namespace RondjeBreda
             builder.Services.AddTransient<IMapsAPI, MapsAPI>();
             builder.Services.AddTransient<IKeyReaderMaps, KeyReaderMaps>();
 
+            builder.Services.AddSingleton<IGeolocation>(o => Geolocation.Default);
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
