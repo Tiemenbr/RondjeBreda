@@ -51,7 +51,7 @@ namespace RondjeBreda.Pages
                 $"{routePoints[0].latitude}", $"{routePoints[0].longitude}");
             Polyline firstpolyline = new Polyline
             {
-                StrokeColor = Colors.Blue,
+                StrokeColor = Colors.Chartreuse,
                 StrokeWidth = 12,
             };
             var firstlocations = homePageViewModel.mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
