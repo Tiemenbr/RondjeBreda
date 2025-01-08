@@ -9,12 +9,27 @@ namespace RondjeBreda.Infrastructure;
 
 public class MapsAPI : IMapsAPI
 {
-    // TODO: Uitlezen uit een bestand in de methode hieronder
-    private string MapsAPIKey = "";
+    private IKeyReaderMaps keyReaderMaps;
+    private string MapsAPIKey;
 
-    public Task GetMapsAPIKey()
+    public MapsAPI(IKeyReaderMaps keyReaderMaps)
     {
-        throw new NotImplementedException();
+        this.keyReaderMaps = keyReaderMaps;
+        GetMapsAPIKey();
+    }
+
+    public async Task GetMapsAPIKey()
+    {
+        try
+        {
+            MapsAPIKey = await keyReaderMaps.GetApiKeyAsync();
+
+            Debug.WriteLine($"Key loaded: {MapsAPIKey}");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e.ToString());
+        }
     }
 
     public async Task<Routeobject> CreateRoute(string originLat, string originLon, string destLat, string destLon)

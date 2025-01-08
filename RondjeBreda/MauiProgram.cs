@@ -49,6 +49,7 @@ namespace RondjeBreda
             });
 
             builder.Services.AddTransient<IMapsAPI, MapsAPI>();
+            builder.Services.AddTransient<IKeyReaderMaps, KeyReaderMaps>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
