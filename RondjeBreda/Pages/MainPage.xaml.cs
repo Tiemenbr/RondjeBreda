@@ -98,6 +98,8 @@ namespace RondjeBreda.Pages
         private void ImageButton_OnPressed(object? sender, EventArgs e)
         {
             Debug.WriteLine("PauseButton!!!");
+
+            Map.MapElements.Clear();
             LoadRoute(new Route());
             DrawCircleNextLocation();
             SetMapSpan();
