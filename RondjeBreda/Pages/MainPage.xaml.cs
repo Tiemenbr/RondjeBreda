@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
+using Microsoft.Maui.Maps;
 using RondjeBreda.Domain.Models.DatabaseModels;
 using RondjeBreda.ViewModels;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
@@ -13,6 +14,7 @@ namespace RondjeBreda.Pages
     public partial class MainPage : ContentPage
     {
         private HomePageViewModel homePageViewModel;
+        private List<Domain.Models.DatabaseModels.Location> routePoints;
 
         public MainPage(HomePageViewModel homePageViewModel)
         {
@@ -24,7 +26,7 @@ namespace RondjeBreda.Pages
         private async void LoadRoute(Route selectedRoute)
         {
             // Punten van de geselecteerde route laden
-            var routePoints = await homePageViewModel.LoadPoints();
+            this.routePoints = await homePageViewModel.LoadPoints();
 
             // Punten toevoegen aan de map
             Map.Pins.Clear();
@@ -50,10 +52,11 @@ namespace RondjeBreda.Pages
                 var locationCount = routePoints.IndexOf(location);
                 Debug.WriteLine($"Lat: {location.latitude}, Long: {location.longitude}");
                 var route = await homePageViewModel.mapsAPI.CreateRoute($"{location.latitude}", $"{location.longitude}",
-                    routePoints[locationCount+1].latitude.ToString(), routePoints[locationCount + 1].longitude.ToString());
+                    routePoints[locationCount + 1].latitude.ToString(),
+                    routePoints[locationCount + 1].longitude.ToString());
 
                 Debug.WriteLine($"Aantal routes: {route.routes.Length}");
-                
+
                 Polyline polyline = new Polyline
                 {
                     StrokeColor = Colors.Blue,
@@ -75,6 +78,33 @@ namespace RondjeBreda.Pages
         {
             Debug.WriteLine("PauseButton!!!");
             LoadRoute(new Route());
+            DrawCircleNextLocation();
+        }
+
+        private void DrawCircleNextLocation()
+        {
+            if (this.routePoints == null || this.routePoints.Count == 0)
+            {
+                return;
+            }
+
+            var nextLocation = routePoints[0];
+
+            foreach (var location in routePoints)
+            {
+                // TODO: Check if location is visited, first one that don't need to be set
+            }
+
+            Circle circle = new Circle
+            {
+                Center = new Location(nextLocation.latitude, nextLocation.longitude),
+                Radius = new Distance(20),
+                StrokeColor = Color.FromArgb("#CFffc61e"),
+                StrokeWidth = 8,
+                FillColor = Color.FromArgb("#CFffc61e")
+            };
+
+            Map.MapElements.Add(circle);
         }
     }
 }
