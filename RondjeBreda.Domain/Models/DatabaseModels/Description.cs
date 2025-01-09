@@ -9,15 +9,11 @@ namespace RondjeBreda.Domain.Models.DatabaseModels;
 [Table("Description")]
 public class Description : IDatabaseTable
 {
-
-    [Column("DescriptionNL")]
     [PrimaryKey]
     public string DescriptionNL { get; set; }
 
-    [Column("DescriptionEN")]
     public string DescriptionEN { get; set; }
 
-    [Column("Location")]
     [ForeignKey(typeof(Location))]
     public Location Location { get; set; }
 }

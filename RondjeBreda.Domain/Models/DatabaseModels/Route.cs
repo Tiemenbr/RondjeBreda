@@ -10,10 +10,8 @@ namespace RondjeBreda.Domain.Models.DatabaseModels;
 [Table("Route")]
 public class Route : IDatabaseTable
 {
-    [Column("Name")]
     [PrimaryKey]
     public string Name { get; set; }
 
-    [Column("Active")]
     public bool Active { get; set; }
 }
