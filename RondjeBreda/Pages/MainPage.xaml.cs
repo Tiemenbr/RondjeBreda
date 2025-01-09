@@ -24,26 +24,46 @@ namespace RondjeBreda.Pages
         {
             InitializeComponent();
             this.homePageViewModel = homePageViewModel;
-            homePageViewModel.PropertyChanged += MoveToRegion();
 
             BindingContext = homePageViewModel;
+
+            this.homePageViewModel.UpdatePins += UpdatePins;
+            this.homePageViewModel.UpdateMapSpan += UpdateMapSpan;
+            this.homePageViewModel.UpdateMapElements += UpdateMapElements;    
         }
 
-        private PropertyChangedEventHandler? MoveToRegion()
+        private void UpdateMapSpan()
         {
-            if (Map == null || homePageViewModel == null || homePageViewModel.mapSpan == null)
+            Debug.WriteLine("Update MapSpan");
+            if (homePageViewModel.CurrentMapSpan == null)
             {
-                return null;
+                return;
             }
-            Map.MoveToRegion(homePageViewModel.mapSpan);
-            return null;
+            Map.MoveToRegion(homePageViewModel.CurrentMapSpan);
         }
 
-        private void ImageButton_OnPressed(object? sender, EventArgs e)
+        private void UpdatePins()
         {
+            Debug.WriteLine("Update Pins");
+            Map.Pins.Clear();
+            foreach (var pin in homePageViewModel.Pins)
+            {
+                Map.Pins.Add(pin);
+            }
+        }
 
-            Debug.WriteLine("PauseButton!!!");
+        private void UpdateMapElements()
+        {
+            Debug.WriteLine("Update MapElements");
+            Map.MapElements.Clear();
+            Map.MapElements.Add(homePageViewModel.RangeCircle);
 
+            Debug.WriteLine($"Polylines amount: {homePageViewModel.Polylines.Count}");
+            foreach (var polyline in homePageViewModel.Polylines)
+            {
+                Debug.WriteLine($"Polyline adding: {polyline}");
+                Map.MapElements.Add(polyline);
+            }
             
         }
     }

@@ -25,16 +25,22 @@ public partial class HomePageViewModel : ObservableObject
     private Location nextLocation;
     private int indexRoute = 0;
 
+    //TODO: event aanroepen door update() wel methodes toevoegen
+    public event Action UpdateMapSpan;
+    public event Action UpdatePins;
+    public event Action UpdateMapElements;
+
     [ObservableProperty] private ObservableCollection<Route> routes;
     [ObservableProperty] private ObservableCollection<Pin> pins;
-    [ObservableProperty] private ObservableCollection<MapElement> mapElements;
-    [ObservableProperty] public MapSpan mapSpan;
+    [ObservableProperty] private ObservableCollection<Polyline> polylines;
+    [ObservableProperty] private Circle rangeCircle;
+    [ObservableProperty] private MapSpan currentMapSpan;
 
 
     public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation)
     {
         pins = new ObservableCollection<Pin>();
-        mapElements = new ObservableCollection<MapElement>();
+        polylines = new ObservableCollection<Polyline>();
 
         this.database = database;
         this.preferences = preferences;
@@ -48,7 +54,9 @@ public partial class HomePageViewModel : ObservableObject
         });
 
         this.geolocation.LocationChanged += LocationChanged;
+        
     }
+
 
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
@@ -64,6 +72,7 @@ public partial class HomePageViewModel : ObservableObject
         {
             LocationReached();
         }
+        
     }
 
     private void LocationReached()
@@ -79,7 +88,6 @@ public partial class HomePageViewModel : ObservableObject
             indexRoute = 0;
         }
         this.nextLocation = routePoints[this.indexRoute];
-        MapElements.Clear();
         // TODO: picker moet route inladen
         LoadRoute(new Route());
         DrawCircleNextLocation();
@@ -106,6 +114,7 @@ public partial class HomePageViewModel : ObservableObject
             });
         }
 
+        Polylines.Clear();
         // Route genereren tussen de punten
         foreach (var location in routePoints)
         {
@@ -132,7 +141,7 @@ public partial class HomePageViewModel : ObservableObject
             }
 
             // Lijn toevoegen aan de map
-            MapElements.Add(polyline);
+            Polylines.Add(polyline);
         }
 
         // Route to the next point of the route
@@ -148,7 +157,10 @@ public partial class HomePageViewModel : ObservableObject
         {
             firstpolyline.Geopath.Add(new Microsoft.Maui.Devices.Sensors.Location(tempLocation.latitude, tempLocation.longitude));
         }
-        MapElements.Add(firstpolyline);
+        Polylines.Add(firstpolyline);
+
+        UpdateMapElements();
+        UpdatePins();
     }
 
     private void DrawCircleNextLocation()
@@ -173,7 +185,8 @@ public partial class HomePageViewModel : ObservableObject
             FillColor = Color.FromArgb("#CFffc61e")
         };
 
-        MapElements.Add(circle);
+        this.rangeCircle = circle;
+        UpdateMapElements();
     }
 
     private void SetMapSpan()
@@ -187,12 +200,15 @@ public partial class HomePageViewModel : ObservableObject
             this.nextLocation.longitude), center, DistanceUnits.Kilometers);
 
         MapSpan mapSpan = MapSpan.FromCenterAndRadius(center, Distance.FromKilometers(distance * 1.5));
+
+        CurrentMapSpan = mapSpan;
+        UpdateMapSpan();
     }
 
     [RelayCommand]
     private void ImageButtonPressed()
     {
-        MapElements.Clear();
+        Polylines.Clear();
         LoadRoute(new Route());
         DrawCircleNextLocation();
         SetMapSpan();
@@ -209,6 +225,7 @@ public partial class HomePageViewModel : ObservableObject
         testList.Add(new Location{latitude = 51.592500, longitude = 4.779695, name = "Nassau Baronie Monument", imagePath = "location_4.png"});
         testList.Add(new Location{latitude = 51.592833, longitude = 4.778472, name = "The Light House", imagePath = "location_5.png"});
 
+        UpdatePins();
         return testList;
     }
 }
