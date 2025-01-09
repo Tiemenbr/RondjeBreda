@@ -3,6 +3,7 @@ using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Pages;
 using RondjeBreda.ViewModels;
 using RondjeBreda.Infrastructure.DatabaseImplementation;
+using RondjeBreda.Infrastructure.SettingsImplementation;
 using CommunityToolkit.Maui;
 using LocalizationResourceManager.Maui;
 using RondjeBreda.Resources.Languages;
@@ -48,10 +49,14 @@ namespace RondjeBreda
             });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+    		builder.Logging.AddDebug(); 
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            ServiceProviderHelper.ServiceProvider = app.Services;
+
+            return app;
         }
     }
 }

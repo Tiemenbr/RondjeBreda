@@ -18,7 +18,7 @@ public partial class SettingsPage : ContentPage
     {
         InitializeComponent();
         this.settingsViewModel = settingsViewModel;
-        //BindingContex = settingsViewModel
+        //BindingContext = settingsViewModel
     }
 
     /// <summary>
