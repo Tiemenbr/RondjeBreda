@@ -8,7 +8,7 @@
     Title="Rondje Breda" 
     Shell.TabBarBackgroundColor="{AppThemeBinding Light={StaticResource AccentColorLight}, Dark={StaticResource PrimaryColorDark}}"
     Shell.TabBarForegroundColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}"
-    Shell.TabBarUnselectedColor="{AppThemeBinding Light=Gray, Dark=LightGray}"
+    Shell.TabBarUnselectedColor="{AppThemeBinding Light=DarkGray, Dark=Gray}"
     Shell.TabBarTitleColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}"
     Shell.BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryColorLight}, Dark={StaticResource PrimaryColorDark}}"
     Shell.TitleColor="{AppThemeBinding Light=White, Dark={StaticResource AccentColorDark}}">

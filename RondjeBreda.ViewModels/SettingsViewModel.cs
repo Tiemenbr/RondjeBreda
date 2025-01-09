@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LocalizationResourceManager.Maui;
 using RondjeBreda.Infrastructure.SettingsImplementation;
@@ -17,10 +18,31 @@ public partial class SettingsViewModel : ObservableObject
     private string colorSetting;
     private string language;
 
+    [ObservableProperty]
+    private ObservableCollection<string> colorModes;
+
+    [ObservableProperty]
+    private string colorMode1;
+
+    [ObservableProperty]
+    private string colorMode2;
+
     public SettingsViewModel(IPreferences preferences, ILocalizationResourceManager manager)
     {
         this.preferences = preferences;
         this.localizationResourceManager = manager;
+        this.colorModes = new ObservableCollection<string>();
+
+        // Get the current language, and update pickers based on it
+        string culture = localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName;
+        if (culture == "en")
+        {
+            SetLanguageEnglish();
+        } 
+        else if (culture == "nl")
+        {
+            SetLanguageDutch();
+        }
     }
 
     /// <summary>
@@ -38,7 +60,24 @@ public partial class SettingsViewModel : ObservableObject
     /// <param name="colorSetting"></param>
     public void ColorSettingChanged(string colorSetting)
     {
-        // TODO
+        switch (colorSetting)
+        {
+            case "Standard Colors" or "Standaard Kleuren": // Each language
+                if (Application.Current != null)
+                {
+                    Application.Current.UserAppTheme = AppTheme.Light;
+                    preferences.Set("Color Mode", "Standard");
+                } 
+                return;
+
+            case "Black-White" or "Zwart-Wit": // Each language
+                if (Application.Current != null)
+                {
+                    Application.Current.UserAppTheme = AppTheme.Dark;
+                    preferences.Set("Color Mode", "Black-White");
+                }
+                return;
+        }
     }
     
     /// <summary>
@@ -50,18 +89,49 @@ public partial class SettingsViewModel : ObservableObject
         switch (language) // All languages are listed here
         {
             case "English":
-                if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "en") // Only change the language if it isn't already English 
-                {
-                    localizationResourceManager.CurrentCulture = new CultureInfo("en-US");
-                }
-                break;
+                preferences.Set("Language", language);
+                SetLanguageEnglish();
+                return;
 
             case "Nederlands":
-                if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "nl") // Only change the language if it isn't already Dutch
-                {
-                    localizationResourceManager.CurrentCulture = new CultureInfo("nl-NL");
-                }
-                break;
+                preferences.Set("Language", language);
+                SetLanguageDutch();
+                return;
         }
+    }
+
+    private void SetLanguageEnglish()
+    {
+        if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "en") // Only change the language if it isn't already English 
+        {
+            localizationResourceManager.CurrentCulture = new CultureInfo("en-US");
+            // Change color mode language
+            ColorMode1 = string.Format(localizationResourceManager["ColorMode1"], "Standard Colors");
+            ColorMode2 = string.Format(localizationResourceManager["ColorMode2"], "Black-White");
+            RefreshColorModesList();
+        }
+    }
+    private void SetLanguageDutch()
+    {
+        if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "nl") // Only change the language if it isn't already Dutch
+        {
+            localizationResourceManager.CurrentCulture = new CultureInfo("nl-NL");
+            // Change color mode language
+            ColorMode1 = string.Format(localizationResourceManager["ColorMode1"], "Standaard Kleuren");
+            ColorMode2 = string.Format(localizationResourceManager["ColorMode2"], "Zwart-Wit");
+            RefreshColorModesList();
+        }
+    }
+
+    private void RefreshColorModesList()
+    {
+        if (ColorModes.Count != 0)
+        {
+            // Remove first 2 options
+            ColorModes.RemoveAt(0);
+            ColorModes.RemoveAt(0);
+        }
+        ColorModes.Add(ColorMode1);
+        ColorModes.Add(ColorMode2);
     }
 }

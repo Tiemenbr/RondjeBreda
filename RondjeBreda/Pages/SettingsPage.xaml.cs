@@ -18,7 +18,8 @@ public partial class SettingsPage : ContentPage
     {
         InitializeComponent();
         this.settingsViewModel = settingsViewModel;
-        //BindingContext = settingsViewModel
+
+        BindingContext = settingsViewModel;
     }
 
     /// <summary>
@@ -42,7 +43,8 @@ public partial class SettingsPage : ContentPage
         if (settingsViewModel is SettingsViewModel)
         {
             var picker = (Picker)sender;
-            settingsViewModel.ColorSettingChanged(picker.SelectedItem.ToString());
+            if (picker.Items.Count != 0)
+                settingsViewModel.ColorSettingChanged(picker.SelectedItem.ToString());
         }
     }
 
