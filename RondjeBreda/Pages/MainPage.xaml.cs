@@ -29,7 +29,10 @@ namespace RondjeBreda.Pages
 
             this.homePageViewModel.UpdatePins += UpdatePins;
             this.homePageViewModel.UpdateMapSpan += UpdateMapSpan;
-            this.homePageViewModel.UpdateMapElements += UpdateMapElements;    
+            this.homePageViewModel.UpdateMapElements += UpdateMapElements;  
+            
+            Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Microsoft.Maui.Devices.Sensors.Location(52.211157, 5.9699231),
+                Distance.FromKilometers(200)));
         }
 
         private void UpdateMapSpan()
