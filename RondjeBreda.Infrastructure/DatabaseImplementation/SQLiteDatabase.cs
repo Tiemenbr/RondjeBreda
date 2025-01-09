@@ -16,23 +16,22 @@ public class SQLiteDatabase : IDatabase
     private SQLiteAsyncConnection _connection;
 
     public SQLiteDatabase() {
-        init();
     }
 
 
     // private SQLiteAsyncConnection databaseConnection;
-    public async void init() {
+    public async Task Init() {
         if (_connection != null) {
             return;
         }
 
         _connection = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, DatabaseName));
-        _connection.CreateTableAsync<Description>();
-        _connection.CreateTableAsync<Location>();
-        _connection.CreateTableAsync<Route>();
-        _connection.CreateTableAsync<RouteComponent>();
+        await _connection.CreateTableAsync<Description>();
+        await _connection.CreateTableAsync<Location>();
+        await _connection.CreateTableAsync<Route>();
+        await _connection.CreateTableAsync<RouteComponent>();
 
-        CompleteRouteContent content = ConvertRouteDataToObject().Result;
+        CompleteRouteContent content = await ConvertRouteDataToObject();
 
         if (content != null) {
 
@@ -71,11 +70,10 @@ public class SQLiteDatabase : IDatabase
 
             }
         }
-
-
     }
 
     private async Task<CompleteRouteContent> ConvertRouteDataToObject() {
+
         using var stream = await FileSystem.OpenAppPackageFileAsync("Configuration.JSON");
         using var reader = new StreamReader(stream);
 

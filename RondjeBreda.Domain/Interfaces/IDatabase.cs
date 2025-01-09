@@ -5,7 +5,7 @@
 /// </summary>
 public interface IDatabase
 {
-    void init();
+    Task Init();
     void GetDatabaseTableAsync();
     void GetDatabaseItemAsync();
     void UpdateDatabaseItemAsync();
