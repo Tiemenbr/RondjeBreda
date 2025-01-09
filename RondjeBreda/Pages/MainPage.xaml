@@ -32,12 +32,11 @@
         </HorizontalStackLayout>
 
         <!-- Map -->
-        <maps:Map x:Name="Map" HeightRequest="380" IsShowingUser="True"/>
+        <maps:Map x:Name="Map" ItemsSource="{Binding Pins}"  HeightRequest="380" IsShowingUser="True"/>
 
         <!-- Pause Button -->
         <ImageButton Source="play_pause.png"
                      BackgroundColor="Gray"
-                     Pressed="ImageButton_OnPressed"
                      HorizontalOptions="Center"
                      VerticalOptions="Center" />
     </VerticalStackLayout>
