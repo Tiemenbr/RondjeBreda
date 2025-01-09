@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LocalizationResourceManager.Maui;
+using RondjeBreda.Infrastructure.SettingsImplementation;
 
 namespace RondjeBreda.ViewModels;
 
