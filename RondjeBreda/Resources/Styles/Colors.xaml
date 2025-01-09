@@ -8,9 +8,9 @@
 
     <!-- Main App Colors (Not in Android, because we want the colors to be the same cross-platform!) -->
     <Color x:Key="PrimaryColorLight">#0073e6</Color>
-    <Color x:Key="AccentColorLight">#FFA300</Color>
-    <Color x:Key="PrimaryColorDark">#001f3f</Color>
-    <Color x:Key="AccentColorDark">#FD5800</Color>
+    <Color x:Key="AccentColorLight">#0073e6</Color>
+    <Color x:Key="PrimaryColorDark">Black</Color>
+    <Color x:Key="AccentColorDark">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="White">White</Color>
 
