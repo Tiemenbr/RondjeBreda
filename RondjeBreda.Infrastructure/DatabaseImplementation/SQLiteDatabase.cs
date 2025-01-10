@@ -47,10 +47,11 @@ public class SQLiteDatabase : IDatabase
         }
 
         _connection = new SQLiteAsyncConnection(path);
-        await _connection.CreateTableAsync<Description>();
-        await _connection.CreateTableAsync<Location>();
-        await _connection.CreateTableAsync<Route>();
-        await _connection.CreateTableAsync<RouteComponent>();
+
+        await SetupDescriptionTable();
+        await SetupLocationTable();
+        await _connection.CreateTableAsync<Route>(); // Isn't complicated like others
+        await SetupRouteComponentTable();
 
         CompleteRouteContent content = await ConvertRouteDataToObject();
 
@@ -73,7 +74,7 @@ public class SQLiteDatabase : IDatabase
                 Location Templocation = new Domain.Models.DatabaseModels.Location {
                     Longitude = location.Longitude,
                     Latitude = location.Latitude,
-                    Description = TempDescription,
+                    DescriptionNL = TempDescription.DescriptionNL,
                     ImagePath = $"location_{location.PhotoNr}.jpg",
                     Name = location.LocationName
                 };
@@ -83,8 +84,9 @@ public class SQLiteDatabase : IDatabase
                 await _connection.InsertAsync(Templocation);
                 await _connection.InsertAsync(TempDescription);
                 await _connection.InsertAsync(new RouteComponent {
-                    Route = TempRoute,
-                    Location = Templocation,
+                    RouteName = TempRoute.Name,
+                    LocationLongitude = Templocation.Longitude,
+                    LocationLatitude = Templocation.Latitude,
                     Note = location.CommentDutch,
                     RouteOrderNumber = location.routeNr,
                     Visited = false
@@ -94,6 +96,50 @@ public class SQLiteDatabase : IDatabase
         }
     }
 
+
+    #region Table Setups
+    private async Task SetupLocationTable()
+    {
+        await _connection.ExecuteAsync(
+            @"CREATE TABLE IF NOT EXISTS Location (
+                Longitude REAL NOT NULL,
+                Latitude REAL NOT NULL,
+                Description TEXT,
+                ImagePath TEXT,
+                Name TEXT,
+                PRIMARY KEY (Longitude, Latitude),
+                FOREIGN KEY (DescriptionNL) REFERENCES Description(DescriptionNL)
+            );");
+    }
+    private async Task SetupRouteComponentTable()
+    {
+        await _connection.ExecuteAsync(
+            @"CREATE TABLE IF NOT EXISTS RouteComponent (
+                RouteName TEXT NOT NULL,
+                LocationLongitude REAL NOT NULL
+                LocationLatitude REAL NOT NULL,
+                Note TEXT,
+                Visited BOOLEAN,
+                RouteOrderNumber INTEGER,
+                PRIMARY KEY (RouteName, Longitude, Latitude),
+                FOREIGN KEY (RouteName) REFERENCES Route(Name),
+                FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
+            );");
+    }
+    private async Task SetupDescriptionTable()
+    {
+        await _connection.ExecuteAsync(
+            @"CREATE TABLE IF NOT EXISTS Location (
+                DescriptionNL TEXT NOT NULL,
+                DescriptionEN TEXT,
+                LocationLongitude REAL,
+                LocationLatitude REAL,
+                PRIMARY KEY (DescriptionNL),
+                FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
+            );");
+    }
+
+    #endregion
     private async Task<CompleteRouteContent> ConvertRouteDataToObject() 
     {
 

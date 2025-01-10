@@ -11,16 +11,16 @@ namespace RondjeBreda.Domain.Models.DatabaseModels;
 [Table("Location")]
 public class Location : IDatabaseTable
 {
-    [PrimaryKey]
-    public double Longitude { get; set; }
-
-    [PrimaryKey]
-    public double Latitude { get; set; }
+    public double Longitude { get; set; } //part of composite key
+    public double Latitude { get; set; } //part of composite key
 
     [ForeignKey(typeof(Description))]
-    public Description Description { get; set; }
+    public string DescriptionNL { get; set; } //foreign Key
 
     public string ImagePath { get; set; }
 
     public string Name { get; set; }
+
+    [OneToOne]
+    public Description description { get; set; }
 }

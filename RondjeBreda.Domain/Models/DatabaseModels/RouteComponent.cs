@@ -10,17 +10,20 @@ namespace RondjeBreda.Domain.Models.DatabaseModels;
 [Table("RouteComponent")]
 public class RouteComponent : IDatabaseTable
 {
-    [PrimaryKey]
-    [ForeignKey(typeof(Route))]
-    public Route Route { get; set; }
+    public string RouteName { get; set; } // Foreign key and composite key
 
-    [PrimaryKey]
-    [ForeignKey(typeof(Location))]
-    public Location Location { get; set; }
+    public double LocationLongitude { get; set; } // Foreign key and composite key
+    public double LocationLatitude { get; set; } // Foreign key and composite key
 
     public string Note { get; set; }
 
     public bool Visited { get; set; }
 
     public int RouteOrderNumber { get; set; }
+
+    [ManyToOne]
+    public Route route { get; set; } 
+
+    [ManyToOne]
+    public Location location { get; set; }
 }
