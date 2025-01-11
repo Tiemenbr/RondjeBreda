@@ -18,6 +18,7 @@ public partial class HomePageViewModel : ObservableObject
     private IPreferences preferences;
     public IGeolocation geolocation;
     public IMapsAPI mapsAPI;
+    private IPopUp popUp;
     private string route;
     private bool routePaused;
     public double userLat, userLon;
@@ -37,7 +38,7 @@ public partial class HomePageViewModel : ObservableObject
     [ObservableProperty] private MapSpan currentMapSpan;
 
 
-    public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation)
+    public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation, IPopUp popUp)
     {
         pins = new ObservableCollection<Pin>();
         polylines = new ObservableCollection<Polyline>();
@@ -54,7 +55,7 @@ public partial class HomePageViewModel : ObservableObject
         });
 
         this.geolocation.LocationChanged += LocationChanged;
-        
+        this.popUp = popUp;
     }
 
 
@@ -75,7 +76,7 @@ public partial class HomePageViewModel : ObservableObject
         
     }
 
-    private void LocationReached()
+    private async Task LocationReached()
     {
         if (routePoints.Count == 0)
         {
@@ -87,7 +88,11 @@ public partial class HomePageViewModel : ObservableObject
         {
             indexRoute = 0;
         }
+
+        await popUp.ShowPopUpAsync(this.nextLocation.name, 
+            $"{this.nextLocation.name}, \n {this.nextLocation.latitude}, {this.nextLocation.longitude}");
         this.nextLocation = routePoints[this.indexRoute];
+
         // TODO: picker moet route inladen
         LoadRoute(new Route());
         DrawCircleNextLocation();

@@ -54,6 +54,8 @@ namespace RondjeBreda
 
             builder.Services.AddSingleton<IGeolocation>(o => Geolocation.Default);
 
+            builder.Services.AddTransient<IPopUp, PopUp>();
+
 #if DEBUG
     		builder.Logging.AddDebug(); 
 #endif
