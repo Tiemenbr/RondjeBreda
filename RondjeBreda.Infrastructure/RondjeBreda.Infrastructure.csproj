@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
     <PackageReference Include="LocalizationResourceManager.Maui" Version="1.2.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Maui.Controls.Core" Version="8.0.83" />

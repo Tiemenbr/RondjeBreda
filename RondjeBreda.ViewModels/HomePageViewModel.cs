@@ -89,8 +89,10 @@ public partial class HomePageViewModel : ObservableObject
             indexRoute = 0;
         }
 
-        await popUp.ShowPopUpAsync(this.nextLocation.name, 
-            $"{this.nextLocation.name}, \n {this.nextLocation.latitude}, {this.nextLocation.longitude}");
+        await popUp.ShowPopUpAsync(nextLocation.imagePath, 
+            nextLocation.name, 
+            $"{nextLocation.latitude},{nextLocation.longitude}");
+
         this.nextLocation = routePoints[this.indexRoute];
 
         // TODO: picker moet route inladen
@@ -225,7 +227,7 @@ public partial class HomePageViewModel : ObservableObject
 
         // Testdata
         var testList = new List<Location>();
-        testList.Add(new Location{latitude = 51.594445, longitude = 4.779417, name = "Oude VVV-pand", imagePath = "location_2.png"});
+        testList.Add(new Location{latitude = 51.594445, longitude = 4.779417, name = "Oude VVV-pand", imagePath = "dotnet_bot.png"});
         testList.Add(new Location{latitude = 51.593278, longitude = 4.779388, name = "Liefdeszuster", imagePath = "location_3.png"});
         testList.Add(new Location{latitude = 51.592500, longitude = 4.779695, name = "Nassau Baronie Monument", imagePath = "location_4.png"});
         testList.Add(new Location{latitude = 51.592833, longitude = 4.778472, name = "The Light House", imagePath = "location_5.png"});
