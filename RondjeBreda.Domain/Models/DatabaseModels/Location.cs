@@ -15,7 +15,7 @@ public class Location : IDatabaseTable
     public double Latitude { get; set; } //part of composite key
 
     [ForeignKey(typeof(Description))]
-    public string DescriptionNL { get; set; } //foreign Key
+    public string Description { get; set; } //foreign Key
 
     public string ImagePath { get; set; }
 

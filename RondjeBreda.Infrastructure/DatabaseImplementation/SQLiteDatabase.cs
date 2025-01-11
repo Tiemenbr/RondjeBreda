@@ -30,7 +30,7 @@ public class SQLiteDatabase : IDatabase
         }
 
         string path = Path.Combine(FileSystem.AppDataDirectory, DatabaseName);
-
+        Debug.WriteLine(path);
         if (!File.Exists(path))
         {
             try
@@ -45,7 +45,7 @@ public class SQLiteDatabase : IDatabase
             }
             
         }
-
+        
         _connection = new SQLiteAsyncConnection(path);
 
         await SetupDescriptionTable();
@@ -74,7 +74,7 @@ public class SQLiteDatabase : IDatabase
                 Location Templocation = new Domain.Models.DatabaseModels.Location {
                     Longitude = location.Longitude,
                     Latitude = location.Latitude,
-                    DescriptionNL = TempDescription.DescriptionNL,
+                    Description = TempDescription.DescriptionNL,
                     ImagePath = $"location_{location.PhotoNr}.jpg",
                     Name = location.LocationName
                 };
@@ -108,7 +108,7 @@ public class SQLiteDatabase : IDatabase
                 ImagePath TEXT,
                 Name TEXT,
                 PRIMARY KEY (Longitude, Latitude),
-                FOREIGN KEY (DescriptionNL) REFERENCES Description(DescriptionNL)
+                FOREIGN KEY (Description) REFERENCES Description(DescriptionNL)
             );");
     }
     private async Task SetupRouteComponentTable()
@@ -116,12 +116,12 @@ public class SQLiteDatabase : IDatabase
         await _connection.ExecuteAsync(
             @"CREATE TABLE IF NOT EXISTS RouteComponent (
                 RouteName TEXT NOT NULL,
-                LocationLongitude REAL NOT NULL
+                LocationLongitude REAL NOT NULL,
                 LocationLatitude REAL NOT NULL,
                 Note TEXT,
                 Visited BOOLEAN,
                 RouteOrderNumber INTEGER,
-                PRIMARY KEY (RouteName, Longitude, Latitude),
+                PRIMARY KEY (RouteName, LocationLongitude, LocationLatitude),
                 FOREIGN KEY (RouteName) REFERENCES Route(Name),
                 FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
             );");
@@ -129,7 +129,7 @@ public class SQLiteDatabase : IDatabase
     private async Task SetupDescriptionTable()
     {
         await _connection.ExecuteAsync(
-            @"CREATE TABLE IF NOT EXISTS Location (
+            @"CREATE TABLE IF NOT EXISTS Description (
                 DescriptionNL TEXT NOT NULL,
                 DescriptionEN TEXT,
                 LocationLongitude REAL,
