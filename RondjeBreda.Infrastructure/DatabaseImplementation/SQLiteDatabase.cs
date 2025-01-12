@@ -3,7 +3,6 @@ using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
 using SQLite;
-using System;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -20,8 +19,6 @@ public class SQLiteDatabase : IDatabase
     public SQLiteDatabase() {
     }
 
-
-    // private SQLiteAsyncConnection databaseConnection;
     public async Task Init() 
     {
         if (_connection != null) 
@@ -48,15 +45,26 @@ public class SQLiteDatabase : IDatabase
         
         _connection = new SQLiteAsyncConnection(path);
 
+        await _connection.DropTableAsync<Route>();
+        await _connection.DropTableAsync<RouteComponent>();
+        await _connection.DropTableAsync<Description>();
+        await _connection.DropTableAsync<Location>();
+
         await SetupDescriptionTable();
         await SetupLocationTable();
         await _connection.CreateTableAsync<Route>(); // Isn't complicated like others
         await SetupRouteComponentTable();
 
+        await _connection.ExecuteAsync("PRAGMA foreign_keys = ON;");
+
         CompleteRouteContent content = await ConvertRouteDataToObject();
 
         if (content != null) 
         {
+            await _connection.DeleteAllAsync<Route>();
+            await _connection.DeleteAllAsync<Description>();
+            await _connection.DeleteAllAsync<RouteComponent>();
+            await _connection.DeleteAllAsync<Location>();
 
             Route TempRoute = new Route {
                 Name = "HistorischeKilometer",
@@ -68,8 +76,12 @@ public class SQLiteDatabase : IDatabase
             foreach (RouteLocation location in content.HistorischeKilometerRoute) {
                 Description TempDescription = new Description {
                     DescriptionNL = location.CommentDutch,
-                    DescriptionEN = location.CommentEnglish
+                    DescriptionEN = location.CommentEnglish,
+                    //LocationLongitude = location.Longitude,
+                    //LocationLatitude = location.Latitude
                 };
+
+                await _connection.InsertAsync(TempDescription);
 
                 Location Templocation = new Domain.Models.DatabaseModels.Location {
                     Longitude = location.Longitude,
@@ -79,10 +91,8 @@ public class SQLiteDatabase : IDatabase
                     Name = location.LocationName
                 };
 
-                TempDescription.Location = Templocation;
-
                 await _connection.InsertAsync(Templocation);
-                await _connection.InsertAsync(TempDescription);
+
                 await _connection.InsertAsync(new RouteComponent {
                     RouteName = TempRoute.Name,
                     LocationLongitude = Templocation.Longitude,
@@ -108,7 +118,7 @@ public class SQLiteDatabase : IDatabase
                 ImagePath TEXT,
                 Name TEXT,
                 PRIMARY KEY (Longitude, Latitude),
-                FOREIGN KEY (Description) REFERENCES Description(DescriptionNL)
+                FOREIGN KEY (Description) REFERENCES Description(DescriptionNL) ON DELETE CASCADE ON UPDATE CASCADE
             );");
     }
     private async Task SetupRouteComponentTable()
@@ -134,8 +144,7 @@ public class SQLiteDatabase : IDatabase
                 DescriptionEN TEXT,
                 LocationLongitude REAL,
                 LocationLatitude REAL,
-                PRIMARY KEY (DescriptionNL),
-                FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
+                PRIMARY KEY (DescriptionNL)
             );");
     }
 

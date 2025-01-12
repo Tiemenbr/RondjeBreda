@@ -14,11 +14,8 @@ public class Description : IDatabaseTable
 
     public string DescriptionEN { get; set; }
 
-    [ForeignKey(typeof(Location))]
-    public double LocationLongitude { get; set; } // Part of foreign key
-
-    [ForeignKey(typeof(Location))]
-    public double LocationLatitude { get; set; } // Part of foreign key
+    //public double LocationLongitude { get; set; } // Part of foreign key
+    //public double LocationLatitude { get; set; } // Part of foreign key
 
     [OneToOne]
     public Location Location { get; set; }

@@ -38,7 +38,8 @@ namespace RondjeBreda
             builder.Services.AddTransient<VisitedLocationsViewModel>();
 
             builder.Services.AddSingleton<IPreferences>(o => Preferences.Default);
-            builder.Services.AddSingleton<IDatabase, SQLiteDatabase>(o => {
+            builder.Services.AddSingleton<IDatabase, SQLiteDatabase>(o =>
+            {
                 return new SQLiteDatabase();
             });
 
