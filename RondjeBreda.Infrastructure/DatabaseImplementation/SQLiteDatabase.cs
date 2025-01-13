@@ -46,11 +46,6 @@ public class SQLiteDatabase : IDatabase
         }
         
         _connection = new SQLiteAsyncConnection(path);
-        await _connection.DropTableAsync<RouteComponent>();
-        await _connection.DropTableAsync<Route>();
-        await _connection.DropTableAsync<Location>();
-        await _connection.DropTableAsync<Description>();
-
 
         await SetupDescriptionTable();
         await SetupLocationTable();
@@ -117,6 +112,13 @@ public class SQLiteDatabase : IDatabase
         }
     }
 
+    private async Task dropTables()
+    {
+        await _connection.DropTableAsync<RouteComponent>();
+        await _connection.DropTableAsync<Route>();
+        await _connection.DropTableAsync<Location>();
+        await _connection.DropTableAsync<Description>();
+    }
 
     #region Table Setups
     private async Task SetupLocationTable()
