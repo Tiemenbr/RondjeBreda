@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RondjeBreda.Domain.Interfaces;
+using RondjeBreda.Infrastructure.SettingsImplementation;
 using System.Collections.ObjectModel;
 using RondjeBreda.ViewModels.DataModels;
-using System.ComponentModel;
 using LocalizationResourceManager.Maui;
 
 namespace RondjeBreda.ViewModels;
@@ -64,5 +64,8 @@ public partial class VisitedLocationsViewModel : ObservableObject
             location.Description,
             $"{location.Latitude},{location.Longitude}",
             resourceManager["popupButton"]);
+
+        var textToSpeechSettings = new TextToSpeechSetting();
+        textToSpeechSettings.Speak(location.name);
     }
 }
