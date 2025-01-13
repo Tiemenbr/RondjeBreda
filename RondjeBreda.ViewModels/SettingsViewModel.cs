@@ -17,6 +17,7 @@ public partial class SettingsViewModel : ObservableObject
     private bool textToSpeech;
     private string colorSetting;
     private string language;
+    private bool startup = true;
 
     [ObservableProperty]
     private ObservableCollection<string> colorModes;
@@ -37,11 +38,11 @@ public partial class SettingsViewModel : ObservableObject
         string culture = localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName;
         if (culture == "en")
         {
-            SetLanguageEnglish();
+            LanguageSettingChanged("English");
         } 
         else if (culture == "nl")
         {
-            SetLanguageDutch();
+            LanguageSettingChanged("Nederlands");
         }
     }
 
@@ -102,24 +103,26 @@ public partial class SettingsViewModel : ObservableObject
 
     private void SetLanguageEnglish()
     {
-        if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "en") // Only change the language if it isn't already English 
+        if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "en" || startup) // Only change the language if it isn't already English 
         {
             localizationResourceManager.CurrentCulture = new CultureInfo("en-US");
             // Change color mode language
             ColorMode1 = string.Format(localizationResourceManager["ColorMode1"], "Standard Colors");
             ColorMode2 = string.Format(localizationResourceManager["ColorMode2"], "Black-White");
             RefreshColorModesList();
+            startup = false;
         }
     }
     private void SetLanguageDutch()
     {
-        if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "nl") // Only change the language if it isn't already Dutch
+        if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "nl" || startup) // Only change the language if it isn't already Dutch
         {
             localizationResourceManager.CurrentCulture = new CultureInfo("nl-NL");
             // Change color mode language
             ColorMode1 = string.Format(localizationResourceManager["ColorMode1"], "Standaard Kleuren");
             ColorMode2 = string.Format(localizationResourceManager["ColorMode2"], "Zwart-Wit");
             RefreshColorModesList();
+            startup = false;
         }
     }
 
