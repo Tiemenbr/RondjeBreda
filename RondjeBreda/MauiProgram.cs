@@ -28,7 +28,7 @@ namespace RondjeBreda
                 .UseLocalizationResourceManager(settings => {
                     settings.RestoreLatestCulture(true); // Saves the state of the app when closed, so no Preferences are needed
                     settings.AddResource(AppResource.ResourceManager); // Adds a ResourceManager to keep track of language
-                    settings.InitialCulture(new CultureInfo("en-US")); // Set the initial languag always to English
+                    settings.InitialCulture(new CultureInfo("en-US")); // Set the initial language always to English
                 })
                 .UseMauiCommunityToolkit();
 

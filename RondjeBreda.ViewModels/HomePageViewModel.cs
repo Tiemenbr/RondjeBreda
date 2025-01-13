@@ -110,7 +110,7 @@ public partial class HomePageViewModel : ObservableObject
         this.nextLocation = routePoints[this.indexRoute];
 
         // TODO: picker moet route inladen
-        ReadyNextLine();
+        await ReadyNextLine();
         DrawCircleNextLocation();
         SetMapSpan();
         
