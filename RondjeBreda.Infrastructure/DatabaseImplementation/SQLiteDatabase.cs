@@ -177,34 +177,64 @@ public class SQLiteDatabase : IDatabase
         return await _connection.Table<Description>().ToArrayAsync();
     }
 
-    public async Task<RouteComponent[]> GetRouteComponentTable()
+    public async Task<RouteComponent[]> GetRouteComponentTableAsync()
     {
         return await _connection.Table<RouteComponent>().ToArrayAsync();
     }
+
+    public async Task<RouteComponent[]> GetRouteComponentFromRouteAsync(string routeName)
+    {
+        return await _connection.Table<RouteComponent>()
+            .Where(routeComponent => routeComponent.RouteName == routeName)
+            .ToArrayAsync();
+    }
     #endregion
 
-    public async Task<Route> GetRouteAsync()
+    #region GetDatabaseItemMethods
+    public async Task<Route> GetRouteAsync(string routeName)
     {
-        throw new NotImplementedException();
+        return await _connection.Table<Route>()
+            .Where(route => route.Name == routeName)
+            .FirstOrDefaultAsync();
     }    
     
-    public async Task<Route> GetLocationAsync()
+    public async Task<Location> GetLocationAsync(double longitude, double latitude)
     {
-        throw new NotImplementedException();
+        return await _connection.Table<Location>()
+            .Where(location => location.Longitude == longitude && location.Latitude == latitude)
+            .FirstOrDefaultAsync();
     }    
     
-    public async Task<Route> GetDescriptionAsync()
+    public async Task<Description> GetDescriptionAsync(string descriptionNL)
     {
-        throw new NotImplementedException();
+        return await _connection.Table<Description>()
+            .Where(description => description.DescriptionNL == descriptionNL)
+            .FirstOrDefaultAsync();
     }
 
-    public void GetDatabaseItemAsync() 
+    public async Task<RouteComponent> GetRouteComponentAsync(string routeName, double longitude, double latitude)
     {
-        throw new NotImplementedException();
+        return await _connection.Table<RouteComponent>()
+            .Where(routeComponent => 
+            routeComponent.RouteName == routeName 
+            && routeComponent.LocationLongitude == longitude 
+            && routeComponent.LocationLatitude == latitude)
+            .FirstOrDefaultAsync();
+    }
+    #endregion
+
+    #region UpdateDatabaseItemMethods
+    public async Task UpdateRoute(string name, bool newActiveState)
+    {
+        await _connection.UpdateAsync(new Route { Name = name, Active = newActiveState });
     }
 
-    public void UpdateDatabaseItemAsync() 
+    public async Task UpdateRouteComponent(string routeName, double longitude, double latitude, bool newIsVisited)
     {
-        throw new NotImplementedException();
+        RouteComponent routeComponent = await GetRouteComponentAsync(routeName, longitude, latitude);
+        routeComponent.Visited = newIsVisited;
+        await _connection.UpdateAsync(routeComponent);
     }
+
+    #endregion
 }
