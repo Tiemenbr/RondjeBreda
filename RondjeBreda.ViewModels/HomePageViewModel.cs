@@ -217,13 +217,33 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapSpan();
     }
 
+    private void SetOverviewMapSpan()
+    {
+        var minLatitude = Pins.Min(p => p.Location.Latitude);
+        var maxLatitude = Pins.Max(p => p.Location.Latitude);
+        var minLongitude = Pins.Min(p => p.Location.Longitude);
+        var maxLongitude = Pins.Max(p => p.Location.Longitude);
+
+        var centerLatitude = (minLatitude + maxLatitude) / 2;
+        var centerLongitude = (minLongitude + maxLongitude) / 2;
+        var center = new Microsoft.Maui.Devices.Sensors.Location(centerLatitude, centerLongitude);
+
+        var distance = Math.Max(
+            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(
+                minLatitude, minLongitude, maxLatitude, maxLongitude, DistanceUnits.Kilometers), 1 
+        );
+
+        MapSpan mapSpan = MapSpan.FromCenterAndRadius(center, Distance.FromKilometers(distance));
+        CurrentMapSpan = mapSpan;
+        UpdateMapSpan();
+        UpdatePins();
+        UpdateMapElements();
+    }
+
     [RelayCommand]
     private void ImageButtonPressed()
     {
-        Polylines.Clear();
-        LoadRoute(new Route());
-        DrawCircleNextLocation();
-        SetMapSpan();
+        // TODO: start/stop button
     }
 
     public async Task<List<Location>> LoadPoints()
@@ -263,4 +283,13 @@ public partial class HomePageViewModel : ObservableObject
 
         Routes = testList;
     }
+
+    public void routeSelected()
+    {
+        Polylines.Clear();
+        LoadRoute(new Route());
+        SetOverviewMapSpan();
+    }
+
+    
 }
