@@ -287,18 +287,15 @@ public partial class HomePageViewModel : ObservableObject
 
     public async Task LoadRouteFromDatabase()
     {
-        // TODO: DatabaseRoute tabel goed ophalen
-        // database.GetDatabaseTableAsync();
-
-        // Testdata
-        var testList = new ObservableCollection<Domain.Models.DatabaseModels.Route>();
-        testList.Add(new Domain.Models.DatabaseModels.Route
+        var routes = await database.GetRouteTableAsync();
+        var routeList = new ObservableCollection<Domain.Models.DatabaseModels.Route>();
+        foreach (var route in routes)
         {
-            Name = "Historische Kilometer",
-            Active = false
-        });
+            routeList.Add(route);
+        }
 
-        Routes = testList;
+        Routes = routeList;
+
         this.routePaused = true;
     }
 

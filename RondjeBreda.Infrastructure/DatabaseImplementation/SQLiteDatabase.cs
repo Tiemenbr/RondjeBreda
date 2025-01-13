@@ -137,7 +137,7 @@ public class SQLiteDatabase : IDatabase
                 Visited BOOLEAN,
                 RouteOrderNumber INTEGER,
                 PRIMARY KEY (RouteName, LocationLongitude, LocationLatitude),
-                FOREIGN KEY (RouteName) REFERENCES DatabaseRoute(Name),
+                FOREIGN KEY (RouteName) REFERENCES Route(Name),
                 FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
             );");
     }
