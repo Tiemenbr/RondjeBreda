@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RondjeBreda", "RondjeBreda\RondjeBreda.csproj", "{BE35BA73-0D03-42BD-8599-979879778BE5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D1BA481-5BC4-4580-AC34-AA8C728CB077} = {0D1BA481-5BC4-4580-AC34-AA8C728CB077}
+		{B681F6D8-0A16-4990-90F5-F1732DED7E0D} = {B681F6D8-0A16-4990-90F5-F1732DED7E0D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RondjeBreda.ViewModels", "RondjeBreda.ViewModels\RondjeBreda.ViewModels.csproj", "{D6D28583-5AC7-498B-9892-50BB0721B2EE}"
 EndProject

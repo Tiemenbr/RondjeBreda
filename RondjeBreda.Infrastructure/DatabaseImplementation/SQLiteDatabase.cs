@@ -181,9 +181,8 @@ public class SQLiteDatabase : IDatabase
     }
 
     #endregion
-    private async Task<CompleteRouteContent> ConvertRouteDataToObject() 
+    public async Task<CompleteRouteContent> ConvertRouteDataToObject() 
     {
-
         using var stream = await FileSystem.OpenAppPackageFileAsync("Configuration.JSON");
         using var reader = new StreamReader(stream);
 
