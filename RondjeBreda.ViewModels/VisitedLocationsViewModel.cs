@@ -33,11 +33,16 @@ public partial class VisitedLocationsViewModel : ObservableObject
     public async Task LoadTestData()
     {
         VisitedLocations.Clear();
-        var locations = await database.GetVisitedRouteComponentsFromRouteAsync("Historische Kilometer");
-        foreach (var component in locations)
+        var components = await database.GetVisitedRouteComponentsFromRouteAsync("Historische Kilometer");
+        foreach (var component in components)
         {
             Domain.Models.DatabaseModels.Location location =
             await database.GetLocationAsync(component.LocationLongitude, component.LocationLatitude);
+
+            if (location == null)
+            {
+                continue;
+            }
 
             VisitedLocations.Add(new LocationViewModel()
             {

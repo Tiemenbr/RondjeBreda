@@ -11,6 +11,7 @@ using Microsoft.Maui.Maps;
 using RondjeBreda.Domain.Models;
 using Distance = Microsoft.Maui.Maps.Distance;
 using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
+using RondjeBreda.Infrastructure;
 
 namespace RondjeBreda.ViewModels;
 
@@ -58,16 +59,29 @@ public partial class HomePageViewModel : ObservableObject
         this.popUp = popUp;
         this.localizationResourceManager = localizationResourceManager;
 
-        this.geolocation.StartListeningForegroundAsync(new GeolocationListeningRequest
-        {
-            MinimumTime = TimeSpan.FromSeconds(10),
-            DesiredAccuracy = GeolocationAccuracy.Best
-        });
-
-        this.geolocation.LocationChanged += LocationChanged;
     }
 
-
+    public async Task StartListening()
+    {
+        try
+        {
+            await geolocation.StartListeningForegroundAsync(new GeolocationListeningRequest
+            {
+                MinimumTime = TimeSpan.FromSeconds(10),
+                DesiredAccuracy = GeolocationAccuracy.Best
+            });
+            geolocation.LocationChanged += LocationChanged;
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Geolocation not available");
+            await popUp.ShowPopUpAsync("",
+                "",
+                "Location not available!",
+                "Please turn on your location or give the app permissions!",
+                localizationResourceManager["popupButton"]);
+        }
+    }
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
         this.userLat = e.Location.Latitude;
@@ -121,6 +135,12 @@ public partial class HomePageViewModel : ObservableObject
     {
         // Punten van de geselecteerde route laden
         this.routePoints = await LoadPoints();
+
+        if (routePoints.Count == 0)
+        {
+            return;
+        }
+
         if (nextLocation == null)
         {
             this.nextLocation = routePoints[0];
@@ -243,6 +263,11 @@ public partial class HomePageViewModel : ObservableObject
 
     private void SetMapSpan()
     {
+        if (this.nextLocation == null)
+        {
+            return;
+        }
+
         var centerLat = (this.nextLocation.Latitude + userLat) / 2;
         var centerLon = (this.nextLocation.Longitude + userLon) / 2;
 
@@ -260,7 +285,12 @@ public partial class HomePageViewModel : ObservableObject
 
     private void SetOverviewMapSpan()
     {
-            var minLatitude = Pins.Min(p => p.Location.Latitude);
+        if (Pins.Count == 0)
+        {
+            return;
+        }
+
+        var minLatitude = Pins.Min(p => p.Location.Latitude);
         var maxLatitude = Pins.Max(p => p.Location.Latitude);
         var minLongitude = Pins.Min(p => p.Location.Longitude);
         var maxLongitude = Pins.Max(p => p.Location.Longitude);
@@ -304,11 +334,28 @@ public partial class HomePageViewModel : ObservableObject
         // TODO: DatabaseRoute component tabel goed ophalen
         var routeComponents = await database.GetRouteComponentFromRouteAsync("Historische Kilometer");
         Debug.WriteLine($"Size: {routeComponents.Length}");
+
+        if (routeComponents.Length == 0)
+        {
+            await popUp.ShowPopUpAsync(
+                "", 
+                "No route components found", 
+                "", 
+                "",
+                localizationResourceManager["popupButton"]);
+            return new List<Location>();
+        }
+
         var locations = new List<Location>();
         foreach (var component in routeComponents)
         {
             Domain.Models.DatabaseModels.Location location =
                 await database.GetLocationAsync(component.LocationLongitude, component.LocationLatitude);
+
+            if (location == null)
+            {
+                continue;
+            }
 
             locations.Add(new Location
             {

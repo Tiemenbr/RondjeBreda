@@ -81,6 +81,7 @@ namespace RondjeBreda.Pages
 
         protected override async void OnAppearing() {
             base.OnAppearing();
+            await homePageViewModel.StartListening();
             await database.Init();
             await homePageViewModel.LoadRouteFromDatabase();
         }

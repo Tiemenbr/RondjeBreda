@@ -1,4 +1,4 @@
-﻿using Microsoft.Maui.Storage;
+using Microsoft.Maui.Storage;
 using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
@@ -121,7 +121,9 @@ public class SQLiteDatabase : IDatabase
     #region Table Setups
     private async Task SetupLocationTable()
     {
-        await _connection.ExecuteAsync(
+        try
+        {
+            await _connection.ExecuteAsync(
             @"CREATE TABLE IF NOT EXISTS Location (
                 Longitude REAL NOT NULL,
                 Latitude REAL NOT NULL,
@@ -131,11 +133,18 @@ public class SQLiteDatabase : IDatabase
                 PRIMARY KEY (Longitude, Latitude),
                 FOREIGN KEY (Description) REFERENCES Description(DescriptionNL) ON DELETE CASCADE ON UPDATE CASCADE
             );");
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Could not create Location table");
+        }
     }
     private async Task SetupRouteComponentTable()
     {
-        await _connection.ExecuteAsync(
-            @"CREATE TABLE IF NOT EXISTS RouteComponent (
+        try
+        {
+            await _connection.ExecuteAsync(
+                        @"CREATE TABLE IF NOT EXISTS RouteComponent (
                 RouteName TEXT NOT NULL,
                 LocationLongitude REAL NOT NULL,
                 LocationLatitude REAL NOT NULL,
@@ -146,15 +155,27 @@ public class SQLiteDatabase : IDatabase
                 FOREIGN KEY (RouteName) REFERENCES Route(Name),
                 FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
             );");
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Could not create RouteComponent table");
+        }
     }
     private async Task SetupDescriptionTable()
     {
-        await _connection.ExecuteAsync(
+        try
+        {
+            await _connection.ExecuteAsync(
             @"CREATE TABLE IF NOT EXISTS Description (
                 DescriptionNL TEXT NOT NULL,
                 DescriptionEN TEXT,
                 PRIMARY KEY (DescriptionNL)
             );");
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Could not create Description table");
+        }
     }
 
     #endregion
@@ -172,80 +193,171 @@ public class SQLiteDatabase : IDatabase
     #region GetTableMethods
     public async Task<Domain.Models.DatabaseModels.Route[]> GetRouteTableAsync()
     {
-        return await _connection.Table<Route>().ToArrayAsync();
+        try
+        {
+            return await _connection.Table<Route>().ToArrayAsync();
+        } catch (Exception)
+        {
+            Debug.WriteLine("Could not get routes");
+            return new Route[] { };
+        }
     }    
     
     public async Task<Domain.Models.DatabaseModels.Location[]> GetLocationTableAsync()
     {
-        return await _connection.Table<Domain.Models.DatabaseModels.Location>().ToArrayAsync();
+        try
+        {
+            return await _connection.Table<Domain.Models.DatabaseModels.Location>().ToArrayAsync();
+        } catch (Exception)
+        {
+            Debug.WriteLine("Could not get locations");
+            return new Domain.Models.DatabaseModels.Location[] { };
+        }
     }    
     
     public async Task<Description[]> GetDescriptionTableAsync()
     {
-        return await _connection.Table<Description>().ToArrayAsync();
+        try
+        {
+            return await _connection.Table<Description>().ToArrayAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Could not get Descriptions");
+            return new Description[] { };
+        }
     }
 
     public async Task<RouteComponent[]> GetRouteComponentTableAsync()
     {
-        return await _connection.Table<RouteComponent>().ToArrayAsync();
+        try
+        {
+            return await _connection.Table<RouteComponent>().ToArrayAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Could not get route components");
+            return new RouteComponent[] { };
+        }
     }
 
     public async Task<RouteComponent[]> GetRouteComponentFromRouteAsync(string routeName)
     {
-        return await _connection.Table<RouteComponent>()
+        try
+        {
+            return await _connection.Table<RouteComponent>()
             .Where(routeComponent => routeComponent.RouteName == routeName)
             .ToArrayAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine($"Could not get Route components from route {routeName}");
+            return new RouteComponent[] { };
+        }
+        
     }
     
     public async Task<RouteComponent[]> GetVisitedRouteComponentsFromRouteAsync(string routeName)
     {
-        return await _connection.Table<RouteComponent>()
+        try
+        {
+            return await _connection.Table<RouteComponent>()
             .Where(routeComponent => routeComponent.RouteName == routeName
             && routeComponent.Visited).ToArrayAsync();
+        } catch (Exception)
+        {
+            Debug.WriteLine($"Could not get route component with name {routeName}");
+            return new RouteComponent[] { };
+        }
+
     }
     #endregion
 
     #region GetDatabaseItemMethods
     public async Task<Domain.Models.DatabaseModels.Route> GetRouteAsync(string routeName)
     {
+        try
+        {
         return await _connection.Table<Domain.Models.DatabaseModels.Route>()
             .Where(route => route.Name == routeName)
             .FirstOrDefaultAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine($"Could not get route {routeName}");
+            return new Route() { };
+        }
     }    
     
     public async Task<Domain.Models.DatabaseModels.Location> GetLocationAsync(double longitude, double latitude)
     {
+        try
+        {
         return await _connection.Table<Domain.Models.DatabaseModels.Location>()
             .Where(location => location.Longitude == longitude && location.Latitude == latitude)
             .FirstOrDefaultAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine($"Could not get location with long {longitude} en lat {latitude}");
+            return null;
+        }
     }    
     
     public async Task<Description> GetDescriptionAsync(string descriptionNL)
     {
-        return await _connection.Table<Description>()
+        try
+        {
+            return await _connection.Table<Description>()
             .Where(description => description.DescriptionNL == descriptionNL)
             .FirstOrDefaultAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine($"Could not get Description with key {descriptionNL}");
+            return new Description() { };
+        }
+        
     }
 
     public async Task<RouteComponent> GetRouteComponentAsync(string routeName, double longitude, double latitude)
     {
-        return await _connection.Table<RouteComponent>()
-            .Where(routeComponent => 
-            routeComponent.RouteName == routeName 
-            && routeComponent.LocationLongitude == longitude 
-            && routeComponent.LocationLatitude == latitude)
-            .FirstOrDefaultAsync();
+        try
+        {
+            return await _connection.Table<RouteComponent>()
+            .Where(routeComponent =>
+            routeComponent.RouteName == routeName
+            && routeComponent.LocationLongitude == longitude
+            && routeComponent.LocationLatitude == latitude
+            ).FirstOrDefaultAsync();
+        } catch (Exception)
+        {
+            Debug.WriteLine($"Could not get route component with " +
+                $"\nName {routeName}" +
+                $"\nLong {longitude}" +
+                $"\nLat {latitude}");
+            return new RouteComponent() { };
+        }
+        
     }
     #endregion
 
     #region UpdateDatabaseItemMethods
     public async Task UpdateRoute(string name, bool newActiveState)
     {
+        try
+        {
         await _connection.UpdateAsync(new Domain.Models.DatabaseModels.Route { Name = name, Active = newActiveState });
+        } catch (Exception)
+        {
+            Debug.WriteLine($"Could not update route {name}");
+        }
     }
 
     public async Task UpdateRouteComponent(string routeName, double longitude, double latitude, bool newIsVisited)
     {
+        try
+        {
         RouteComponent routeComponent = await GetRouteComponentAsync(routeName, longitude, latitude);
         routeComponent.Visited = newIsVisited;
 
@@ -254,6 +366,13 @@ public class SQLiteDatabase : IDatabase
                          WHERE RouteName = ? AND LocationLongitude = ? AND LocationLatitude = ?";
         await _connection.ExecuteAsync(query, newIsVisited, routeName, longitude, latitude);
 
+        } catch (Exception)
+        {
+            Debug.WriteLine("Could not update route component with" +
+                $"\nName: {routeName}" +
+                $"\nLong: {longitude}" +
+                $"\nLat: {latitude}");
+        }
     }
     #endregion
 }
