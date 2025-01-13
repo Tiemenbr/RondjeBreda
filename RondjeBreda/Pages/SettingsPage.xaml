@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+             x:Class="RondjeBreda.Pages.SettingsPage">
+    <!-- Styles for Light & Dark modes-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="CheckBox" x:Key="CheckBoxStyle">
+                <Setter Property="Color" Value="{AppThemeBinding Light=Black, Dark=White}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+            <Style TargetType="Label" x:Key="LabelStyle">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="30" />
+            </Style>
+            <Style TargetType="Picker" x:Key="PickerStyle">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}" />
+                <Setter Property="TitleColor" Value="LightGray" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="WidthRequest" Value="275" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Page Contents -->
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            
+            <!-- Text to speech-->
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                <CheckBox CheckedChanged="CheckBox_OnCheckedChanged" Scale="2" Style="{StaticResource CheckBoxStyle}" />
+                <Label Text="{lang:Translate TextToSpeech}" Style="{StaticResource LabelStyle}" />
+            </HorizontalStackLayout>
+
+            <!-- Color settings-->
+            <Picker Title="{lang:Translate ColorSelection}" SelectedIndex="0" ItemsSource="{Binding ColorModes}" SelectedIndexChanged="PickerColorSetting_OnSelectedIndexChanged" Style="{StaticResource PickerStyle}" />
+
+            <!-- Language settings-->
+            <Picker Title="{lang:Translate LanguageSelection}" SelectedIndex="0" SelectedIndexChanged="PickerLanguage_OnSelectedIndexChanged" Style="{StaticResource PickerStyle}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>English</x:String>
+                        <x:String>Nederlands</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
