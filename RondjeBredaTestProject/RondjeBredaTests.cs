@@ -1,10 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
 using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
-using System.Threading.Tasks;
+using Location = RondjeBreda.Domain.Models.DatabaseModels.Location;
+using Route = RondjeBreda.Domain.Models.DatabaseModels.Route;
 
 namespace RondjeBredaTestProject
 {
