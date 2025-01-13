@@ -20,10 +20,4 @@ public class RouteComponent : IDatabaseTable
     public bool Visited { get; set; }
 
     public int RouteOrderNumber { get; set; }
-
-    [ManyToOne]
-    public Route route { get; set; } 
-
-    [ManyToOne]
-    public Location location { get; set; }
 }

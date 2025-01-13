@@ -7,8 +7,7 @@
       "longitude": 4.779417,
       "naam": "Oude VVV-pand",
       "opmerkingNL": "Vertrekpunt station",
-      "opmerkingEN": "Starting point station",
-      "CommentDutch": "1"
+      "opmerkingEN": "Starting point station"
     },
     {
       "fotoNr": 3,
@@ -16,9 +15,8 @@
       "latitude": 51.593278,
       "longitude": 4.779388,
       "naam": "Liefdeszuster",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "2"
+      "opmerkingNL": "1",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 4,
@@ -26,9 +24,8 @@
       "latitude": 51.592500,
       "longitude": 4.779695,
       "naam": "Nassau Baronie Monument",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "3"
+      "opmerkingNL": "2",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 5,
@@ -36,9 +33,8 @@
       "latitude": 51.592833,
       "longitude": 4.778472,
       "naam": "The Light House",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "4"
+      "opmerkingNL": "3",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 13,
@@ -47,8 +43,7 @@
       "longitude": 4.777000,
       "naam": "Kasteel van Breda",
       "opmerkingNL": "Kasteelplein",
-      "opmerkingEN": "Castle square",
-      "CommentDutch": "5"
+      "opmerkingEN": "Castle square"
     },
     {
       "fotoNr": 9,
@@ -56,9 +51,8 @@
       "latitude": 51.589695,
       "longitude": 4.776138,
       "naam": "Stadhouderspoort",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "6"
+      "opmerkingNL": "4",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 12,
@@ -66,9 +60,8 @@
       "latitude": 51.590333,
       "longitude": 4.776000,
       "naam": "Kruising Kasteelplein/Cingelstraat",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "7"
+      "opmerkingNL": "5",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 11,
@@ -76,19 +69,17 @@
       "latitude": 51.590388,
       "longitude": 4.775000,
       "naam": "Bocht Cingelstraat",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "8"
+      "opmerkingNL": "6",
+      "opmerkingEN": null
     },
     {
-      "fotoNr": "6,14,22,21",
+      "fotoNr": 6,
       "routeNr": 5,
       "latitude": 51.590195,
       "longitude": 4.773445,
       "naam": "Huis van Brecht (rechter zijde)",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "9"
+      "opmerkingNL": "7",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 20,
@@ -96,9 +87,8 @@
       "latitude": 51.589833,
       "longitude": 4.773333,
       "naam": "Spanjaardsgat (rechter zijde)",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "10"
+      "opmerkingNL": "8",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 19,
@@ -106,9 +96,8 @@
       "latitude": 51.589361,
       "longitude": 4.774445,
       "naam": "Begin Vismarkt",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "11"
+      "opmerkingNL": "9",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 16,
@@ -116,19 +105,17 @@
       "latitude": 51.588778,
       "longitude": 4.774889,
       "naam": "Begin Havermarkt",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "12"
+      "opmerkingNL": "10",
+      "opmerkingEN": null
     },
     {
-      "fotoNr": "10,16",
+      "fotoNr": 10,
       "routeNr": 5,
       "latitude": 51.588833,
       "longitude": 4.775278,
       "naam": "Grote Kerk",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "13"
+      "opmerkingNL": "11",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 15,
@@ -136,9 +123,8 @@
       "latitude": 51.588195,
       "longitude": 4.775139,
       "naam": "Het Poortje",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "14"
+      "opmerkingNL": "12",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 20,
@@ -146,9 +132,8 @@
       "latitude": 51.587083,
       "longitude": 4.775750,
       "naam": "Ridderstraat",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "15"
+      "opmerkingNL": "15",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 17,
@@ -157,18 +142,16 @@
       "longitude": 4.776555,
       "naam": "Grote Markt",
       "opmerkingNL": "Zuidpunt Grote Markt",
-      "opmerkingEN": "Southern point Grote Markt",
-      "CommentDutch": "16"
+      "opmerkingEN": "Southern point Grote Markt"
     },
     {
-      "fotoNr": "24,25",
+      "fotoNr": 24,
       "routeNr": 5,
       "latitude": 51.588028,
       "longitude": 4.776333,
       "naam": "Bevrijdingsmonument",
       "opmerkingNL": "Advies vertrekpunt VVV",
-      "opmerkingEN": "Recommended starting point VVV",
-      "CommentDutch": "17"
+      "opmerkingEN": "Recommended starting point VVV"
     },
     {
       "fotoNr": 26,
@@ -176,9 +159,8 @@
       "latitude": 51.587639,
       "longitude": 4.777250,
       "naam": "Antonius van Paduakerk",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "18"
+      "opmerkingNL": "18",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 27,
@@ -186,9 +168,8 @@
       "latitude": 51.588278,
       "longitude": 4.778500,
       "naam": "Kruising St.Janstraat/Molenstraat",
-      "opmerkingNL": null,
-      "opmerkingEN": null,
-      "CommentDutch": "19"
+      "opmerkingNL": "19",
+      "opmerkingEN": null
     },
     {
       "fotoNr": 29,
@@ -196,7 +177,7 @@
       "latitude": 51.587028,
       "longitude": 4.7802,
       "Naam": "unkown",
-      "CommentDutch": "20"
+      "opmerkingNL": "20"
     }
   ]
 }

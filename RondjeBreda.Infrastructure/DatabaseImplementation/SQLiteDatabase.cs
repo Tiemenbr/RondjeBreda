@@ -45,11 +45,6 @@ public class SQLiteDatabase : IDatabase
         
         _connection = new SQLiteAsyncConnection(path);
 
-        await _connection.DropTableAsync<Route>();
-        await _connection.DropTableAsync<RouteComponent>();
-        await _connection.DropTableAsync<Description>();
-        await _connection.DropTableAsync<Location>();
-
         await SetupDescriptionTable();
         await SetupLocationTable();
         await _connection.CreateTableAsync<Route>(); // Isn't complicated like others
@@ -57,15 +52,16 @@ public class SQLiteDatabase : IDatabase
 
         await _connection.ExecuteAsync("PRAGMA foreign_keys = ON;");
 
+        Route historischeKilometer = await _connection.Table<Route>().Where(route => route.Name == "HistorischeKilometer").FirstOrDefaultAsync();
+
+        if (historischeKilometer != null)
+            return;
+
         CompleteRouteContent content = await ConvertRouteDataToObject();
 
         if (content != null) 
         {
-            await _connection.DeleteAllAsync<Route>();
-            await _connection.DeleteAllAsync<Description>();
-            await _connection.DeleteAllAsync<RouteComponent>();
-            await _connection.DeleteAllAsync<Location>();
-
+            
             Route TempRoute = new Route {
                 Name = "HistorischeKilometer",
                 Active = false
@@ -73,13 +69,20 @@ public class SQLiteDatabase : IDatabase
 
             await _connection.InsertAsync(TempRoute);
 
+            int noDescriptionCounter = 0;
+
             foreach (RouteLocation location in content.HistorischeKilometerRoute) {
+                noDescriptionCounter++;
+                Debug.WriteLine($"Longitude: {location.Longitude} & Latitude: {location.Latitude}");
                 Description TempDescription = new Description {
                     DescriptionNL = location.CommentDutch,
-                    DescriptionEN = location.CommentEnglish,
-                    //LocationLongitude = location.Longitude,
-                    //LocationLatitude = location.Latitude
+                    DescriptionEN = location.CommentEnglish
                 };
+
+                if (TempDescription.DescriptionNL == null)
+                {
+                    TempDescription.DescriptionNL = $"NoDescription{noDescriptionCounter}";
+                }
 
                 await _connection.InsertAsync(TempDescription);
 
@@ -142,8 +145,6 @@ public class SQLiteDatabase : IDatabase
             @"CREATE TABLE IF NOT EXISTS Description (
                 DescriptionNL TEXT NOT NULL,
                 DescriptionEN TEXT,
-                LocationLongitude REAL,
-                LocationLatitude REAL,
                 PRIMARY KEY (DescriptionNL)
             );");
     }
@@ -160,12 +161,39 @@ public class SQLiteDatabase : IDatabase
         return JsonSerializer.Deserialize<CompleteRouteContent>(json);
     }
 
-    private async Task addTable(IDatabaseTable databaseTable) 
+    #region GetTableMethods
+    public async Task<Route[]> GetRouteTableAsync()
     {
-        await _connection.InsertAsync(databaseTable);
+        return await _connection.Table<Route>().ToArrayAsync();
+    }    
+    
+    public async Task<Location[]> GetLocationTableAsync()
+    {
+        return await _connection.Table<Location>().ToArrayAsync();
+    }    
+    
+    public async Task<Description[]> GetDescriptionTableAsync()
+    {
+        return await _connection.Table<Description>().ToArrayAsync();
     }
 
-    public void GetDatabaseTableAsync() 
+    public async Task<RouteComponent[]> GetRouteComponentTable()
+    {
+        return await _connection.Table<RouteComponent>().ToArrayAsync();
+    }
+    #endregion
+
+    public async Task<Route> GetRouteAsync()
+    {
+        throw new NotImplementedException();
+    }    
+    
+    public async Task<Route> GetLocationAsync()
+    {
+        throw new NotImplementedException();
+    }    
+    
+    public async Task<Route> GetDescriptionAsync()
     {
         throw new NotImplementedException();
     }

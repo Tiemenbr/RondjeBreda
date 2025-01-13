@@ -6,7 +6,12 @@
 public interface IDatabase
 {
     Task Init();
-    void GetDatabaseTableAsync();
-    void GetDatabaseItemAsync();
-    void UpdateDatabaseItemAsync();
+
+    private async Task addTable(IDatabaseTable databaseTable);
+
+    public async Task<Route[]> GetRouteTableAsync();
+
+    public async Task<Route[]> GetRouteTableAsync();
+
+    public async Task<Route[]> GetRouteTableAsync();
 }

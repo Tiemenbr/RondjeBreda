@@ -1,33 +1,36 @@
 ﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace RondjeBreda.Domain.Models
 {
-
     public class CompleteRouteContent
     {
+
+        [JsonPropertyName("HistorischeKilometerRoute")]
         public RouteLocation[] HistorischeKilometerRoute { get; set; }
     }
 
     public class RouteLocation
     {
-        [JsonProperty("fotoNr")]
-        public string PhotoNr { get; set; }
+        [JsonPropertyName("fotoNr")]
+        public int PhotoNr { get; set; }
 
-        [JsonProperty("noorderBreedte")]
+        [JsonPropertyName("latitude")]
         public double Latitude { get; set; }
 
-        [JsonProperty("oosterLengte")]
+        [JsonPropertyName("longitude")]
         public double Longitude { get; set; }
 
-        [JsonProperty("naam")]
+        [JsonPropertyName("naam")]
         public string LocationName { get; set; }
 
-        [JsonProperty("opmerkingNL")]
+        [JsonPropertyName("opmerkingNL")]
         public string CommentDutch { get; set; }
         
-        [JsonProperty("opmerkingEN")]
+        [JsonPropertyName("opmerkingEN")]
         public string CommentEnglish { get; set; }
 
+        [JsonPropertyName("routeNr")]
         public int routeNr { get; set; }
     }
 

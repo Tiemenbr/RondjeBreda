@@ -19,7 +19,4 @@ public class Location : IDatabaseTable
     public string ImagePath { get; set; }
 
     public string Name { get; set; }
-
-    [OneToOne]
-    public Description description { get; set; }
 }

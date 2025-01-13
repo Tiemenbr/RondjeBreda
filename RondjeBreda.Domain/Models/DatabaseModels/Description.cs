@@ -13,10 +13,4 @@ public class Description : IDatabaseTable
     public string DescriptionNL { get; set; }
 
     public string DescriptionEN { get; set; }
-
-    //public double LocationLongitude { get; set; } // Part of foreign key
-    //public double LocationLatitude { get; set; } // Part of foreign key
-
-    [OneToOne]
-    public Location Location { get; set; }
 }
