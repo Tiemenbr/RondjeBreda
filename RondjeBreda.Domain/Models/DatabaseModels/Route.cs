@@ -1,4 +1,4 @@
-﻿using RondjeBreda.Domain.Interfaces;
+using RondjeBreda.Domain.Interfaces;
 using SQLite;
 
 namespace RondjeBreda.Domain.Models.DatabaseModels;
@@ -14,4 +14,8 @@ public class Route : IDatabaseTable
     public string Name { get; set; }
 
     public bool Active { get; set; }
+    public override string ToString()
+    {
+        return Name;
+    }
 }

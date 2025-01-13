@@ -5,6 +5,7 @@ using RondjeBreda.Domain.Models.DatabaseModels;
 using SQLite;
 using System.Diagnostics;
 using System.Text.Json;
+using Route = RondjeBreda.Domain.Models.DatabaseModels.Route;
 
 namespace RondjeBreda.Infrastructure.DatabaseImplementation;
 
@@ -47,12 +48,12 @@ public class SQLiteDatabase : IDatabase
 
         await SetupDescriptionTable();
         await SetupLocationTable();
-        await _connection.CreateTableAsync<Route>(); // Isn't complicated like others
+        await _connection.CreateTableAsync<Domain.Models.DatabaseModels.Route>(); // Isn't complicated like others
         await SetupRouteComponentTable();
 
         await _connection.ExecuteAsync("PRAGMA foreign_keys = ON;");
 
-        Route historischeKilometer = await _connection.Table<Route>().Where(route => route.Name == "HistorischeKilometer").FirstOrDefaultAsync();
+        Domain.Models.DatabaseModels.Route historischeKilometer = await _connection.Table<Domain.Models.DatabaseModels.Route>().Where(route => route.Name == "HistorischeKilometer").FirstOrDefaultAsync();
 
         if (historischeKilometer != null)
             return;
@@ -61,8 +62,9 @@ public class SQLiteDatabase : IDatabase
 
         if (content != null) 
         {
-            
-            Route TempRoute = new Route {
+
+            Domain.Models.DatabaseModels.Route TempRoute = new Domain.Models.DatabaseModels.Route
+            {
                 Name = "HistorischeKilometer",
                 Active = false
             };
@@ -86,7 +88,7 @@ public class SQLiteDatabase : IDatabase
 
                 await _connection.InsertAsync(TempDescription);
 
-                Location Templocation = new Domain.Models.DatabaseModels.Location {
+                Domain.Models.DatabaseModels.Location Templocation = new Domain.Models.DatabaseModels.Location {
                     Longitude = location.Longitude,
                     Latitude = location.Latitude,
                     Description = TempDescription.DescriptionNL,
@@ -135,7 +137,7 @@ public class SQLiteDatabase : IDatabase
                 Visited BOOLEAN,
                 RouteOrderNumber INTEGER,
                 PRIMARY KEY (RouteName, LocationLongitude, LocationLatitude),
-                FOREIGN KEY (RouteName) REFERENCES Route(Name),
+                FOREIGN KEY (RouteName) REFERENCES DatabaseRoute(Name),
                 FOREIGN KEY (LocationLongitude, LocationLatitude) REFERENCES Location(Longitude, Latitude)
             );");
     }
@@ -162,14 +164,14 @@ public class SQLiteDatabase : IDatabase
     }
 
     #region GetTableMethods
-    public async Task<Route[]> GetRouteTableAsync()
+    public async Task<Domain.Models.DatabaseModels.Route[]> GetRouteTableAsync()
     {
         return await _connection.Table<Route>().ToArrayAsync();
     }    
     
-    public async Task<Location[]> GetLocationTableAsync()
+    public async Task<Domain.Models.DatabaseModels.Location[]> GetLocationTableAsync()
     {
-        return await _connection.Table<Location>().ToArrayAsync();
+        return await _connection.Table<Domain.Models.DatabaseModels.Location>().ToArrayAsync();
     }    
     
     public async Task<Description[]> GetDescriptionTableAsync()
@@ -188,19 +190,26 @@ public class SQLiteDatabase : IDatabase
             .Where(routeComponent => routeComponent.RouteName == routeName)
             .ToArrayAsync();
     }
+    
+    public async Task<RouteComponent[]> GetVisitedRouteComponentsFromRouteAsync(string routeName)
+    {
+        return await _connection.Table<RouteComponent>()
+            .Where(routeComponent => routeComponent.RouteName == routeName
+            && routeComponent.Visited).ToArrayAsync();
+    }
     #endregion
 
     #region GetDatabaseItemMethods
-    public async Task<Route> GetRouteAsync(string routeName)
+    public async Task<Domain.Models.DatabaseModels.Route> GetRouteAsync(string routeName)
     {
-        return await _connection.Table<Route>()
+        return await _connection.Table<Domain.Models.DatabaseModels.Route>()
             .Where(route => route.Name == routeName)
             .FirstOrDefaultAsync();
     }    
     
-    public async Task<Location> GetLocationAsync(double longitude, double latitude)
+    public async Task<Domain.Models.DatabaseModels.Location> GetLocationAsync(double longitude, double latitude)
     {
-        return await _connection.Table<Location>()
+        return await _connection.Table<Domain.Models.DatabaseModels.Location>()
             .Where(location => location.Longitude == longitude && location.Latitude == latitude)
             .FirstOrDefaultAsync();
     }    
@@ -226,7 +235,7 @@ public class SQLiteDatabase : IDatabase
     #region UpdateDatabaseItemMethods
     public async Task UpdateRoute(string name, bool newActiveState)
     {
-        await _connection.UpdateAsync(new Route { Name = name, Active = newActiveState });
+        await _connection.UpdateAsync(new Domain.Models.DatabaseModels.Route { Name = name, Active = newActiveState });
     }
 
     public async Task UpdateRouteComponent(string routeName, double longitude, double latitude, bool newIsVisited)
@@ -235,6 +244,5 @@ public class SQLiteDatabase : IDatabase
         routeComponent.Visited = newIsVisited;
         await _connection.UpdateAsync(routeComponent);
     }
-
     #endregion
 }

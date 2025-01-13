@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ColorMode1" xml:space="preserve">
+    <value>Standard Colors</value>
+  </data>
+  <data name="ColorMode2" xml:space="preserve">
+    <value>Black-White</value>
+  </data>
+  <data name="ColorSelection" xml:space="preserve">
+    <value>Select Color:</value>
+  </data>
   <data name="LanguageSelection" xml:space="preserve">
     <value>Select Language:</value>
   </data>
@@ -125,6 +134,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="TextToSpeech" xml:space="preserve">
+    <value>Text To Speech</value>
   </data>
   <data name="VisitedLocations" xml:space="preserve">
     <value>Visited Locations</value>

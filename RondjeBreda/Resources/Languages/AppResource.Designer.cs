@@ -61,6 +61,33 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Standard Colors.
+        /// </summary>
+        internal static string ColorMode1 {
+            get {
+                return ResourceManager.GetString("ColorMode1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Black-White.
+        /// </summary>
+        internal static string ColorMode2 {
+            get {
+                return ResourceManager.GetString("ColorMode2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Color:.
+        /// </summary>
+        internal static string ColorSelection {
+            get {
+                return ResourceManager.GetString("ColorSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Language:.
         /// </summary>
         internal static string LanguageSelection {
@@ -84,6 +111,15 @@ namespace RondjeBreda.Resources.Languages {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text To Speech.
+        /// </summary>
+        internal static string TextToSpeech {
+            get {
+                return ResourceManager.GetString("TextToSpeech", resourceCulture);
             }
         }
         

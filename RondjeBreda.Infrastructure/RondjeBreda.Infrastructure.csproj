@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
+    <PackageReference Include="LocalizationResourceManager.Maui" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="8.0.83" />
     <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.72" />
     <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.83" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

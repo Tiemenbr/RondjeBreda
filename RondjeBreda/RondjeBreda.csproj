@@ -72,6 +72,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\RondjeBreda.Infrastructure\RondjeBreda.Infrastructure.csproj" />
 	  <ProjectReference Include="..\RondjeBreda.ViewModels\RondjeBreda.ViewModels.csproj" />
 	</ItemGroup>
 

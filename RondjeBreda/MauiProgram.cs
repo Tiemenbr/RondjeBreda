@@ -1,12 +1,16 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using LocalizationResourceManager.Maui;
 using Microsoft.Extensions.Logging;
 using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Infrastructure.DatabaseImplementation;
 using RondjeBreda.Pages;
+using RondjeBreda.Infrastructure.SettingsImplementation;
+using CommunityToolkit.Maui;
+using LocalizationResourceManager.Maui;
 using RondjeBreda.Resources.Languages;
 using RondjeBreda.ViewModels;
 using System.Globalization;
+using RondjeBreda.Infrastructure;
 
 namespace RondjeBreda
 {
@@ -43,11 +47,22 @@ namespace RondjeBreda
                 return new SQLiteDatabase();
             });
 
+            builder.Services.AddTransient<IMapsAPI, MapsAPI>();
+            builder.Services.AddTransient<IKeyReaderMaps, KeyReaderMaps>();
+
+            builder.Services.AddSingleton<IGeolocation>(o => Geolocation.Default);
+
+            builder.Services.AddTransient<IPopUp, PopUp>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            ServiceProviderHelper.ServiceProvider = app.Services;
+
+            return app;
         }
     }
 }
