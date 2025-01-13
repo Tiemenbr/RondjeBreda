@@ -243,10 +243,21 @@ public partial class HomePageViewModel : ObservableObject
     [RelayCommand]
     private void ImageButtonPressed()
     {
-        Polylines.Clear();
-        LoadRoute();
-        DrawCircleNextLocation();
-        SetMapSpan();
+        if (routePaused)
+        {
+            Polylines.Clear();
+            LoadRoute();
+            DrawCircleNextLocation();
+            SetMapSpan();
+        }
+        else
+        {
+            Polylines.Clear();
+            selectedRoute = new Route();
+            LoadRoute();
+            SetOverviewMapSpan();
+        }
+        routePaused = !routePaused;
     }
 
     public async Task<List<Location>> LoadPoints()
@@ -285,6 +296,7 @@ public partial class HomePageViewModel : ObservableObject
         });
 
         Routes = testList;
+        this.routePaused = true;
     }
 
     public void routeSelected()
