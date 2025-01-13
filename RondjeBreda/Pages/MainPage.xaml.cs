@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
 using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
+using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.ViewModels;
 using Distance = Microsoft.Maui.Maps.Distance;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
@@ -19,9 +20,9 @@ namespace RondjeBreda.Pages
     public partial class MainPage : ContentPage
     {
         private HomePageViewModel homePageViewModel;
-        
-        public MainPage(HomePageViewModel homePageViewModel)
-        {
+        private IDatabase database;
+
+        public MainPage(HomePageViewModel homePageViewModel, IDatabase database) {
             InitializeComponent();
             this.homePageViewModel = homePageViewModel;
 
@@ -33,6 +34,8 @@ namespace RondjeBreda.Pages
             
             Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Microsoft.Maui.Devices.Sensors.Location(52.211157, 5.9699231),
                 Distance.FromKilometers(200)));
+            this.database = database;
+            BindingContext = homePageViewModel;
         }
 
         private void UpdateMapSpan()
@@ -59,15 +62,32 @@ namespace RondjeBreda.Pages
         {
             Debug.WriteLine("Update MapElements");
             Map.MapElements.Clear();
-            Map.MapElements.Add(homePageViewModel.RangeCircle);
-
-            Debug.WriteLine($"Polylines amount: {homePageViewModel.Polylines.Count}");
-            foreach (var polyline in homePageViewModel.Polylines)
+            if (homePageViewModel.RangeCircle != null)
             {
-                Debug.WriteLine($"Polyline adding: {polyline}");
-                Map.MapElements.Add(polyline);
+                Map.MapElements.Add(homePageViewModel.RangeCircle);
+            }
+
+            if (homePageViewModel.Polylines != null)
+            {
+                foreach (var polyline in homePageViewModel.Polylines)
+                {
+                    Debug.WriteLine($"Polyline adding: {polyline}");
+                    Map.MapElements.Add(polyline);
+                }
             }
             
+            
+        }
+
+        protected override async void OnAppearing() {
+            base.OnAppearing();
+            // await database.Init();
+            await homePageViewModel.LoadRouteFromDatabase();
+        }
+
+        private void Picker_OnSelectedIndexChanged(object? sender, EventArgs e)
+        {
+            homePageViewModel.routeSelected();
         }
     }
 }
