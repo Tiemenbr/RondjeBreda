@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:RondjeBreda.Domain.Models.DatabaseModels;assembly=RondjeBreda.Domain"
              xmlns:viewModels="clr-namespace:RondjeBreda.ViewModels;assembly=RondjeBreda.ViewModels"
+             xmlns:dataModels="clr-namespace:RondjeBreda.ViewModels.DataModels;assembly=RondjeBreda.ViewModels"
              xmlns:lang="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="RondjeBreda.Pages.VisitedLocationsPage">
     <!-- Styles for Light & Dark modes-->
@@ -26,7 +27,7 @@
 				</CollectionView.ItemsLayout>
 
 				<CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Location">
+                    <DataTemplate x:DataType="dataModels:LocationViewModel">
 						<Frame HorizontalOptions="Fill">
 							<Frame.GestureRecognizers>
                                 <TapGestureRecognizer

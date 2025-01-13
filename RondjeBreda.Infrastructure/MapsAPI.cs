@@ -92,8 +92,8 @@ public class MapsAPI : IMapsAPI
             // var location = new Location(lat * 1e-5, lng * 1e-5);
             var location = new Location
             {
-                latitude = lat * 1e-5,
-                longitude = lng * 1e-5
+                Latitude = lat * 1e-5,
+                Longitude = lng * 1e-5
             };
             polyline.Add(location);
         }

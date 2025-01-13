@@ -16,6 +16,6 @@ public class Route : IDatabaseTable
     public bool Active { get; set; }
     public override string ToString()
     {
-        return name;
+        return Name;
     }
 }

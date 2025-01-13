@@ -11,7 +11,6 @@ using RondjeBreda.ViewModels;
 using Distance = Microsoft.Maui.Maps.Distance;
 using Location = Microsoft.Maui.Devices.Sensors.Location;
 using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
-using Route = RondjeBreda.Domain.Models.DatabaseModels.Route;
 
 namespace RondjeBreda.Pages
 {
@@ -37,7 +36,6 @@ namespace RondjeBreda.Pages
             Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Microsoft.Maui.Devices.Sensors.Location(52.211157, 5.9699231),
                 Distance.FromKilometers(200)));
             this.database = database;
-            BindingContext = homePageViewModel;
         }
 
         private void UpdateMapSpan()

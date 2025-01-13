@@ -4,8 +4,11 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
 using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Domain.Models.DatabaseModels;
-using Location = RondjeBreda.Domain.Models.DatabaseModels.Location;
+using Location = RondjeBreda.ViewModels.DataModels.LocationViewModel;
 using Microsoft.Maui.Maps;
+using RondjeBreda.Domain.Models;
+using Distance = Microsoft.Maui.Maps.Distance;
+using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
 
 namespace RondjeBreda.ViewModels;
 
@@ -19,10 +22,10 @@ public partial class HomePageViewModel : ObservableObject
     public IGeolocation geolocation;
     public IMapsAPI mapsAPI;
     private IPopUp popUp;
-    private Route selectedRoute;
+    private Domain.Models.DatabaseModels.Route selectedDatabaseRoute;
     private bool routePaused;
     public double userLat, userLon;
-    private List<Domain.Models.DatabaseModels.Location> routePoints;
+    private List<ViewModels.DataModels.LocationViewModel> routePoints;
     private Location nextLocation;
     private int indexRoute = 0;
 
@@ -31,7 +34,7 @@ public partial class HomePageViewModel : ObservableObject
     public event Action UpdatePins;
     public event Action UpdateMapElements;
 
-    [ObservableProperty] private ObservableCollection<Route> routes;
+    [ObservableProperty] private ObservableCollection<Domain.Models.DatabaseModels.Route> routes;
     [ObservableProperty] private ObservableCollection<Pin> pins;
     [ObservableProperty] private ObservableCollection<Polyline> polylines;
     [ObservableProperty] private Circle rangeCircle;
@@ -71,7 +74,7 @@ public partial class HomePageViewModel : ObservableObject
         }
 
         if (Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLat, userLon,
-                nextLocation.latitude, nextLocation.longitude, DistanceUnits.Kilometers) <= 0.02)
+                nextLocation.Latitude, nextLocation.Longitude, DistanceUnits.Kilometers) <= 0.02)
         {
             LocationReached();
         }
@@ -90,9 +93,9 @@ public partial class HomePageViewModel : ObservableObject
             indexRoute = 0;
         }
 
-        await popUp.ShowPopUpAsync(nextLocation.imagePath,
-            nextLocation.name,
-            $"{nextLocation.latitude},{nextLocation.longitude}");
+        await popUp.ShowPopUpAsync(nextLocation.ImagePath,
+            nextLocation.Name,
+            $"{nextLocation.Latitude},{nextLocation.Longitude}");
 
         this.nextLocation = routePoints[this.indexRoute];
 
@@ -117,13 +120,13 @@ public partial class HomePageViewModel : ObservableObject
         {
             Pins.Add(new Pin
             {
-                Label = location.name,
-                Location = new Microsoft.Maui.Devices.Sensors.Location(location.latitude, location.longitude)
+                Label = location.Name,
+                Location = new Microsoft.Maui.Devices.Sensors.Location(location.Latitude, location.Longitude)
             });
         }
 
         Polylines.Clear();
-        // Route genereren tussen de punten
+        // DatabaseRoute genereren tussen de punten
         foreach (var location in routePoints)
         {
             if (routePoints.IndexOf(location) == routePoints.Count - 1)
@@ -132,9 +135,9 @@ public partial class HomePageViewModel : ObservableObject
             }
 
             var locationCount = routePoints.IndexOf(location);
-            var route = await mapsAPI.CreateRoute($"{location.latitude}", $"{location.longitude}",
-                routePoints[locationCount + 1].latitude.ToString(),
-                routePoints[locationCount + 1].longitude.ToString());
+            var route = await mapsAPI.CreateRoute($"{location.Latitude}", $"{location.Longitude}",
+                routePoints[locationCount + 1].Latitude.ToString(),
+                routePoints[locationCount + 1].Longitude.ToString());
 
             Polyline polyline = new Polyline
             {
@@ -146,16 +149,16 @@ public partial class HomePageViewModel : ObservableObject
             foreach (var tempLocation in locations)
             {
                 polyline.Geopath.Add(
-                    new Microsoft.Maui.Devices.Sensors.Location(tempLocation.latitude, tempLocation.longitude));
+                    new Microsoft.Maui.Devices.Sensors.Location(tempLocation.Latitude, tempLocation.Longitude));
             }
 
             // Lijn toevoegen aan de map
             Polylines.Add(polyline);
         }
 
-        // Route to the next point of the route
+        // DatabaseRoute to the next point of the route
         var routeToFirstPoint = await mapsAPI.CreateRoute($"{userLat}", $"{userLon}",
-            $"{nextLocation.latitude}", $"{nextLocation.longitude}");
+            $"{nextLocation.Latitude}", $"{nextLocation.Longitude}");
         Polyline firstpolyline = new Polyline
         {
             StrokeColor = Colors.Chartreuse,
@@ -165,7 +168,7 @@ public partial class HomePageViewModel : ObservableObject
         foreach (var tempLocation in firstlocations)
         {
             firstpolyline.Geopath.Add(
-                new Microsoft.Maui.Devices.Sensors.Location(tempLocation.latitude, tempLocation.longitude));
+                new Microsoft.Maui.Devices.Sensors.Location(tempLocation.Latitude, tempLocation.Longitude));
         }
 
         Polylines.Add(firstpolyline);
@@ -189,7 +192,7 @@ public partial class HomePageViewModel : ObservableObject
 
         Circle circle = new Circle
         {
-            Center = new Microsoft.Maui.Devices.Sensors.Location(nextLocation.latitude, nextLocation.longitude),
+            Center = new Microsoft.Maui.Devices.Sensors.Location(nextLocation.Latitude, nextLocation.Longitude),
             Radius = new Distance(20),
             StrokeColor = Color.FromArgb("#CFffc61e"),
             StrokeWidth = 8,
@@ -202,14 +205,14 @@ public partial class HomePageViewModel : ObservableObject
 
     private void SetMapSpan()
     {
-        var centerLat = (this.nextLocation.latitude + userLat) / 2;
-        var centerLon = (this.nextLocation.longitude + userLon) / 2;
+        var centerLat = (this.nextLocation.Latitude + userLat) / 2;
+        var centerLon = (this.nextLocation.Longitude + userLon) / 2;
 
         var center = new Microsoft.Maui.Devices.Sensors.Location(centerLat, centerLon);
 
         var distance = Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(
-            new Microsoft.Maui.Devices.Sensors.Location(this.nextLocation.latitude,
-                this.nextLocation.longitude), center, DistanceUnits.Kilometers);
+            new Microsoft.Maui.Devices.Sensors.Location(this.nextLocation.Latitude,
+                this.nextLocation.Longitude), center, DistanceUnits.Kilometers);
 
         MapSpan mapSpan = MapSpan.FromCenterAndRadius(center, Distance.FromKilometers(distance * 1.5));
 
@@ -253,7 +256,7 @@ public partial class HomePageViewModel : ObservableObject
         else
         {
             Polylines.Clear();
-            selectedRoute = new Route();
+            selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
             LoadRoute();
             SetOverviewMapSpan();
         }
@@ -262,21 +265,21 @@ public partial class HomePageViewModel : ObservableObject
 
     public async Task<List<Location>> LoadPoints()
     {
-        // TODO: Route component tabel goed ophalen
+        // TODO: DatabaseRoute component tabel goed ophalen
         // database.GetDatabaseTableAsync();
 
         // Testdata
         var testList = new List<Location>();
         testList.Add(new Location
-            { latitude = 51.594445, longitude = 4.779417, name = "Oude VVV-pand", imagePath = "dotnet_bot.png" });
+            { Latitude = 51.594445, Longitude = 4.779417, Name = "Oude VVV-pand", ImagePath = "dotnet_bot.png" });
         testList.Add(new Location
-            { latitude = 51.593278, longitude = 4.779388, name = "Liefdeszuster", imagePath = "location_3.png" });
+            { Latitude = 51.593278, Longitude = 4.779388, Name = "Liefdeszuster", ImagePath = "location_3.png" });
         testList.Add(new Location
         {
-            latitude = 51.592500, longitude = 4.779695, name = "Nassau Baronie Monument", imagePath = "location_4.png"
+            Latitude = 51.592500, Longitude = 4.779695, Name = "Nassau Baronie Monument", ImagePath = "location_4.png"
         });
         testList.Add(new Location
-            { latitude = 51.592833, longitude = 4.778472, name = "The Light House", imagePath = "location_5.png" });
+            { Latitude = 51.592833, Longitude = 4.778472, Name = "The Light House", ImagePath = "location_5.png" });
 
         UpdatePins();
         return testList;
@@ -284,15 +287,15 @@ public partial class HomePageViewModel : ObservableObject
 
     public async Task LoadRouteFromDatabase()
     {
-        // TODO: Route tabel goed ophalen
+        // TODO: DatabaseRoute tabel goed ophalen
         // database.GetDatabaseTableAsync();
 
         // Testdata
-        var testList = new ObservableCollection<Route>();
+        var testList = new ObservableCollection<Domain.Models.DatabaseModels.Route>();
         testList.Add(new Domain.Models.DatabaseModels.Route
         {
-            name = "Historische Kilometer",
-            active = false
+            Name = "Historische Kilometer",
+            Active = false
         });
 
         Routes = testList;
@@ -302,7 +305,7 @@ public partial class HomePageViewModel : ObservableObject
     public void routeSelected()
     {
         Polylines.Clear();
-        selectedRoute = new Route();
+        selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
         LoadRoute();
         SetOverviewMapSpan();
     }
