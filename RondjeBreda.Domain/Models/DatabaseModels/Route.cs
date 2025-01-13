@@ -5,6 +5,6 @@
 /// </summary>
 public class Route
 {
-    private string name;
-    private bool active;
+    public string name;
+    public bool active;
 }

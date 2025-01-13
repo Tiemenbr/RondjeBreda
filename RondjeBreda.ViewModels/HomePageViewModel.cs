@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.Maps;
 using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Domain.Models.DatabaseModels;
@@ -233,6 +234,21 @@ public partial class HomePageViewModel : ObservableObject
         testList.Add(new Location{latitude = 51.592833, longitude = 4.778472, name = "The Light House", imagePath = "location_5.png"});
 
         UpdatePins();
+        return testList;
+    }
+
+    public async Task<List<Domain.Models.DatabaseModels.Route>> LoadRoute()
+    {   // TODO: Route tabel goed ophalen
+        // database.GetDatabaseTableAsync();
+
+        // Testdata
+        var testList = new List<Domain.Models.DatabaseModels.Route>();
+        testList.Add(new Domain.Models.DatabaseModels.Route
+        {
+            name = "Historische Kilometer",
+            active = false
+        });
+
         return testList;
     }
 }
