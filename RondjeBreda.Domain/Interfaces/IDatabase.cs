@@ -13,6 +13,7 @@ public interface IDatabase
     Task<Description[]> GetDescriptionTableAsync();
     Task<RouteComponent[]> GetRouteComponentTableAsync();
     Task<RouteComponent[]> GetRouteComponentFromRouteAsync(string routeName);
+    Task<RouteComponent[]> GetVisitedRouteComponentsFromRouteAsync(string routeName);
     Task<Route> GetRouteAsync(string routeName);
     Task<Location> GetLocationAsync(double longitude, double latitude);
     Task<Description> GetDescriptionAsync(string descriptionNL);

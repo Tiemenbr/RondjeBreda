@@ -248,7 +248,12 @@ public class SQLiteDatabase : IDatabase
     {
         RouteComponent routeComponent = await GetRouteComponentAsync(routeName, longitude, latitude);
         routeComponent.Visited = newIsVisited;
-        await _connection.UpdateAsync(routeComponent);
+
+        string query = @"UPDATE RouteComponent 
+                         SET Visited = ?
+                         WHERE RouteName = ? AND LocationLongitude = ? AND LocationLatitude = ?";
+        await _connection.ExecuteAsync(query, newIsVisited, routeName, longitude, latitude);
+
     }
     #endregion
 }

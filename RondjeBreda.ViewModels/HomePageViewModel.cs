@@ -88,6 +88,7 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        
         this.indexRoute++;
         if (indexRoute >= routePoints.Count)
         {
@@ -98,12 +99,14 @@ public partial class HomePageViewModel : ObservableObject
             nextLocation.Name,
             $"{nextLocation.Latitude},{nextLocation.Longitude}");
 
+        await database.UpdateRouteComponent("Historische Kilometer", nextLocation.Longitude, nextLocation.Latitude, true);
         this.nextLocation = routePoints[this.indexRoute];
 
         // TODO: picker moet route inladen
         ReadyNextLine();
         DrawCircleNextLocation();
         SetMapSpan();
+        
     }
 
     private async Task LoadRoute()
