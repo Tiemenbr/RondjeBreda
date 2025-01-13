@@ -46,7 +46,6 @@ public class SQLiteDatabase : IDatabase
         }
         
         _connection = new SQLiteAsyncConnection(path);
-        await dropTables();
 
         await SetupDescriptionTable();
         await SetupLocationTable();
@@ -55,7 +54,7 @@ public class SQLiteDatabase : IDatabase
 
         await _connection.ExecuteAsync("PRAGMA foreign_keys = ON;");
 
-        Domain.Models.DatabaseModels.Route historischeKilometer = await _connection.Table<Domain.Models.DatabaseModels.Route>().Where(route => route.Name == "HistorischeKilometer").FirstOrDefaultAsync();
+        Domain.Models.DatabaseModels.Route historischeKilometer = await _connection.Table<Domain.Models.DatabaseModels.Route>().Where(route => route.Name == "Historische Kilometer").FirstOrDefaultAsync();
 
         if (historischeKilometer != null)
             return;

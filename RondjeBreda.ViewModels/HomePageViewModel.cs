@@ -33,6 +33,7 @@ public partial class HomePageViewModel : ObservableObject
     private List<ViewModels.DataModels.LocationViewModel> routePoints;
     private Location nextLocation;
     private int indexRoute = 0;
+    private bool isListening = false;
 
     //TODO: event aanroepen door update() wel methodes toevoegen
     public event Action UpdateMapSpan;
@@ -63,6 +64,9 @@ public partial class HomePageViewModel : ObservableObject
 
     public async Task StartListening()
     {
+        if (isListening)
+            return;
+
         try
         {
             await geolocation.StartListeningForegroundAsync(new GeolocationListeningRequest
@@ -71,6 +75,7 @@ public partial class HomePageViewModel : ObservableObject
                 DesiredAccuracy = GeolocationAccuracy.Best
             });
             geolocation.LocationChanged += LocationChanged;
+            isListening = true;
         }
         catch (Exception)
         {
