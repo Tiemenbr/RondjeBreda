@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
@@ -100,12 +101,12 @@ public partial class HomePageViewModel : ObservableObject
         this.nextLocation = routePoints[this.indexRoute];
 
         // TODO: picker moet route inladen
-        LoadRoute();
+        ReadyNextLine();
         DrawCircleNextLocation();
         SetMapSpan();
     }
 
-    private async void LoadRoute()
+    private async Task LoadRoute()
     {
         // Punten van de geselecteerde route laden
         this.routePoints = await LoadPoints();
@@ -118,6 +119,10 @@ public partial class HomePageViewModel : ObservableObject
         Pins.Clear();
         foreach (var location in routePoints)
         {
+            if (location.Name == null)
+            {
+                continue;
+            }
             Pins.Add(new Pin
             {
                 Label = location.Name,
@@ -177,6 +182,28 @@ public partial class HomePageViewModel : ObservableObject
         UpdatePins();
     }
 
+    private async Task ReadyNextLine()
+    {
+        // DatabaseRoute to the next point of the route
+        var routeToFirstPoint = await mapsAPI.CreateRoute($"{userLat}", $"{userLon}",
+            $"{nextLocation.Latitude}", $"{nextLocation.Longitude}");
+        Polyline firstpolyline = new Polyline
+        {
+            StrokeColor = Colors.Chartreuse,
+            StrokeWidth = 12,
+        };
+        var firstlocations = mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
+        foreach (var tempLocation in firstlocations)
+        {
+            firstpolyline.Geopath.Add(
+                new Microsoft.Maui.Devices.Sensors.Location(tempLocation.Latitude, tempLocation.Longitude));
+        }
+
+        Polylines.Add(firstpolyline);
+
+        UpdateMapElements();
+    }
+
     private void DrawCircleNextLocation()
     {
         if (this.routePoints == null || this.routePoints.Count == 0)
@@ -222,7 +249,7 @@ public partial class HomePageViewModel : ObservableObject
 
     private void SetOverviewMapSpan()
     {
-        var minLatitude = Pins.Min(p => p.Location.Latitude);
+            var minLatitude = Pins.Min(p => p.Location.Latitude);
         var maxLatitude = Pins.Max(p => p.Location.Latitude);
         var minLongitude = Pins.Min(p => p.Location.Longitude);
         var maxLongitude = Pins.Max(p => p.Location.Longitude);
@@ -248,14 +275,12 @@ public partial class HomePageViewModel : ObservableObject
     {
         if (routePaused)
         {
-            Polylines.Clear();
             LoadRoute();
             DrawCircleNextLocation();
             SetMapSpan();
         }
         else
         {
-            Polylines.Clear();
             selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
             LoadRoute();
             SetOverviewMapSpan();
@@ -266,23 +291,42 @@ public partial class HomePageViewModel : ObservableObject
     public async Task<List<Location>> LoadPoints()
     {
         // TODO: DatabaseRoute component tabel goed ophalen
-        // database.GetDatabaseTableAsync();
+        var routeComponents = await database.GetRouteComponentFromRouteAsync("Historische Kilometer");
+        Debug.WriteLine($"Size: {routeComponents.Length}");
+        var locations = new List<Location>();
+        foreach (var component in routeComponents)
+        {
+            Domain.Models.DatabaseModels.Location location =
+                await database.GetLocationAsync(component.LocationLongitude, component.LocationLatitude);
+
+            locations.Add(new Location
+            {
+                Name = location.Name,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+                ImagePath = location.ImagePath,
+                RouteOrderNumber = component.RouteOrderNumber
+            });
+            Debug.WriteLine($"Name: {location.Name}, Latitude: {location.Latitude}, Longtitude: {location.Longitude}, Image: {location.ImagePath}");
+        }
 
         // Testdata
-        var testList = new List<Location>();
-        testList.Add(new Location
-            { Latitude = 51.594445, Longitude = 4.779417, Name = "Oude VVV-pand", ImagePath = "dotnet_bot.png" });
-        testList.Add(new Location
-            { Latitude = 51.593278, Longitude = 4.779388, Name = "Liefdeszuster", ImagePath = "location_3.png" });
-        testList.Add(new Location
-        {
-            Latitude = 51.592500, Longitude = 4.779695, Name = "Nassau Baronie Monument", ImagePath = "location_4.png"
-        });
-        testList.Add(new Location
-            { Latitude = 51.592833, Longitude = 4.778472, Name = "The Light House", ImagePath = "location_5.png" });
+        // var testList = new List<Location>();
+        // testList.Add(new Location
+        //     { Latitude = 51.594445, Longitude = 4.779417, Name = "Oude VVV-pand", ImagePath = "dotnet_bot.png" });
+        // testList.Add(new Location
+        //     { Latitude = 51.593278, Longitude = 4.779388, Name = "Liefdeszuster", ImagePath = "location_3.png" });
+        // testList.Add(new Location
+        // {
+        //     Latitude = 51.592500, Longitude = 4.779695, Name = "Nassau Baronie Monument", ImagePath = "location_4.png"
+        // });
+        // testList.Add(new Location
+        //     { Latitude = 51.592833, Longitude = 4.778472, Name = "The Light House", ImagePath = "location_5.png" });
 
         UpdatePins();
-        return testList;
+        //sort locations (implemented with comparable
+        locations.Sort();
+        return locations;
     }
 
     public async Task LoadRouteFromDatabase()
@@ -299,11 +343,11 @@ public partial class HomePageViewModel : ObservableObject
         this.routePaused = true;
     }
 
-    public void routeSelected()
+    public async Task routeSelected()
     {
         Polylines.Clear();
         selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
-        LoadRoute();
+        await LoadRoute();
         SetOverviewMapSpan();
     }
 }

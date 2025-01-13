@@ -5,6 +5,7 @@ using RondjeBreda.Domain.Models.DatabaseModels;
 using SQLite;
 using System.Diagnostics;
 using System.Text.Json;
+using Location = Microsoft.Maui.Devices.Sensors.Location;
 using Route = RondjeBreda.Domain.Models.DatabaseModels.Route;
 
 namespace RondjeBreda.Infrastructure.DatabaseImplementation;
@@ -45,6 +46,11 @@ public class SQLiteDatabase : IDatabase
         }
         
         _connection = new SQLiteAsyncConnection(path);
+        await _connection.DropTableAsync<RouteComponent>();
+        await _connection.DropTableAsync<Route>();
+        await _connection.DropTableAsync<Location>();
+        await _connection.DropTableAsync<Description>();
+
 
         await SetupDescriptionTable();
         await SetupLocationTable();
@@ -65,7 +71,7 @@ public class SQLiteDatabase : IDatabase
 
             Domain.Models.DatabaseModels.Route TempRoute = new Domain.Models.DatabaseModels.Route
             {
-                Name = "HistorischeKilometer",
+                Name = "Historische Kilometer",
                 Active = false
             };
 

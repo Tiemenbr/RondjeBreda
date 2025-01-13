@@ -7,11 +7,23 @@ namespace RondjeBreda.ViewModels.DataModels;
 /// </summary>
 
 
-public partial class LocationViewModel : ObservableObject
+public partial class LocationViewModel : ObservableObject, IComparable
 {
     [ObservableProperty] public double longitude;
     [ObservableProperty] public double latitude;
     [ObservableProperty] public string description;
     [ObservableProperty] public string imagePath;
     [ObservableProperty] public string name;
+    public int RouteOrderNumber { get; set; }
+
+
+    public int CompareTo(object? obj)
+    {
+        if (obj is not LocationViewModel other)
+        {
+            return 1;
+        }
+        
+        return RouteOrderNumber.CompareTo(other.RouteOrderNumber);
+    }
 }

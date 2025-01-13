@@ -23,15 +23,6 @@
                 ItemsSource="{Binding Routes}"
                 SelectedIndexChanged="Picker_OnSelectedIndexChanged"/> 
 
-        <!-- Directions -->
-        <HorizontalStackLayout Spacing="20">
-            <Image Source="arrow_up.png" Width="50" Height="50"/>
-            <Label Text="Direction" 
-                   TextColor="White" 
-                   VerticalTextAlignment="Center"
-                   FontSize="20"/>
-        </HorizontalStackLayout>
-
         <!-- Map -->
         <maps:Map x:Name="Map" HeightRequest="380" IsShowingUser="True"/>
 
