@@ -35,13 +35,13 @@
                             </Frame.GestureRecognizers>
 
 							<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" HeightRequest="55" Margin="0,0,0,5">
-                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding imagePath}" 
+                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding ImagePath}" 
                                        MaximumWidthRequest="100" MaximumHeightRequest="100" Margin="0,0,5,0"/>
-                                <Label Text="{Binding name}" FontSize="Header" FontAttributes="Bold" 
+                                <Label Text="{Binding Name}" FontSize="Header" FontAttributes="Bold" 
                                        Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Start"/>
-                                <Label Text="{Binding longitude, StringFormat='longitude: {0}'}" 
+                                <Label Text="{Binding Longitude, StringFormat='longitude: {0}'}" 
                                        Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="End"/>
-                                <Label Text="{Binding latitude, StringFormat='latitude: {0}'}"  
+                                <Label Text="{Binding Latitude, StringFormat='latitude: {0}'}"  
                                        Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="End"/>
                             </Grid>
 

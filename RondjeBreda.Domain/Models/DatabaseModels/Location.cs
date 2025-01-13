@@ -1,12 +1,22 @@
-﻿namespace RondjeBreda.Domain.Models.DatabaseModels;
+using RondjeBreda.Domain.Interfaces;
+using SQLite;
+using SQLiteNetExtensions.Attributes;
+
+namespace RondjeBreda.Domain.Models.DatabaseModels;
 
 /// <summary>
 /// A dataclass for a location object
 /// </summary>
-public class Location
+
+[Table("Location")]
+public class Location : IDatabaseTable
 {
-    public double longitude {  get; set; }
-    public double latitude {  get; set; }
-    public string imagePath {  get; set; }
-    public string name { get; set; }
+    public double Longitude { get; set; } //part of composite key
+    public double Latitude { get; set; } //part of composite key
+
+    public string Description { get; set; } //foreign Key
+
+    public string ImagePath { get; set; }
+
+    public string Name { get; set; }
 }

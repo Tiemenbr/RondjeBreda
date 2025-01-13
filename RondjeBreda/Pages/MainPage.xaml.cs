@@ -1,3 +1,4 @@
+using RondjeBreda.Domain.Interfaces;
 using System.ComponentModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
@@ -25,6 +26,7 @@ namespace RondjeBreda.Pages
         public MainPage(HomePageViewModel homePageViewModel, IDatabase database) {
             InitializeComponent();
             this.homePageViewModel = homePageViewModel;
+            this.database = database;
 
             BindingContext = homePageViewModel;
 
