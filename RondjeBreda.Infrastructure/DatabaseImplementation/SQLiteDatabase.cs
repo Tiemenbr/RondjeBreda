@@ -46,6 +46,7 @@ public class SQLiteDatabase : IDatabase
         }
         
         _connection = new SQLiteAsyncConnection(path);
+        await dropTables();
 
         await SetupDescriptionTable();
         await SetupLocationTable();

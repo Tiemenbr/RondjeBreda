@@ -2,9 +2,9 @@
 
 using System.Diagnostics;
 using System.Net.Http.Json;
-using RondjeBreda.Domain.Models;
 using RondjeBreda.Domain.Models.DatabaseModels;
 using Location = RondjeBreda.Domain.Models.DatabaseModels.Location;
+using RondjeBreda.Domain.Models.MapFunctionModels;
 
 namespace RondjeBreda.Infrastructure;
 

@@ -1,5 +1,5 @@
-﻿using RondjeBreda.Domain.Models;
-using RondjeBreda.Domain.Models.DatabaseModels;
+﻿using RondjeBreda.Domain.Models.DatabaseModels;
+using RondjeBreda.Domain.Models.MapFunctionModels;
 
 namespace RondjeBreda.Domain.Interfaces;
 

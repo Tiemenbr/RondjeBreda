@@ -1,4 +1,4 @@
-﻿namespace RondjeBreda.Domain.Models;
+﻿namespace RondjeBreda.Domain.Models.MapFunctionModels;
 
 public class Routeobject
 {
