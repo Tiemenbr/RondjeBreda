@@ -56,6 +56,7 @@ public partial class VisitedLocationsViewModel : ObservableObject
         popUp.ShowPopUpAsync(
             location.ImagePath, 
             location.Name, 
+            location.Description,
             $"{location.Latitude},{location.Longitude}",
             resourceManager["popupButton"]);
     }

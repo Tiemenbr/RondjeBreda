@@ -102,6 +102,7 @@ public partial class HomePageViewModel : ObservableObject
         await popUp.ShowPopUpAsync(
             nextLocation.ImagePath,
             nextLocation.Name,
+            nextLocation.Description,
             $"{nextLocation.Latitude},{nextLocation.Longitude}",
             localizationResourceManager["popupButton"]
             );
