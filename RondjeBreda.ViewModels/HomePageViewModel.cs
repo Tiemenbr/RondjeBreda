@@ -19,7 +19,7 @@ public partial class HomePageViewModel : ObservableObject
     public IGeolocation geolocation;
     public IMapsAPI mapsAPI;
     private IPopUp popUp;
-    private string route;
+    private Route selectedRoute;
     private bool routePaused;
     public double userLat, userLon;
     private List<Domain.Models.DatabaseModels.Location> routePoints;
@@ -97,12 +97,12 @@ public partial class HomePageViewModel : ObservableObject
         this.nextLocation = routePoints[this.indexRoute];
 
         // TODO: picker moet route inladen
-        LoadRoute(new Route());
+        LoadRoute();
         DrawCircleNextLocation();
         SetMapSpan();
     }
 
-    private async void LoadRoute(Route selectedRoute)
+    private async void LoadRoute()
     {
         // Punten van de geselecteerde route laden
         this.routePoints = await LoadPoints();
@@ -230,7 +230,7 @@ public partial class HomePageViewModel : ObservableObject
 
         var distance = Math.Max(
             Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(
-                minLatitude, minLongitude, maxLatitude, maxLongitude, DistanceUnits.Kilometers), 1 
+                minLatitude, minLongitude, maxLatitude, maxLongitude, DistanceUnits.Kilometers), 1
         );
 
         MapSpan mapSpan = MapSpan.FromCenterAndRadius(center, Distance.FromKilometers(distance));
@@ -243,7 +243,10 @@ public partial class HomePageViewModel : ObservableObject
     [RelayCommand]
     private void ImageButtonPressed()
     {
-        // TODO: start/stop button
+        Polylines.Clear();
+        LoadRoute();
+        DrawCircleNextLocation();
+        SetMapSpan();
     }
 
     public async Task<List<Location>> LoadPoints()
@@ -268,7 +271,7 @@ public partial class HomePageViewModel : ObservableObject
         return testList;
     }
 
-    public async Task LoadRoute()
+    public async Task LoadRouteFromDatabase()
     {
         // TODO: Route tabel goed ophalen
         // database.GetDatabaseTableAsync();
@@ -287,9 +290,8 @@ public partial class HomePageViewModel : ObservableObject
     public void routeSelected()
     {
         Polylines.Clear();
-        LoadRoute(new Route());
+        selectedRoute = new Route();
+        LoadRoute();
         SetOverviewMapSpan();
     }
-
-    
 }
