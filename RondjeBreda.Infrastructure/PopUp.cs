@@ -7,9 +7,9 @@ namespace RondjeBreda.Infrastructure;
 
 public class PopUp : IPopUp
 {
-    public async Task ShowPopUpAsync(string imagepath, string name, string location)
+    public async Task ShowPopUpAsync(string imagepath, string name, string location, string localizedButtonText)
     {
-        var popup = new CustomPopUp(imagepath, name, location);
+        var popup = new CustomPopUp(imagepath, name, location, localizedButtonText);
         await Application.Current.MainPage.ShowPopupAsync(popup);
     }
 }

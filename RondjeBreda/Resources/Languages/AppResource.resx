@@ -141,4 +141,7 @@
   <data name="VisitedLocations" xml:space="preserve">
     <value>Visited Locations</value>
   </data>
+  <data name="popupButton" xml:space="preserve">
+    <value>Close</value>
+  </data>
 </root>

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LocalizationResourceManager.Maui;
 using Microsoft.Maui.Controls.Maps;
 using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.Domain.Models.DatabaseModels;
@@ -23,6 +24,8 @@ public partial class HomePageViewModel : ObservableObject
     public IGeolocation geolocation;
     public IMapsAPI mapsAPI;
     private IPopUp popUp;
+    private ILocalizationResourceManager localizationResourceManager;
+
     private Domain.Models.DatabaseModels.Route selectedDatabaseRoute;
     private bool routePaused;
     public double userLat, userLon;
@@ -43,7 +46,7 @@ public partial class HomePageViewModel : ObservableObject
 
 
     public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation,
-        IPopUp popUp)
+        IPopUp popUp, ILocalizationResourceManager localizationResourceManager)
     {
         pins = new ObservableCollection<Pin>();
         polylines = new ObservableCollection<Polyline>();
@@ -52,6 +55,8 @@ public partial class HomePageViewModel : ObservableObject
         this.preferences = preferences;
         this.mapsAPI = mapsAPI;
         this.geolocation = geolocation;
+        this.popUp = popUp;
+        this.localizationResourceManager = localizationResourceManager;
 
         this.geolocation.StartListeningForegroundAsync(new GeolocationListeningRequest
         {
@@ -60,7 +65,6 @@ public partial class HomePageViewModel : ObservableObject
         });
 
         this.geolocation.LocationChanged += LocationChanged;
-        this.popUp = popUp;
     }
 
 
@@ -95,9 +99,12 @@ public partial class HomePageViewModel : ObservableObject
             indexRoute = 0;
         }
 
-        await popUp.ShowPopUpAsync(nextLocation.ImagePath,
+        await popUp.ShowPopUpAsync(
+            nextLocation.ImagePath,
             nextLocation.Name,
-            $"{nextLocation.Latitude},{nextLocation.Longitude}");
+            $"{nextLocation.Latitude},{nextLocation.Longitude}",
+            localizationResourceManager["popupButton"]
+            );
 
         await database.UpdateRouteComponent("Historische Kilometer", nextLocation.Longitude, nextLocation.Latitude, true);
         this.nextLocation = routePoints[this.indexRoute];

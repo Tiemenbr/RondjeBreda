@@ -5,7 +5,7 @@ namespace RondjeBreda.Infrastructure;
 
 public class CustomPopUp : Popup
 {
-    public CustomPopUp(string imagePath, string name, string location)
+    public CustomPopUp(string imagePath, string name, string location, string localizedButtonText)
     {
         Content = new VerticalStackLayout
         {
@@ -39,7 +39,7 @@ public class CustomPopUp : Popup
                 },
                 new Button
                 {
-                    Text = "Close",
+                    Text = localizedButtonText,
                     Command = new Command(() => Close()),
                     HorizontalOptions = LayoutOptions.Center
                 }

@@ -106,6 +106,15 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string popupButton {
+            get {
+                return ResourceManager.GetString("popupButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {

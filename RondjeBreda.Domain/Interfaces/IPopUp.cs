@@ -2,5 +2,5 @@
 
 public interface IPopUp
 {
-    Task ShowPopUpAsync(string imagepath, string name, string location);
+    Task ShowPopUpAsync(string imagepath, string name, string location, string localizedButtonText);
 }

@@ -4,6 +4,7 @@ using RondjeBreda.Domain.Interfaces;
 using System.Collections.ObjectModel;
 using RondjeBreda.ViewModels.DataModels;
 using System.ComponentModel;
+using LocalizationResourceManager.Maui;
 
 namespace RondjeBreda.ViewModels;
 
@@ -15,13 +16,16 @@ public partial class VisitedLocationsViewModel : ObservableObject
     private IDatabase database;
     private IPreferences preferences;
     private IPopUp popUp;
+    private ILocalizationResourceManager resourceManager;
 
     [ObservableProperty]
     private ObservableCollection<LocationViewModel> visitedLocations;
 
-    public VisitedLocationsViewModel(IDatabase database, IPreferences preferences, IPopUp popUp) {
+    public VisitedLocationsViewModel(IDatabase database, IPreferences preferences, IPopUp popUp,
+        ILocalizationResourceManager resourceManager) {
         this.database = database;
         this.preferences = preferences;
+        this.resourceManager = resourceManager;
         VisitedLocations = new ObservableCollection<LocationViewModel>();
         this.popUp = popUp;
     }
@@ -49,6 +53,10 @@ public partial class VisitedLocationsViewModel : ObservableObject
     [RelayCommand]
     private void LocationTapped(LocationViewModel location)
     {
-        popUp.ShowPopUpAsync(location.imagePath, location.Name, $"{location.latitude},{location.longitude}");
+        popUp.ShowPopUpAsync(
+            location.ImagePath, 
+            location.Name, 
+            $"{location.Latitude},{location.Longitude}",
+            resourceManager["popupButton"]);
     }
 }
