@@ -147,7 +147,6 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
-
         this.indexRoute++;
         if (indexRoute >= routePoints.Count)
         {
@@ -275,12 +274,6 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
-
-        foreach (var location in routePoints)
-        {
-            // TODO: Check if location is visited, first one that don't need to be set
-        }
-
         Circle circle = new Circle
         {
             Center = new Microsoft.Maui.Devices.Sensors.Location(nextLocation.Latitude, nextLocation.Longitude),
@@ -403,17 +396,12 @@ public partial class HomePageViewModel : ObservableObject
                 ImagePath = location.ImagePath,
                 RouteOrderNumber = component.RouteOrderNumber
             });
-
-            if (component.Visited)
-            {
-
-            }
             Debug.WriteLine($"Name: {location.Name}, Latitude: {location.Latitude}, Longtitude: {location.Longitude}, Image: {location.ImagePath}");
         }
 
        
         UpdatePins();
-        //sort locations (implemented with comparable
+        //sort locations (implemented with comparable)
         locations.Sort();
         return locations;
     }
