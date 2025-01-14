@@ -39,7 +39,7 @@
                                 <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Source="{Binding ImagePath}" 
                                        MaximumWidthRequest="100" MaximumHeightRequest="100" Margin="0,0,5,0"/>
                                 <Label Text="{Binding Name}" FontSize="Header" FontAttributes="Bold" 
-                                       Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="Center"/>
+                                       Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Start"/>
                             </Grid>
 
 						</Frame>

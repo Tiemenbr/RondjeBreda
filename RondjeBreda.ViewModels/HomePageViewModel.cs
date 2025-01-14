@@ -116,6 +116,11 @@ public partial class HomePageViewModel : ObservableObject
         if (indexRoute >= routePoints.Count)
         {
             indexRoute = 0;
+            foreach (var location in routePoints)
+            {
+                database.UpdateRouteComponent("Historische Kilometer", location.longitude, location.latitude, false);
+            }
+            return;
         }
 
         await popUp.ShowPopUpAsync(
@@ -129,11 +134,29 @@ public partial class HomePageViewModel : ObservableObject
         await database.UpdateRouteComponent("Historische Kilometer", nextLocation.Longitude, nextLocation.Latitude, true);
         this.nextLocation = routePoints[this.indexRoute];
 
-        // TODO: picker moet route inladen
         await ReadyNextLine();
         DrawCircleNextLocation();
         SetMapSpan();
         
+    }
+
+    private async Task SkipLoaction()
+    {
+        if (routePoints.Count == 0)
+        {
+            return;
+        }
+
+        this.indexRoute++;
+        if (indexRoute >= routePoints.Count)
+        {
+            indexRoute = 0;
+        }
+        this.nextLocation = routePoints[this.indexRoute];
+
+        await ReadyNextLine();
+        DrawCircleNextLocation();
+        SetMapSpan();
     }
 
     private async Task LoadRoute()
@@ -221,6 +244,10 @@ public partial class HomePageViewModel : ObservableObject
     private async Task ReadyNextLine()
     {
         // DatabaseRoute to the next point of the route
+        if (nextLocation.Name == null)
+        {
+            await SkipLoaction();
+        }
         var routeToFirstPoint = await mapsAPI.CreateRoute($"{userLat}", $"{userLon}",
             $"{nextLocation.Latitude}", $"{nextLocation.Longitude}");
         Polyline firstpolyline = new Polyline
@@ -245,12 +272,6 @@ public partial class HomePageViewModel : ObservableObject
         if (this.routePoints == null || this.routePoints.Count == 0)
         {
             return;
-        }
-
-
-        foreach (var location in routePoints)
-        {
-            // TODO: Check if location is visited, first one that don't need to be set
         }
 
         Circle circle = new Circle
@@ -317,18 +338,17 @@ public partial class HomePageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ImageButtonPressed()
+    private async Task ImageButtonPressed()
     {
         if (routePaused)
         {
-            LoadRoute();
+            await ReadyNextLine();
             DrawCircleNextLocation();
             SetMapSpan();
         }
         else
         {
             selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
-            LoadRoute();
             SetOverviewMapSpan();
         }
         routePaused = !routePaused;
@@ -362,10 +382,16 @@ public partial class HomePageViewModel : ObservableObject
                 continue;
             }
 
+            var description = location.Description;
+            if (location.Description.StartsWith("NoDescription"))
+            {
+                description = "-- No Description --";
+            }
             locations.Add(new Location
             {
                 Name = location.Name,
                 Latitude = location.Latitude,
+                Description = description,
                 Longitude = location.Longitude,
                 ImagePath = location.ImagePath,
                 RouteOrderNumber = component.RouteOrderNumber
@@ -373,21 +399,9 @@ public partial class HomePageViewModel : ObservableObject
             Debug.WriteLine($"Name: {location.Name}, Latitude: {location.Latitude}, Longtitude: {location.Longitude}, Image: {location.ImagePath}");
         }
 
-        // Testdata
-        // var testList = new List<Location>();
-        // testList.Add(new Location
-        //     { Latitude = 51.594445, Longitude = 4.779417, Name = "Oude VVV-pand", ImagePath = "dotnet_bot.png" });
-        // testList.Add(new Location
-        //     { Latitude = 51.593278, Longitude = 4.779388, Name = "Liefdeszuster", ImagePath = "location_3.png" });
-        // testList.Add(new Location
-        // {
-        //     Latitude = 51.592500, Longitude = 4.779695, Name = "Nassau Baronie Monument", ImagePath = "location_4.png"
-        // });
-        // testList.Add(new Location
-        //     { Latitude = 51.592833, Longitude = 4.778472, Name = "The Light House", ImagePath = "location_5.png" });
-
+       
         UpdatePins();
-        //sort locations (implemented with comparable
+        //sort locations (implemented with comparable)
         locations.Sort();
         return locations;
     }

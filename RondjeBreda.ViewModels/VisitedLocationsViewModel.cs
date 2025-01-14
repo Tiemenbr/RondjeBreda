@@ -47,6 +47,7 @@ public partial class VisitedLocationsViewModel : ObservableObject
             VisitedLocations.Add(new LocationViewModel()
             {
                 Name = location.Name,
+                Description = location.Description,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
                 ImagePath = location.ImagePath,
