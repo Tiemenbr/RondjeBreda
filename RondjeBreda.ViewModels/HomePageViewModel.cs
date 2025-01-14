@@ -345,18 +345,17 @@ public partial class HomePageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ImageButtonPressed()
+    private async Task ImageButtonPressed()
     {
         if (routePaused)
         {
-            LoadRoute();
+            await ReadyNextLine();
             DrawCircleNextLocation();
             SetMapSpan();
         }
         else
         {
             selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
-            LoadRoute();
             SetOverviewMapSpan();
         }
         routePaused = !routePaused;
@@ -404,6 +403,11 @@ public partial class HomePageViewModel : ObservableObject
                 ImagePath = location.ImagePath,
                 RouteOrderNumber = component.RouteOrderNumber
             });
+
+            if (component.Visited)
+            {
+
+            }
             Debug.WriteLine($"Name: {location.Name}, Latitude: {location.Latitude}, Longtitude: {location.Longitude}, Image: {location.ImagePath}");
         }
 
