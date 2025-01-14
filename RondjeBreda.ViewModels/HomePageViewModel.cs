@@ -116,6 +116,11 @@ public partial class HomePageViewModel : ObservableObject
         if (indexRoute >= routePoints.Count)
         {
             indexRoute = 0;
+            foreach (var location in routePoints)
+            {
+                database.UpdateRouteComponent("Historische Kilometer", location.longitude, location.latitude, false);
+            }
+            return;
         }
 
         await popUp.ShowPopUpAsync(
