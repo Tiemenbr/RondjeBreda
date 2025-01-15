@@ -106,6 +106,15 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No description.
+        /// </summary>
+        internal static string NoDescription {
+            get {
+                return ResourceManager.GetString("NoDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string popupButton {

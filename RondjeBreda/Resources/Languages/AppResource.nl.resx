@@ -144,4 +144,7 @@
   <data name="popupButton" xml:space="preserve">
     <value>Sluiten</value>
   </data>
+  <data name="NoDescription" xml:space="preserve">
+    <value>Geen beschrijving</value>
+  </data>
 </root>

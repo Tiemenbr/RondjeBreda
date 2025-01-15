@@ -123,6 +123,10 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        if (nextLocation.Description.StartsWith("NoDescription"))
+        {
+            nextLocation.Description = localizationResourceManager["NoDescription"];
+        }
         await popUp.ShowPopUpAsync(
             nextLocation.ImagePath,
             nextLocation.Name,
@@ -381,17 +385,12 @@ public partial class HomePageViewModel : ObservableObject
             {
                 continue;
             }
-
-            var description = location.Description;
-            if (location.Description.StartsWith("NoDescription"))
-            {
-                description = "-- No Description --";
-            }
+            
             locations.Add(new Location
             {
                 Name = location.Name,
                 Latitude = location.Latitude,
-                Description = description,
+                Description = location.Description,
                 Longitude = location.Longitude,
                 ImagePath = location.ImagePath,
                 RouteOrderNumber = component.RouteOrderNumber
