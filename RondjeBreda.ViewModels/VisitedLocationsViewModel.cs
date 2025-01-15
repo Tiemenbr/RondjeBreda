@@ -59,6 +59,10 @@ public partial class VisitedLocationsViewModel : ObservableObject
     [RelayCommand]
     private void LocationTapped(LocationViewModel location)
     {
+        if (location.Description.StartsWith("NoDescription"))
+        {
+            location.Description = resourceManager["NoDescription"];
+        }
         popUp.ShowPopUpAsync(
             location.ImagePath, 
             location.Name, 

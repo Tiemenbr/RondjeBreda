@@ -89,17 +89,20 @@ public partial class HomePageViewModel : ObservableObject
     }
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
+        Debug.WriteLine($"Location Changed");
         this.userLat = e.Location.Latitude;
         this.userLon = e.Location.Longitude;
 
         if (nextLocation == null)
         {
+            Debug.WriteLine("Next Location is null");
             return;
         }
 
         if (Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLat, userLon,
                 nextLocation.Latitude, nextLocation.Longitude, DistanceUnits.Kilometers) <= 0.02)
         {
+            Debug.WriteLine("Location Reached");
             LocationReached();
         }
     }
@@ -137,6 +140,8 @@ public partial class HomePageViewModel : ObservableObject
 
         await database.UpdateRouteComponent("Historische Kilometer", nextLocation.Longitude, nextLocation.Latitude, true);
         this.nextLocation = routePoints[this.indexRoute];
+        Debug.WriteLine($"Next Location: {nextLocation.Name}, {nextLocation.Description}, {nextLocation.Longitude}, {nextLocation.Latitude}");
+
 
         await ReadyNextLine();
         DrawCircleNextLocation();
@@ -157,6 +162,7 @@ public partial class HomePageViewModel : ObservableObject
             indexRoute = 0;
         }
         this.nextLocation = routePoints[this.indexRoute];
+        Debug.WriteLine($"Next Location: {nextLocation.Name}, {nextLocation.Description}, {nextLocation.Longitude}, {nextLocation.Latitude}");
 
         await ReadyNextLine();
         DrawCircleNextLocation();
