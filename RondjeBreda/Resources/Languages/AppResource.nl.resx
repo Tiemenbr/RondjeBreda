@@ -147,4 +147,10 @@
   <data name="NoDescription" xml:space="preserve">
     <value>Geen beschrijving</value>
   </data>
+  <data name="RightSide" xml:space="preserve">
+    <value>Rechterkant</value>
+  </data>
+  <data name="Art" xml:space="preserve">
+    <value>Kunst</value>
+  </data>
 </root>

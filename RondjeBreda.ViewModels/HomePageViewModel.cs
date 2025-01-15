@@ -130,6 +130,14 @@ public partial class HomePageViewModel : ObservableObject
         {
             nextLocation.Description = localizationResourceManager["NoDescription"];
         }
+
+        if (nextLocation.Name.Contains("(rechter zijde)"))
+        {
+            nextLocation.Name = nextLocation.Name.Replace("rechter zijde", localizationResourceManager["RightSide"]);
+        } else if (nextLocation.Name.Contains("(kunst)"))
+        {
+            nextLocation.Name = nextLocation.Name.Replace("kunst", localizationResourceManager["Art"]);
+        }
         await popUp.ShowPopUpAsync(
             nextLocation.ImagePath,
             nextLocation.Name,

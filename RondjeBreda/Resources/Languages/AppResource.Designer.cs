@@ -61,6 +61,15 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Art.
+        /// </summary>
+        internal static string Art {
+            get {
+                return ResourceManager.GetString("Art", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Standard Colors.
         /// </summary>
         internal static string ColorMode1 {
@@ -120,6 +129,15 @@ namespace RondjeBreda.Resources.Languages {
         internal static string popupButton {
             get {
                 return ResourceManager.GetString("popupButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right side.
+        /// </summary>
+        internal static string RightSide {
+            get {
+                return ResourceManager.GetString("RightSide", resourceCulture);
             }
         }
         
