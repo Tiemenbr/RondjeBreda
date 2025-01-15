@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -28,7 +28,7 @@ public partial class HomePageViewModel : ObservableObject
     private ILocalizationResourceManager localizationResourceManager;
 
     private Domain.Models.DatabaseModels.Route selectedDatabaseRoute;
-    private bool routePaused;
+    [ObservableProperty] private bool routePaused = true;
     public double userLat, userLon;
     private List<ViewModels.DataModels.LocationViewModel> routePoints;
     private Location nextLocation;
@@ -340,7 +340,7 @@ public partial class HomePageViewModel : ObservableObject
     [RelayCommand]
     private async Task ImageButtonPressed()
     {
-        if (routePaused)
+        if (RoutePaused)
         {
             await ReadyNextLine();
             DrawCircleNextLocation();
@@ -351,7 +351,7 @@ public partial class HomePageViewModel : ObservableObject
             selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
             SetOverviewMapSpan();
         }
-        routePaused = !routePaused;
+        RoutePaused = !RoutePaused;
     }
 
     public async Task<List<Location>> LoadPoints()
@@ -417,7 +417,7 @@ public partial class HomePageViewModel : ObservableObject
 
         Routes = routeList;
 
-        this.routePaused = true;
+        this.RoutePaused = true;
     }
 
     public async Task routeSelected()
