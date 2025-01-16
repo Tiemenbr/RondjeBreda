@@ -166,6 +166,9 @@ public partial class HomePageViewModel : ObservableObject
         
     }
 
+    /// <summary>
+    /// When nextLocation name is null method is called to ensure next line is readied.
+    /// </summary>
     private async Task SkipLocation()
     {
         if (routePoints.Count == 0)
@@ -271,6 +274,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdatePins();
     }
 
+    /// <summary>
+    /// Readies next line the route goes to.
+    /// </summary>
     private async Task ReadyNextLine()
     {
         // DatabaseRoute to the next point of the route
@@ -304,6 +310,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapElements();
     }
 
+    /// <summary>
+    /// Draws circle around the next location with a radius of 20 metres.
+    /// </summary>
     private void DrawCircleNextLocation()
     {
         if (this.routePoints == null || this.routePoints.Count == 0)
@@ -324,6 +333,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapElements();
     }
 
+    /// <summary>
+    /// Sets visible area of the map around the next location.
+    /// </summary>
     private void SetMapSpan()
     {
         if (this.nextLocation == null)
@@ -346,6 +358,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapSpan();
     }
 
+    /// <summary>
+    /// Sets visible area of the map around the route.
+    /// </summary>
     private void SetOverviewMapSpan()
     {
         if (Pins.Count == 0)
@@ -374,6 +389,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapElements();
     }
 
+    /// <summary>
+    /// Pauses or continues route after pause button is pressed.
+    /// </summary>
     [RelayCommand]
     private async Task ImageButtonPressed()
     {
@@ -391,6 +409,9 @@ public partial class HomePageViewModel : ObservableObject
         RoutePaused = !RoutePaused;
     }
 
+    /// <summary>
+    /// Load points of selected route.
+    /// </summary>
     public async Task<List<Location>> LoadPoints()
     {
         // TODO: DatabaseRoute component tabel goed ophalen
@@ -438,6 +459,9 @@ public partial class HomePageViewModel : ObservableObject
         return locations;
     }
 
+    /// <summary>
+    /// Gets routes from database.
+    /// </summary>
     public async Task LoadRouteFromDatabase()
     {
         var routes = await database.GetRouteTableAsync();
@@ -452,6 +476,9 @@ public partial class HomePageViewModel : ObservableObject
         this.RoutePaused = true;
     }
 
+    /// <summary>
+    /// Loads selected route and shows it on screen.
+    /// </summary>
     public async Task routeSelected()
     {
         Polylines.Clear();
