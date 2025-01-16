@@ -262,8 +262,15 @@ public partial class HomePageViewModel : ObservableObject
     private async Task ReadyNextLine()
     {
         // DatabaseRoute to the next point of the route
-        if (nextLocation.Name == null)
-        {
+
+        try {
+            if (selectedDatabaseRoute.Name == null)
+                return;
+        } catch (NullReferenceException exception) {
+            return;
+        }
+
+        if (nextLocation.Name == null) {
             await SkipLoaction();
         }
         var routeToFirstPoint = await mapsAPI.CreateRoute($"{userLat}", $"{userLon}",
