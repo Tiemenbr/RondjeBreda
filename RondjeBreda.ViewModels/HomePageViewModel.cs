@@ -36,6 +36,7 @@ public partial class HomePageViewModel : ObservableObject
     private int indexRoute = 0;
     private bool isListening = false;
     private Polyline currentPolyline = null;
+    private bool popupOffTrackActive = false;
 
     //TODO: event aanroepen door update() wel methodes toevoegen
     public event Action UpdateMapSpan;
@@ -47,7 +48,6 @@ public partial class HomePageViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<Polyline> polylines;
     [ObservableProperty] private Circle rangeCircle;
     [ObservableProperty] private MapSpan currentMapSpan;
-    [ObservableProperty] private string onTrack;
 
     public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation,
         IPopUp popUp, ILocalizationResourceManager localizationResourceManager)
@@ -61,7 +61,6 @@ public partial class HomePageViewModel : ObservableObject
         this.geolocation = geolocation;
         this.popUp = popUp;
         this.localizationResourceManager = localizationResourceManager;
-        onTrack = "Not initialized!";
     }
 
     /// <summary>
@@ -109,14 +108,23 @@ public partial class HomePageViewModel : ObservableObject
         // Check if the user is near the current polyline (in green)
         Microsoft.Maui.Devices.Sensors.Location userLocation = new Microsoft.Maui.Devices.Sensors.Location(userLat, userLon);
         bool isOnPolyline = currentPolyline.Geopath.Any(location => 
-            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.02);
+            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.025); // Detect 25 meters or more from the polyline
         if (!isOnPolyline)
         {
-            OnTrack = $"Off Track!";
-        }
-        else
+            if (!popupOffTrackActive)
+            {
+                popUp.ShowPopUpAsync(
+                    "", 
+                    "Hey!", 
+                    localizationResourceManager["OffTrack"], 
+                    "", 
+                    localizationResourceManager["popupButton"]);
+
+                popupOffTrackActive = true;
+            }
+        } else
         {
-            OnTrack = $"On Track!";
+            popupOffTrackActive = false;
         }
 
         if (nextLocation == null)
@@ -188,7 +196,6 @@ public partial class HomePageViewModel : ObservableObject
         await ReadyNextLine();
         DrawCircleNextLocation();
         SetMapSpan();
-        
     }
 
     /// <summary>
@@ -307,7 +314,6 @@ public partial class HomePageViewModel : ObservableObject
     private async Task ReadyNextLine()
     {
         // DatabaseRoute to the next point of the route
-
         try {
             if (selectedDatabaseRoute.Name == null)
                 return;
@@ -508,10 +514,11 @@ public partial class HomePageViewModel : ObservableObject
     /// <summary>
     /// Loads selected route and shows it on screen.
     /// </summary>
-    public async Task routeSelected()
+    public async Task routeSelected(string routeName)
     {
         Polylines.Clear();
         selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
+        selectedDatabaseRoute.Name = routeName;
         await LoadRoute();
         SetOverviewMapSpan();
     }

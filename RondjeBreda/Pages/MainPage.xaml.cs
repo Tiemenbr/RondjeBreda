@@ -69,8 +69,6 @@ namespace RondjeBreda.Pages
                     Map.MapElements.Add(polyline);
                 }
             }
-            
-            
         }
 
         protected override async void OnAppearing() {
@@ -82,7 +80,9 @@ namespace RondjeBreda.Pages
 
         private void Picker_OnSelectedIndexChanged(object? sender, EventArgs e)
         {
-            homePageViewModel.routeSelected();
+            var picker = (Picker)sender;
+            string routeName = picker.SelectedItem.ToString().Trim();
+            homePageViewModel.routeSelected(routeName);
         }
     }
 }
