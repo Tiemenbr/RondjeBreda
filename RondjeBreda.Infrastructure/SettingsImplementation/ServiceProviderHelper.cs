@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace RondjeBreda.Infrastructure.SettingsImplementation
 {
+    /// <summary>
+    /// Provides culture to TextToSpeechSetting.
+    /// </summary>
     public static class ServiceProviderHelper
     {
         public static IServiceProvider ServiceProvider { get; set; }
