@@ -62,6 +62,9 @@ public partial class HomePageViewModel : ObservableObject
 
     }
 
+    /// <summary>
+    /// Starts listener for location changes.
+    /// </summary>
     public async Task StartListening()
     {
         if (isListening)
@@ -87,6 +90,9 @@ public partial class HomePageViewModel : ObservableObject
                 localizationResourceManager["popupButton"]);
         }
     }
+    /// <summary>
+    /// Handles geolocation location changed event.
+    /// </summary>
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
         Debug.WriteLine($"Location Changed");
@@ -107,6 +113,9 @@ public partial class HomePageViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Shows popup after a location has been reached.
+    /// </summary>
     private async Task LocationReached()
     {
         if (routePoints.Count == 0)
@@ -157,7 +166,7 @@ public partial class HomePageViewModel : ObservableObject
         
     }
 
-    private async Task SkipLoaction()
+    private async Task SkipLocation()
     {
         if (routePoints.Count == 0)
         {
@@ -177,6 +186,9 @@ public partial class HomePageViewModel : ObservableObject
         SetMapSpan();
     }
 
+    /// <summary>
+    /// Loads route after route has been selected and shows the route on map.
+    /// </summary>
     private async Task LoadRoute()
     {
         // Punten van de geselecteerde route laden
@@ -271,7 +283,7 @@ public partial class HomePageViewModel : ObservableObject
         }
 
         if (nextLocation.Name == null) {
-            await SkipLoaction();
+            await SkipLocation();
         }
         var routeToFirstPoint = await mapsAPI.CreateRoute($"{userLat}", $"{userLon}",
             $"{nextLocation.Latitude}", $"{nextLocation.Longitude}");
