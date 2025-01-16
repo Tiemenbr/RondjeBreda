@@ -21,6 +21,9 @@ public class SQLiteDatabase : IDatabase
     public SQLiteDatabase() {
     }
 
+    /// <summary>
+    /// Gets SQLite Database or creates SQLite Database if Database doesn't exist.
+    /// </summary>
     public async Task Init() 
     {
         if (_connection != null) 
@@ -112,6 +115,9 @@ public class SQLiteDatabase : IDatabase
         }
     }
 
+    /// <summary>
+    /// drops tables RouteComponent, Route, Location and Description in database.
+    /// </summary>
     private async Task dropTables()
     {
         await _connection.DropTableAsync<RouteComponent>();

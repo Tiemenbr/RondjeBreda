@@ -19,6 +19,9 @@ public class MapsAPI : IMapsAPI
         GetMapsAPIKey();
     }
 
+    /// <summary>
+    /// gets maps api key from KeyReaderMaps.
+    /// </summary>
     public async Task GetMapsAPIKey()
     {
         try
