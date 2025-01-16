@@ -22,6 +22,9 @@
         <Picker Title="Select a route"
                 ItemsSource="{Binding Routes}"
                 SelectedIndexChanged="Picker_OnSelectedIndexChanged"/> 
+        
+        <!-- Label to show if the user is on track -->
+        <Label x:Name="OnTrack" Text="{Binding OnTrack}" />
 
         <!-- Map -->
         <maps:Map x:Name="Map" HeightRequest="450" IsShowingUser="True"/>

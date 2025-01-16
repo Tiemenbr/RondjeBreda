@@ -45,7 +45,7 @@ public partial class HomePageViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<Polyline> polylines;
     [ObservableProperty] private Circle rangeCircle;
     [ObservableProperty] private MapSpan currentMapSpan;
-
+    [ObservableProperty] private string onTrack;
 
     public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation,
         IPopUp popUp, ILocalizationResourceManager localizationResourceManager)
@@ -59,7 +59,7 @@ public partial class HomePageViewModel : ObservableObject
         this.geolocation = geolocation;
         this.popUp = popUp;
         this.localizationResourceManager = localizationResourceManager;
-
+        onTrack = "Not initialized!";
     }
 
     public async Task StartListening()
@@ -91,6 +91,36 @@ public partial class HomePageViewModel : ObservableObject
     {
         this.userLat = e.Location.Latitude;
         this.userLon = e.Location.Longitude;
+
+        if (Polylines.Count == 0)
+        {
+            return;
+        }
+
+        Microsoft.Maui.Devices.Sensors.Location userLocation = new Microsoft.Maui.Devices.Sensors.Location(userLat, userLon);
+        var polyline = Polylines.ElementAt(indexRoute);
+        if (polyline != null)
+        {
+            bool isOnPolyline = polyline.Geopath.Any(location =>
+                Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.02);
+            if (!isOnPolyline)
+            {
+                OnTrack = $"Off Track!";
+            }
+                var distance = Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, polyline.Geopath.Last(), DistanceUnits.Kilometers);
+            if (distance <= 0.02)
+            {
+                OnTrack = $"On track!";
+            }
+            else
+            {
+                OnTrack = $"Off track!";
+            }
+        }
+        else
+        {
+            OnTrack = $"Polyline is null!";
+        }
 
         if (nextLocation == null)
         {
