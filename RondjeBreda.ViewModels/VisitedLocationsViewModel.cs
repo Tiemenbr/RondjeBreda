@@ -72,5 +72,6 @@ public partial class VisitedLocationsViewModel : ObservableObject
 
         var textToSpeechSettings = new TextToSpeechSetting();
         textToSpeechSettings.Speak(location.name);
+        textToSpeechSettings.Speak(location.description);
     }
 }
