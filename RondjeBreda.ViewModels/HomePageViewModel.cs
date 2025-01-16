@@ -34,6 +34,7 @@ public partial class HomePageViewModel : ObservableObject
     private Location nextLocation;
     private int indexRoute = 0;
     private bool isListening = false;
+    private Polyline currentPolyline = null;
 
     //TODO: event aanroepen door update() wel methodes toevoegen
     public event Action UpdateMapSpan;
@@ -87,6 +88,7 @@ public partial class HomePageViewModel : ObservableObject
                 localizationResourceManager["popupButton"]);
         }
     }
+
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
         this.userLat = e.Location.Latitude;
@@ -97,29 +99,17 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        // Check if the user is near the current polyline (in green)
         Microsoft.Maui.Devices.Sensors.Location userLocation = new Microsoft.Maui.Devices.Sensors.Location(userLat, userLon);
-        var polyline = Polylines.ElementAt(indexRoute);
-        if (polyline != null)
+        bool isOnPolyline = currentPolyline.Geopath.Any(location => 
+            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.02);
+        if (!isOnPolyline)
         {
-            bool isOnPolyline = polyline.Geopath.Any(location =>
-                Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.02);
-            if (!isOnPolyline)
-            {
-                OnTrack = $"Off Track!";
-            }
-                var distance = Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, polyline.Geopath.Last(), DistanceUnits.Kilometers);
-            if (distance <= 0.02)
-            {
-                OnTrack = $"On track!";
-            }
-            else
-            {
-                OnTrack = $"Off track!";
-            }
+            OnTrack = $"Off Track!";
         }
         else
         {
-            OnTrack = $"Polyline is null!";
+            OnTrack = $"On Track!";
         }
 
         if (nextLocation == null)
@@ -258,6 +248,8 @@ public partial class HomePageViewModel : ObservableObject
             StrokeColor = Colors.Chartreuse,
             StrokeWidth = 12,
         };
+        currentPolyline = firstpolyline;
+
         var firstlocations = mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
         foreach (var tempLocation in firstlocations)
         {
@@ -285,6 +277,8 @@ public partial class HomePageViewModel : ObservableObject
             StrokeColor = Colors.Chartreuse,
             StrokeWidth = 12,
         };
+        currentPolyline = firstpolyline;
+
         var firstlocations = mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
         foreach (var tempLocation in firstlocations)
         {
