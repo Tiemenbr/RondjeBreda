@@ -12,6 +12,7 @@ using RondjeBreda.Domain.Models;
 using Distance = Microsoft.Maui.Maps.Distance;
 using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
 using RondjeBreda.Infrastructure;
+using RondjeBreda.Infrastructure.SettingsImplementation;
 
 namespace RondjeBreda.ViewModels;
 
@@ -147,6 +148,11 @@ public partial class HomePageViewModel : ObservableObject
         {
             nextLocation.Name = nextLocation.Name.Replace("kunst", localizationResourceManager["Art"]);
         }
+
+        var textToSpeech = new TextToSpeechSetting();
+        textToSpeech.Speak(nextLocation.Name);
+        textToSpeech.Speak(nextLocation.Description);
+
         await popUp.ShowPopUpAsync(
             nextLocation.ImagePath,
             nextLocation.Name,
