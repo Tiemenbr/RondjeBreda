@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -28,7 +28,7 @@ public partial class HomePageViewModel : ObservableObject
     private ILocalizationResourceManager localizationResourceManager;
 
     private Domain.Models.DatabaseModels.Route selectedDatabaseRoute;
-    private bool routePaused;
+    [ObservableProperty] private bool routePaused = true;
     public double userLat, userLon;
     private List<ViewModels.DataModels.LocationViewModel> routePoints;
     private Location nextLocation;
@@ -89,17 +89,20 @@ public partial class HomePageViewModel : ObservableObject
     }
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
+        Debug.WriteLine($"Location Changed");
         this.userLat = e.Location.Latitude;
         this.userLon = e.Location.Longitude;
 
         if (nextLocation == null)
         {
+            Debug.WriteLine("Next Location is null");
             return;
         }
 
         if (Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLat, userLon,
                 nextLocation.Latitude, nextLocation.Longitude, DistanceUnits.Kilometers) <= 0.02)
         {
+            Debug.WriteLine("Location Reached");
             LocationReached();
         }
     }
@@ -123,6 +126,18 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        if (nextLocation.Description.StartsWith("NoDescription"))
+        {
+            nextLocation.Description = localizationResourceManager["NoDescription"];
+        }
+
+        if (nextLocation.Name.Contains("(rechter zijde)"))
+        {
+            nextLocation.Name = nextLocation.Name.Replace("rechter zijde", localizationResourceManager["RightSide"]);
+        } else if (nextLocation.Name.Contains("(kunst)"))
+        {
+            nextLocation.Name = nextLocation.Name.Replace("kunst", localizationResourceManager["Art"]);
+        }
         await popUp.ShowPopUpAsync(
             nextLocation.ImagePath,
             nextLocation.Name,
@@ -133,6 +148,8 @@ public partial class HomePageViewModel : ObservableObject
 
         await database.UpdateRouteComponent("Historische Kilometer", nextLocation.Longitude, nextLocation.Latitude, true);
         this.nextLocation = routePoints[this.indexRoute];
+        Debug.WriteLine($"Next Location: {nextLocation.Name}, {nextLocation.Description}, {nextLocation.Longitude}, {nextLocation.Latitude}");
+
 
         await ReadyNextLine();
         DrawCircleNextLocation();
@@ -153,6 +170,7 @@ public partial class HomePageViewModel : ObservableObject
             indexRoute = 0;
         }
         this.nextLocation = routePoints[this.indexRoute];
+        Debug.WriteLine($"Next Location: {nextLocation.Name}, {nextLocation.Description}, {nextLocation.Longitude}, {nextLocation.Latitude}");
 
         await ReadyNextLine();
         DrawCircleNextLocation();
@@ -340,7 +358,7 @@ public partial class HomePageViewModel : ObservableObject
     [RelayCommand]
     private async Task ImageButtonPressed()
     {
-        if (routePaused)
+        if (RoutePaused)
         {
             await ReadyNextLine();
             DrawCircleNextLocation();
@@ -351,7 +369,7 @@ public partial class HomePageViewModel : ObservableObject
             selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
             SetOverviewMapSpan();
         }
-        routePaused = !routePaused;
+        RoutePaused = !RoutePaused;
     }
 
     public async Task<List<Location>> LoadPoints()
@@ -381,17 +399,12 @@ public partial class HomePageViewModel : ObservableObject
             {
                 continue;
             }
-
-            var description = location.Description;
-            if (location.Description.StartsWith("NoDescription"))
-            {
-                description = "-- No Description --";
-            }
+            
             locations.Add(new Location
             {
                 Name = location.Name,
                 Latitude = location.Latitude,
-                Description = description,
+                Description = location.Description,
                 Longitude = location.Longitude,
                 ImagePath = location.ImagePath,
                 RouteOrderNumber = component.RouteOrderNumber
@@ -417,7 +430,7 @@ public partial class HomePageViewModel : ObservableObject
 
         Routes = routeList;
 
-        this.routePaused = true;
+        this.RoutePaused = true;
     }
 
     public async Task routeSelected()

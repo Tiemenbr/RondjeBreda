@@ -21,17 +21,29 @@
         <!-- Route selector -->
         <Picker Title="Select a route"
                 ItemsSource="{Binding Routes}"
-                SelectedIndexChanged="Picker_OnSelectedIndexChanged"/> 
+                SelectedIndexChanged="Picker_OnSelectedIndexChanged" />
 
         <!-- Map -->
-        <maps:Map x:Name="Map" HeightRequest="450" IsShowingUser="True"/>
+        <maps:Map x:Name="Map" HeightRequest="450" IsShowingUser="True" />
 
         <!-- Pause Button -->
         <ImageButton Source="play_pause.png"
-                     BackgroundColor="Gray"
                      Command="{Binding ImageButtonPressedCommand}"
                      HorizontalOptions="Center"
-                     VerticalOptions="Center" />
+                     VerticalOptions="Center">
+            <ImageButton.Triggers>
+                <DataTrigger TargetType="ImageButton"
+                             Binding="{Binding RoutePaused}"
+                             Value="True">
+                    <Setter Property="BackgroundColor" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger TargetType="ImageButton"
+                             Binding="{Binding RoutePaused}"
+                             Value="False">
+                    <Setter Property="BackgroundColor" Value="Green"/>
+                </DataTrigger>
+            </ImageButton.Triggers>
+        </ImageButton>
     </VerticalStackLayout>
 
 
