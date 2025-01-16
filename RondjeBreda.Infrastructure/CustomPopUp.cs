@@ -5,6 +5,9 @@ namespace RondjeBreda.Infrastructure;
 
 public class CustomPopUp : Popup
 {
+    /// <summary>
+    /// Creates custom popup for PopUp class.
+    /// </summary>
     public CustomPopUp(string imagePath, string name, string description, string location, string localizedButtonText)
     {
         Content = new ScrollView

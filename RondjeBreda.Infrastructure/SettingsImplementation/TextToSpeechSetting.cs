@@ -8,6 +8,11 @@ namespace RondjeBreda.Infrastructure.SettingsImplementation
     {
         private static ILocalizationResourceManager LocalizationResourceManager =>
             ServiceProviderHelper.GetService<ILocalizationResourceManager>();
+
+        /// <summary>
+        /// Text gets converted to speech in the currently selected language.
+        /// </summary>
+        /// <param name="text">Text that gets converted.</param>
         public async void Speak(string text)
         {
             bool ttsEnabled = ServiceProviderHelper.GetService<IPreferences>().Get("TextToSpeech", false);

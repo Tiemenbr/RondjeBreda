@@ -101,6 +101,9 @@ public partial class SettingsViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Sets app language to English.
+    /// </summary>
     private void SetLanguageEnglish()
     {
         if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "en" || startup) // Only change the language if it isn't already English 
@@ -113,6 +116,9 @@ public partial class SettingsViewModel : ObservableObject
             startup = false;
         }
     }
+    /// <summary>
+    /// Sets app language to Dutch.
+    /// </summary>
     private void SetLanguageDutch()
     {
         if (localizationResourceManager.CurrentCulture.TwoLetterISOLanguageName != "nl" || startup) // Only change the language if it isn't already Dutch
@@ -126,6 +132,9 @@ public partial class SettingsViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Refreshes color modes to ensure correct language after language change.
+    /// </summary>
     private void RefreshColorModesList()
     {
         if (ColorModes.Count != 0)
