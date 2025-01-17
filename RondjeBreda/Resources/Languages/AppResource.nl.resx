@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -152,5 +152,8 @@
   </data>
   <data name="Art" xml:space="preserve">
     <value>Kunst</value>
+  </data>
+  <data name="OffTrack" xml:space="preserve">
+    <value>Je loopt niet meer op het pad. Zorg ervoor dat je weer op de route komt!</value>
   </data>
 </root>

@@ -12,6 +12,7 @@ using RondjeBreda.Domain.Models;
 using Distance = Microsoft.Maui.Maps.Distance;
 using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
 using RondjeBreda.Infrastructure;
+using RondjeBreda.Infrastructure.SettingsImplementation;
 
 namespace RondjeBreda.ViewModels;
 
@@ -34,6 +35,8 @@ public partial class HomePageViewModel : ObservableObject
     private Location nextLocation;
     private int indexRoute = 0;
     private bool isListening = false;
+    private Polyline currentPolyline = null;
+    private bool popupOffTrackActive = false;
 
     //TODO: event aanroepen door update() wel methodes toevoegen
     public event Action UpdateMapSpan;
@@ -45,7 +48,6 @@ public partial class HomePageViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<Polyline> polylines;
     [ObservableProperty] private Circle rangeCircle;
     [ObservableProperty] private MapSpan currentMapSpan;
-
 
     public HomePageViewModel(IDatabase database, IPreferences preferences, IMapsAPI mapsAPI, IGeolocation geolocation,
         IPopUp popUp, ILocalizationResourceManager localizationResourceManager)
@@ -59,9 +61,11 @@ public partial class HomePageViewModel : ObservableObject
         this.geolocation = geolocation;
         this.popUp = popUp;
         this.localizationResourceManager = localizationResourceManager;
-
     }
 
+    /// <summary>
+    /// Starts listener for location changes.
+    /// </summary>
     public async Task StartListening()
     {
         if (isListening)
@@ -87,11 +91,41 @@ public partial class HomePageViewModel : ObservableObject
                 localizationResourceManager["popupButton"]);
         }
     }
+    /// <summary>
+    /// Handles geolocation location changed event.
+    /// </summary>
     private void LocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
     {
         Debug.WriteLine($"Location Changed");
         this.userLat = e.Location.Latitude;
         this.userLon = e.Location.Longitude;
+
+        if (Polylines.Count == 0)
+        {
+            return;
+        }
+
+        // Check if the user is near the current polyline (in green)
+        Microsoft.Maui.Devices.Sensors.Location userLocation = new Microsoft.Maui.Devices.Sensors.Location(userLat, userLon);
+        bool isOnPolyline = currentPolyline.Geopath.Any(location => 
+            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.025); // Detect 25 meters or more from the polyline
+        if (!isOnPolyline)
+        {
+            if (!popupOffTrackActive)
+            {
+                popUp.ShowPopUpAsync(
+                    "", 
+                    "Hey!", 
+                    localizationResourceManager["OffTrack"], 
+                    "", 
+                    localizationResourceManager["popupButton"]);
+
+                popupOffTrackActive = true;
+            }
+        } else
+        {
+            popupOffTrackActive = false;
+        }
 
         if (nextLocation == null)
         {
@@ -107,6 +141,9 @@ public partial class HomePageViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Shows popup after a location has been reached.
+    /// </summary>
     private async Task LocationReached()
     {
         if (routePoints.Count == 0)
@@ -138,6 +175,11 @@ public partial class HomePageViewModel : ObservableObject
         {
             nextLocation.Name = nextLocation.Name.Replace("kunst", localizationResourceManager["Art"]);
         }
+
+        var textToSpeech = new TextToSpeechSetting();
+        textToSpeech.Speak(nextLocation.Name);
+        textToSpeech.Speak(nextLocation.Description);
+
         await popUp.ShowPopUpAsync(
             nextLocation.ImagePath,
             nextLocation.Name,
@@ -154,10 +196,12 @@ public partial class HomePageViewModel : ObservableObject
         await ReadyNextLine();
         DrawCircleNextLocation();
         SetMapSpan();
-        
     }
 
-    private async Task SkipLoaction()
+    /// <summary>
+    /// When nextLocation name is null method is called to ensure next line is readied.
+    /// </summary>
+    private async Task SkipLocation()
     {
         if (routePoints.Count == 0)
         {
@@ -177,6 +221,9 @@ public partial class HomePageViewModel : ObservableObject
         SetMapSpan();
     }
 
+    /// <summary>
+    /// Loads route after route has been selected and shows the route on map.
+    /// </summary>
     private async Task LoadRoute()
     {
         // Punten van de geselecteerde route laden
@@ -246,6 +293,8 @@ public partial class HomePageViewModel : ObservableObject
             StrokeColor = Colors.Chartreuse,
             StrokeWidth = 12,
         };
+        currentPolyline = firstpolyline;
+
         var firstlocations = mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
         foreach (var tempLocation in firstlocations)
         {
@@ -259,12 +308,21 @@ public partial class HomePageViewModel : ObservableObject
         UpdatePins();
     }
 
+    /// <summary>
+    /// Readies next line the route goes to.
+    /// </summary>
     private async Task ReadyNextLine()
     {
         // DatabaseRoute to the next point of the route
-        if (nextLocation.Name == null)
-        {
-            await SkipLoaction();
+        try {
+            if (selectedDatabaseRoute.Name == null)
+                return;
+        } catch (NullReferenceException exception) {
+            return;
+        }
+
+        if (nextLocation.Name == null) {
+            await SkipLocation();
         }
         var routeToFirstPoint = await mapsAPI.CreateRoute($"{userLat}", $"{userLon}",
             $"{nextLocation.Latitude}", $"{nextLocation.Longitude}");
@@ -273,6 +331,8 @@ public partial class HomePageViewModel : ObservableObject
             StrokeColor = Colors.Chartreuse,
             StrokeWidth = 12,
         };
+        currentPolyline = firstpolyline;
+
         var firstlocations = mapsAPI.Decode(routeToFirstPoint.routes[0].overview_polyline.points);
         foreach (var tempLocation in firstlocations)
         {
@@ -285,6 +345,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapElements();
     }
 
+    /// <summary>
+    /// Draws circle around the next location with a radius of 20 metres.
+    /// </summary>
     private void DrawCircleNextLocation()
     {
         if (this.routePoints == null || this.routePoints.Count == 0)
@@ -305,6 +368,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapElements();
     }
 
+    /// <summary>
+    /// Sets visible area of the map around the next location.
+    /// </summary>
     private void SetMapSpan()
     {
         if (this.nextLocation == null)
@@ -327,6 +393,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapSpan();
     }
 
+    /// <summary>
+    /// Sets visible area of the map around the route.
+    /// </summary>
     private void SetOverviewMapSpan()
     {
         if (Pins.Count == 0)
@@ -355,6 +424,9 @@ public partial class HomePageViewModel : ObservableObject
         UpdateMapElements();
     }
 
+    /// <summary>
+    /// Pauses or continues route after pause button is pressed.
+    /// </summary>
     [RelayCommand]
     private async Task ImageButtonPressed()
     {
@@ -372,6 +444,9 @@ public partial class HomePageViewModel : ObservableObject
         RoutePaused = !RoutePaused;
     }
 
+    /// <summary>
+    /// Load points of selected route.
+    /// </summary>
     public async Task<List<Location>> LoadPoints()
     {
         // TODO: DatabaseRoute component tabel goed ophalen
@@ -419,6 +494,9 @@ public partial class HomePageViewModel : ObservableObject
         return locations;
     }
 
+    /// <summary>
+    /// Gets routes from database.
+    /// </summary>
     public async Task LoadRouteFromDatabase()
     {
         var routes = await database.GetRouteTableAsync();
@@ -433,10 +511,14 @@ public partial class HomePageViewModel : ObservableObject
         this.RoutePaused = true;
     }
 
-    public async Task routeSelected()
+    /// <summary>
+    /// Loads selected route and shows it on screen.
+    /// </summary>
+    public async Task routeSelected(string routeName)
     {
         Polylines.Clear();
         selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
+        selectedDatabaseRoute.Name = routeName;
         await LoadRoute();
         SetOverviewMapSpan();
     }

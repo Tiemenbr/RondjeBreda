@@ -30,6 +30,9 @@ public partial class VisitedLocationsViewModel : ObservableObject
         this.popUp = popUp;
     }
 
+    /// <summary>
+    /// Loads test data for visitedLocations list.
+    /// </summary>
     public async Task LoadTestData()
     {
         VisitedLocations.Clear();
@@ -56,6 +59,9 @@ public partial class VisitedLocationsViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Shows location information after a location has been tapped.
+    /// </summary>
     [RelayCommand]
     private void LocationTapped(LocationViewModel location)
     {
@@ -72,5 +78,6 @@ public partial class VisitedLocationsViewModel : ObservableObject
 
         var textToSpeechSettings = new TextToSpeechSetting();
         textToSpeechSettings.Speak(location.name);
+        textToSpeechSettings.Speak(location.description);
     }
 }

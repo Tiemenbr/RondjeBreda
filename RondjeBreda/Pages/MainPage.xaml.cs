@@ -1,16 +1,9 @@
 using RondjeBreda.Domain.Interfaces;
-using System.ComponentModel;
 using System.Diagnostics;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
-using RondjeBreda.Domain.Models;
-using RondjeBreda.Domain.Models.DatabaseModels;
-using RondjeBreda.Domain.Interfaces;
 using RondjeBreda.ViewModels;
 using Distance = Microsoft.Maui.Maps.Distance;
-using Location = Microsoft.Maui.Devices.Sensors.Location;
-using Polyline = Microsoft.Maui.Controls.Maps.Polyline;
 
 namespace RondjeBreda.Pages
 {
@@ -51,6 +44,7 @@ namespace RondjeBreda.Pages
         private void UpdatePins()
         {
             Debug.WriteLine("Update Pins");
+            
             Map.Pins.Clear();
             foreach (var pin in homePageViewModel.Pins)
             {
@@ -75,8 +69,6 @@ namespace RondjeBreda.Pages
                     Map.MapElements.Add(polyline);
                 }
             }
-            
-            
         }
 
         protected override async void OnAppearing() {
@@ -88,7 +80,9 @@ namespace RondjeBreda.Pages
 
         private void Picker_OnSelectedIndexChanged(object? sender, EventArgs e)
         {
-            homePageViewModel.routeSelected();
+            var picker = (Picker)sender;
+            string routeName = picker.SelectedItem.ToString().Trim();
+            homePageViewModel.routeSelected(routeName);
         }
     }
 }
