@@ -133,6 +133,11 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        CheckLocationReached();
+    }
+
+    private void CheckLocationReached()
+    {
         if (Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLat, userLon,
                 nextLocation.Latitude, nextLocation.Longitude, DistanceUnits.Kilometers) <= 0.02)
         {
@@ -151,6 +156,10 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        if (routePaused)
+        {
+            return;
+        }
         
         this.indexRoute++;
         if (indexRoute >= routePoints.Count)
@@ -442,6 +451,7 @@ public partial class HomePageViewModel : ObservableObject
             SetOverviewMapSpan();
         }
         RoutePaused = !RoutePaused;
+        CheckLocationReached();
     }
 
     /// <summary>
