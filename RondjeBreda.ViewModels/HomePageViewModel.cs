@@ -108,10 +108,10 @@ public partial class HomePageViewModel : ObservableObject
         // Check if the user is near the current polyline (in green)
         Microsoft.Maui.Devices.Sensors.Location userLocation = new Microsoft.Maui.Devices.Sensors.Location(userLat, userLon);
         bool isOnPolyline = currentPolyline.Geopath.Any(location => 
-            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.025); // Detect 25 meters or more from the polyline
+            Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLocation, location, DistanceUnits.Kilometers) <= 0.05); // Detect 50 meters or more from the polyline
         if (!isOnPolyline)
         {
-            if (!popupOffTrackActive)
+            if (!popupOffTrackActive && !RoutePaused)
             {
                 popUp.ShowPopUpAsync(
                     "", 
@@ -133,6 +133,11 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        CheckLocationReached();
+    }
+
+    private void CheckLocationReached()
+    {
         if (Microsoft.Maui.Devices.Sensors.Location.CalculateDistance(userLat, userLon,
                 nextLocation.Latitude, nextLocation.Longitude, DistanceUnits.Kilometers) <= 0.02)
         {
@@ -151,6 +156,10 @@ public partial class HomePageViewModel : ObservableObject
             return;
         }
 
+        if (routePaused)
+        {
+            return;
+        }
         
         this.indexRoute++;
         if (indexRoute >= routePoints.Count)
@@ -440,8 +449,10 @@ public partial class HomePageViewModel : ObservableObject
         {
             selectedDatabaseRoute = new Domain.Models.DatabaseModels.Route();
             SetOverviewMapSpan();
+            popupOffTrackActive = false;
         }
         RoutePaused = !RoutePaused;
+        CheckLocationReached();
     }
 
     /// <summary>
