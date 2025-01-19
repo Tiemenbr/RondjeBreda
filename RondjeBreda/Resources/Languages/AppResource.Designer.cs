@@ -61,6 +61,15 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Art.
+        /// </summary>
+        internal static string Art {
+            get {
+                return ResourceManager.GetString("Art", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Standard Colors.
         /// </summary>
         internal static string ColorMode1 {
@@ -88,6 +97,15 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End of city walk.
+        /// </summary>
+        internal static string End {
+            get {
+                return ResourceManager.GetString("End", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Language:.
         /// </summary>
         internal static string LanguageSelection {
@@ -106,11 +124,38 @@ namespace RondjeBreda.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No description.
+        /// </summary>
+        internal static string NoDescription {
+            get {
+                return ResourceManager.GetString("NoDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are going off track. Please make sure to follow the route!.
+        /// </summary>
+        internal static string OffTrack {
+            get {
+                return ResourceManager.GetString("OffTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string popupButton {
             get {
                 return ResourceManager.GetString("popupButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right side.
+        /// </summary>
+        internal static string RightSide {
+            get {
+                return ResourceManager.GetString("RightSide", resourceCulture);
             }
         }
         
