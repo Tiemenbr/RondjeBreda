@@ -192,6 +192,9 @@ public partial class HomePageViewModel : ObservableObject
         } else if (nextLocation.Name.Contains("(kunst)"))
         {
             nextLocation.Name = nextLocation.Name.Replace("kunst", localizationResourceManager["Art"]);
+        } else if (nextLocation.Name.Contains("Einde stadswandeling"))
+        {
+            nextLocation.Name = nextLocation.Name.Replace("Einde stadswandeling", localizationResourceManager["End"]);
         }
 
         var textToSpeech = new TextToSpeechSetting();

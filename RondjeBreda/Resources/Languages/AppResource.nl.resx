@@ -156,4 +156,7 @@
   <data name="OffTrack" xml:space="preserve">
     <value>Je loopt niet meer op het pad. Zorg ervoor dat je weer op de route komt!</value>
   </data>
+  <data name="End" xml:space="preserve">
+    <value>Einde stadswandeling</value>
+  </data>
 </root>

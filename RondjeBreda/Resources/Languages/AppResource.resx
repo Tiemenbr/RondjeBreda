@@ -156,4 +156,7 @@
   <data name="OffTrack" xml:space="preserve">
     <value>You are going off track. Please make sure to follow the route!</value>
   </data>
+  <data name="End" xml:space="preserve">
+    <value>End of city walk</value>
+  </data>
 </root>
